@@ -7,7 +7,7 @@ const inputStyles = cva(
     variants: {
       intent: {
         default: 'p-3',
-        hasIcon: 'pt-3 pr-8 pb-3 pl-3',
+        hasIcon: 'pt-3 pr-11 pb-3 pl-3',
       },
     },
     defaultVariants: {
@@ -16,20 +16,18 @@ const inputStyles = cva(
   },
 );
 
-type BaseInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>;
-
 type InputType = 'text' | 'email' | 'date' | 'time' | 'password';
 
-type InputProps = BaseInputProps & { type?: InputType } & VariantProps<
-    typeof inputStyles
-  >;
+type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
+  type?: InputType;
+};
 
 function Input({ type = 'text', placeholder }: InputProps) {
   const intent = ['date', 'time', 'password'].includes(type)
     ? 'hasIcon'
     : 'default';
 
-  const classes = clsx(inputStyles({ intent: intent }));
+  const classes = clsx(inputStyles({ intent }));
 
   return <input type={type} placeholder={placeholder} className={classes} />;
 }
