@@ -16,11 +16,20 @@ const inputStyles = cva(
   },
 );
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
-  VariantProps<typeof inputStyles>;
+type BaseInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>;
 
-function Input({ type = 'text', placeholder, intent, className }: InputProps) {
-  const classes = clsx(inputStyles({ intent }), className);
+type InputType = 'text' | 'email' | 'date' | 'time' | 'password';
+
+type InputProps = BaseInputProps & { type?: InputType } & VariantProps<
+    typeof inputStyles
+  >;
+
+function Input({ type = 'text', placeholder }: InputProps) {
+  const intent = ['date', 'time', 'password'].includes(type)
+    ? 'hasIcon'
+    : 'default';
+
+  const classes = clsx(inputStyles({ intent: intent }));
 
   return <input type={type} placeholder={placeholder} className={classes} />;
 }
