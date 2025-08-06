@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import { defaultFieldStyle, labelStyle } from './InputStyles';
+import type { InputProps } from './types';
 
 const inputStyles = cva(`${defaultFieldStyle}`, {
   variants: {
@@ -13,13 +14,6 @@ const inputStyles = cva(`${defaultFieldStyle}`, {
     intent: 'default',
   },
 });
-
-type InputType = 'text' | 'email' | 'password';
-
-type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
-  type?: InputType;
-  label: string;
-};
 
 function DefaultInput({
   type = 'text',

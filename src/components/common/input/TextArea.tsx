@@ -1,10 +1,7 @@
 import { defaultFieldStyle, labelStyle } from './InputStyles';
+import type { TextAreaProps } from './types';
 
-type InputProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
-  label: string;
-};
-
-function TextArea({ type = 'text', label, className, ...rest }: InputProps) {
+function TextArea({ label, className, ...rest }: TextAreaProps) {
   return (
     <div className="relative flex h-[152px] items-end">
       <textarea
