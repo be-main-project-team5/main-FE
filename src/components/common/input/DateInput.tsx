@@ -24,7 +24,7 @@ const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
 
 function DateInput() {
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const [isSelected, setIsSelected] = useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date>();
   const defaultClassNames = getDefaultClassNames();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,7 +46,7 @@ function DateInput() {
     <div ref={ref} className="relative">
       <DefaultInput
         onClick={() => setIsFocus(true)}
-        value={isSelected?.toLocaleDateString()}
+        value={selectedDate?.toLocaleDateString()}
         readOnly
         type="text"
         label="날짜"
@@ -58,13 +58,13 @@ function DateInput() {
             <DayPicker
               animate
               mode="single"
-              selected={isSelected}
-              onSelect={setIsSelected}
+              selected={selectedDate}
+              onSelect={setSelectedDate}
               disabled={{ before: new Date() }}
               classNames={{
                 today: `text-fuchsia-500`,
                 selected: `bg-fuchsia-400 text-white rounded-full`,
-                root: `${defaultClassNames.root} shadow-lg p-5  bg-white z-100`,
+                root: `${defaultClassNames.root} shadow-lg p-5 bg-white z-100`,
               }}
               components={{
                 Chevron: CustomChevron,
