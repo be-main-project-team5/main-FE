@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import BaseInput from './BaseInput';
+import DefaultInput from './DefaultInput';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
-const iconStyles =
-  'absolute top-1/2 right-0 z-10 mr-3 h-6 w-6 -translate-y-1/2';
+const iconStyles = 'text-gray-500 absolute bottom-2.75 z-10 right-3 h-6 w-6';
 
 function PasswordInput() {
   const [isHidden, setIsHidden] = useState<boolean>(true);
@@ -12,10 +11,7 @@ function PasswordInput() {
 
   return (
     <div className="relative">
-      <BaseInput
-        type={isHidden ? 'password' : 'text'}
-        placeholder="비밀번호 input"
-      />
+      <DefaultInput type={isHidden ? 'password' : 'text'} label="비밀번호" />
       {isHidden ? (
         <EyeIcon onClick={handleClick} className={iconStyles} />
       ) : (
