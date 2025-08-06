@@ -5,10 +5,6 @@ type InputProps = React.InputHTMLAttributes<HTMLTextAreaElement> & {
 };
 
 function TextArea({ type = 'text', label, className, ...rest }: InputProps) {
-  const intent = ['date', 'time', 'password'].includes(type)
-    ? 'hasIcon'
-    : 'default';
-
   return (
     <div className="relative flex h-[152px] items-end">
       <textarea
