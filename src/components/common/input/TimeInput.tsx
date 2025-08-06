@@ -3,8 +3,7 @@ import DefaultInput from './DefaultInput';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
-
-const iconStyles = 'text-gray-500 absolute bottom-2.75 z-10 right-3 h-6 w-6';
+import { iconStyle, timeStyle } from './InputStyles';
 
 function TimeInput() {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -39,7 +38,7 @@ function TimeInput() {
         type="text"
         label="시간"
       />
-      <ClockIcon className={iconStyles} />
+      <ClockIcon className={iconStyle} />
       {isFocus && (
         <div className="flex w-full justify-center">
           <div className="absolute z-100 flex w-fit gap-[8px] bg-white p-5 shadow-lg">
@@ -49,7 +48,7 @@ function TimeInput() {
                 type="number"
                 min={0}
                 max={23}
-                className="rounded-[6px] bg-gray-100 pt-4 pr-0.5 pb-5 pl-3 text-center text-4xl leading-none font-bold text-gray-800"
+                className={timeStyle}
                 value={selectedHour || ':'}
                 onChange={e => setSelectedHour(e.target.value)}
               />
@@ -64,7 +63,7 @@ function TimeInput() {
                 max={59}
                 value={selectedMinute || ':'}
                 onChange={e => setSelectedMinute(e.target.value)}
-                className="rounded-[6px] bg-gray-100 pt-4 pr-0.5 pb-5 pl-3 text-center text-4xl leading-none font-bold text-gray-800"
+                className={timeStyle}
               />
             </div>
           </div>

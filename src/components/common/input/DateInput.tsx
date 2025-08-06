@@ -11,8 +11,7 @@ import {
   getDefaultClassNames,
 } from 'react-day-picker';
 import 'react-day-picker/style.css';
-
-const iconStyles = 'text-gray-500 absolute bottom-2.75 z-10 right-3 h-6 w-6';
+import { iconStyle } from './InputStyles';
 
 const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   return orientation === 'left' ? (
@@ -51,7 +50,7 @@ function DateInput() {
         type="text"
         label="날짜"
       />
-      <CalendarDaysIcon className={iconStyles} />
+      <CalendarDaysIcon className={iconStyle} />
       {isFocus && (
         <div className="flex w-full justify-center">
           <div className="absolute w-fit">
