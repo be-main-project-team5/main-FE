@@ -12,6 +12,7 @@ import {
 } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { iconStyle } from './InputStyles';
+import type { InputProps } from './types';
 
 const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   return orientation === 'left' ? (
@@ -21,7 +22,7 @@ const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   );
 };
 
-function DateInput() {
+function DateInput({ label }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const defaultClassNames = getDefaultClassNames();
@@ -48,7 +49,7 @@ function DateInput() {
         value={selectedDate?.toLocaleDateString()}
         readOnly
         type="text"
-        label="날짜"
+        label={label}
       />
       <CalendarDaysIcon className={iconStyle} />
       {isFocus && (

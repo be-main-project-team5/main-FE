@@ -4,8 +4,9 @@ import { ClockIcon } from '@heroicons/react/24/outline';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { iconStyle, timeStyle } from './InputStyles';
+import type { InputProps } from './types';
 
-function TimeInput() {
+function TimeInput({ label }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedHour, setSelectedHour] = useState<string | null>(null);
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null);
@@ -36,7 +37,7 @@ function TimeInput() {
         }
         readOnly
         type="text"
-        label="시간"
+        label={label}
       />
       <ClockIcon className={iconStyle} />
       {isFocus && (
