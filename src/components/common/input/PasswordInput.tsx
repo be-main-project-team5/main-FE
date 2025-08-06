@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Input from './Input';
+import BaseInput from './BaseInput';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const iconStyles =
@@ -12,7 +12,7 @@ function PasswordInput() {
 
   return (
     <div className="relative">
-      <Input
+      <BaseInput
         type={isHidden ? 'password' : 'text'}
         placeholder="비밀번호 input"
       />

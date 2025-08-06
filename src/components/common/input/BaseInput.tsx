@@ -22,7 +22,7 @@ type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
   type?: InputType;
 };
 
-function Input({ type = 'text', placeholder }: InputProps) {
+function BaseInput({ type = 'text', placeholder }: InputProps) {
   const intent = ['date', 'time', 'password'].includes(type)
     ? 'hasIcon'
     : 'default';
@@ -32,4 +32,4 @@ function Input({ type = 'text', placeholder }: InputProps) {
   return <input type={type} placeholder={placeholder} className={classes} />;
 }
 
-export default Input;
+export default BaseInput;
