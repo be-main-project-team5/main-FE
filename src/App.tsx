@@ -1,9 +1,10 @@
 import '@/App.css';
+import Header from '@/components/common/Header';
 
 function App() {
   return (
     <>
-      <p>hello</p>
+      <Header isLoggedIn={true} />
     </>
   );
 }
