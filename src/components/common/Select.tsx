@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 interface SelectProps {
-  list: string[];
+  list: Array<{ id: string | number; label: string }>;
   placeholder?: string;
   size?: 'primary' | 'small';
   className?: string;
@@ -64,19 +64,19 @@ export default function Select({
         >
           {list.map((data, index) => (
             <li
-              key={index}
+              key={data.id}
               className={clsx(
                 'text-black hover:bg-gray-50',
-                data === currentValue && 'font-semibold',
+                data.label === currentValue && 'font-semibold',
                 size === 'primary' && 'px-8 py-3',
                 size === 'small' && 'px-2 py-2',
                 index === 0 && 'rounded-t-md',
                 index === list.length - 1 && 'rounded-b-md',
               )}
-              data-value={data}
+              data-value={data.label}
               onClick={handleOnChangeSelectValue}
             >
-              {data}
+              {data.label}
             </li>
           ))}
         </ul>
