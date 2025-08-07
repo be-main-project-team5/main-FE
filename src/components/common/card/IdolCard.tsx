@@ -2,7 +2,7 @@ import { HeartIcon, UserIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IdolCardProps extends React.HTMLAttributes<HTMLDivElement> {
   imageSrc?: string;
   title: string;
   details: { idolGroup: string; position: string };
@@ -14,7 +14,7 @@ function IdolCard({
   details,
   className,
   ...rest
-}: CardProps) {
+}: IdolCardProps) {
   const { idolGroup, position } = details;
   const [isLiked, setIsLiked] = useState<boolean>();
 

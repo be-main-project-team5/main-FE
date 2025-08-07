@@ -1,24 +1,25 @@
 import placeholderSmall from '@/assets/images/placeholder-sm.jpg';
 import clsx from 'clsx';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  imageSrc?: string;
+interface AnimationCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description: string;
 }
-
-const cardStyles = `relative bottom-0 flex w-72 scale-100 flex-col items-center gap-5 transition-all duration-300 ease-out hover:scale-110 sm:hover:bottom-8 sm:hover:scale-100`;
 
 function AnimationCard({
   title = '',
   description = '',
   className,
   ...rest
-}: CardProps) {
-  const classes = clsx(cardStyles, className);
-
+}: AnimationCardProps) {
   return (
-    <div className={classes} {...rest}>
+    <div
+      className={clsx(
+        'relative bottom-0 flex w-72 scale-100 flex-col items-center gap-5 transition-all duration-300 ease-out hover:scale-110 sm:hover:bottom-8 sm:hover:scale-100',
+        className,
+      )}
+      {...rest}
+    >
       <img
         src={placeholderSmall}
         alt={title}
