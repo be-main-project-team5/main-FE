@@ -50,7 +50,7 @@ const UserDropdown = ({
       </button>
 
       {isOpen && (
-        <div className="fixed top-16 right-10 z-50 hidden w-52 border border-gray-200 bg-white p-4 shadow md:block">
+        <div className="fixed top-16 right-9 z-50 hidden w-52 border border-gray-200 bg-white p-4 shadow md:block">
           {dropdownContent}
         </div>
       )}
