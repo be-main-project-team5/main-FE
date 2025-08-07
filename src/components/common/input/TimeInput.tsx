@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import DefaultInput from './DefaultInput';
 import { ClockIcon } from '@heroicons/react/24/outline';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import { iconStyle, timeStyle } from './InputStyles';
 import type { InputProps } from './types';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 function TimeInput({ label }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -12,19 +13,7 @@ function TimeInput({ label }: InputProps) {
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        ref.current &&
-        e.target instanceof Node &&
-        !ref.current.contains(e.target)
-      ) {
-        setIsFocus(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useClickOutside(ref, setIsFocus);
 
   return (
     <div ref={ref} className="relative">

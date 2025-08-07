@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import DefaultInput from './DefaultInput';
 import {
   CalendarDaysIcon,
@@ -13,6 +13,7 @@ import {
 import 'react-day-picker/style.css';
 import { iconStyle } from './InputStyles';
 import type { InputProps } from './types';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   return orientation === 'left' ? (
@@ -28,19 +29,7 @@ function DateInput({ label }: InputProps) {
   const defaultClassNames = getDefaultClassNames();
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        ref.current &&
-        e.target instanceof Node &&
-        !ref.current.contains(e.target)
-      ) {
-        setIsFocus(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useClickOutside(ref, setIsFocus);
 
   return (
     <div ref={ref} className="relative">
