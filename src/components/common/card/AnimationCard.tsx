@@ -9,7 +9,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const cardStyles = `relative bottom-0 flex w-72 scale-100 flex-col items-center gap-5 transition-all duration-300 ease-out hover:scale-110 sm:hover:bottom-8 sm:hover:scale-100`;
 
-function Card({
+function AnimationCard({
   imageSrc = '',
   title = '',
   description = '',
@@ -37,4 +37,4 @@ function Card({
   );
 }
 
-export default Card;
+export default AnimationCard;
