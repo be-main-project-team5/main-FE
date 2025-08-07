@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
 import DefaultInput from './DefaultInput';
 import { ClockIcon } from '@heroicons/react/24/outline';
-import 'react-time-picker/dist/TimePicker.css';
-import 'react-clock/dist/Clock.css';
 import { iconStyle, timeStyle } from './InputStyles';
 import type { InputProps } from './types';
 import { useClickOutside } from '@/hooks/useClickOutside';
