@@ -1,12 +1,7 @@
 import { HeartIcon, UserIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
-
-interface IdolCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  imageSrc?: string;
-  title: string;
-  details: { idolGroup: string; position: string };
-}
+import type { IdolCardProps } from './card.types';
 
 function IdolCard({
   imageSrc = '',

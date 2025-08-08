@@ -1,10 +1,6 @@
 import placeholderSmall from '@/assets/images/placeholder-sm.jpg';
 import clsx from 'clsx';
-
-interface AnimationCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
-  description: string;
-}
+import type { AnimationCardProps } from './card.types';
 
 function AnimationCard({
   title = '',
