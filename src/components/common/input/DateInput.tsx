@@ -23,7 +23,7 @@ const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   );
 };
 
-function DateInput({ label }: InputProps) {
+function DateInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const defaultClassNames = getDefaultClassNames();
@@ -32,13 +32,15 @@ function DateInput({ label }: InputProps) {
   useClickOutside(ref, setIsFocus);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" {...rest}>
       <DefaultInput
         onClick={() => setIsFocus(true)}
         value={selectedDate?.toLocaleDateString()}
         readOnly
         type="text"
         label={label}
+        className={className}
+        {...rest}
       />
       <CalendarDaysIcon className={iconStyle} />
       {isFocus && (
