@@ -29,8 +29,16 @@ function DefaultInput({
 
   return (
     <div className="relative flex h-18 items-end">
-      <input type={type} placeholder=" " className={classes} {...rest} />
-      <label className={labelStyle}>{label}</label>
+      <input
+        id={type}
+        type={type}
+        placeholder=" "
+        className={classes}
+        {...rest}
+      />
+      <label htmlFor={type} className={labelStyle}>
+        {label}
+      </label>
     </div>
   );
 }
