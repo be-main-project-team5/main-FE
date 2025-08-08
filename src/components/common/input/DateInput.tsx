@@ -11,8 +11,8 @@ import {
   getDefaultClassNames,
 } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import { iconStyle } from './InputStyles';
-import type { InputProps } from './types';
+import { iconStyle } from './input.styles';
+import type { InputProps } from './input.types';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {

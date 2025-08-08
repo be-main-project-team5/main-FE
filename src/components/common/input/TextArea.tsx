@@ -1,5 +1,5 @@
-import { defaultFieldStyle, labelStyle } from './InputStyles';
-import type { TextAreaProps } from './types';
+import { defaultFieldStyle, labelStyle } from './input.styles';
+import type { TextAreaProps } from './input.types';
 
 function TextArea({ label, className, ...rest }: TextAreaProps) {
   return (

@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
-import { defaultFieldStyle, labelStyle } from './InputStyles';
-import type { InputProps } from './types';
+import { defaultFieldStyle, labelStyle } from './input.styles';
+import type { InputProps } from './input.types';
 
 const inputStyles = cva(`${defaultFieldStyle}`, {
   variants: {
