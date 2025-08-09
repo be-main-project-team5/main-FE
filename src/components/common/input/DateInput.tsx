@@ -11,8 +11,8 @@ import {
   getDefaultClassNames,
 } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import { iconStyle } from './InputStyles';
-import type { InputProps } from './types';
+import { iconStyle } from './input.styles';
+import type { InputProps } from './input.types';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
@@ -23,7 +23,7 @@ const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
   );
 };
 
-function DateInput({ label }: InputProps) {
+function DateInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const defaultClassNames = getDefaultClassNames();
@@ -32,13 +32,15 @@ function DateInput({ label }: InputProps) {
   useClickOutside(ref, setIsFocus);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" {...rest}>
       <DefaultInput
         onClick={() => setIsFocus(true)}
         value={selectedDate?.toLocaleDateString()}
         readOnly
         type="text"
         label={label}
+        className={className}
+        {...rest}
       />
       <CalendarDaysIcon className={iconStyle} />
       {isFocus && (

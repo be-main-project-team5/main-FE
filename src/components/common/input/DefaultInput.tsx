@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
-import { defaultFieldStyle, labelStyle } from './InputStyles';
-import type { InputProps } from './types';
+import { defaultFieldStyle, labelStyle } from './input.styles';
+import type { InputProps } from './input.types';
 
 const inputStyles = cva(`${defaultFieldStyle}`, {
   variants: {
@@ -29,8 +29,16 @@ function DefaultInput({
 
   return (
     <div className="relative flex h-18 items-end">
-      <input type={type} placeholder=" " className={classes} {...rest} />
-      <label className={labelStyle}>{label}</label>
+      <input
+        id={type}
+        type={type}
+        placeholder=" "
+        className={classes}
+        {...rest}
+      />
+      <label htmlFor={type} className={labelStyle}>
+        {label}
+      </label>
     </div>
   );
 }
