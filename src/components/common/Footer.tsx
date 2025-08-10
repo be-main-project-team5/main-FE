@@ -1,4 +1,4 @@
-const Footer: React.FC = () => {
+function Footer() {
   return (
     <footer className="bg-gray-50 px-6 py-14 text-sm text-gray-600 md:px-10 md:py-12">
       <div className="mx-auto flex max-w-screen-xl flex-col gap-8">
@@ -46,6 +46,6 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;
