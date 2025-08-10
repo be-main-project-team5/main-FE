@@ -3,7 +3,7 @@ import DefaultInput from './DefaultInput';
 import PasswordInput from './PasswordInput';
 import TextArea from './TextArea';
 import TimeInput from './TimeInput';
-import type { InputProps, FieldTypes, TextAreaProps } from './types';
+import type { InputProps, FieldTypes, TextAreaProps } from './input.types';
 
 const InputMap: Record<FieldTypes, React.ComponentType<any>> = {
   text: DefaultInput,

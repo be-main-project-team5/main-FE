@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import DefaultInput from './DefaultInput';
 import { ClockIcon } from '@heroicons/react/24/outline';
-import { iconStyle, timeStyle } from './InputStyles';
-import type { InputProps } from './types';
+import { iconStyle, timeStyle } from './input.styles';
+import type { InputProps } from './input.types';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
-function TimeInput({ label }: InputProps) {
+function TimeInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedHour, setSelectedHour] = useState<string | null>(null);
   const [selectedMinute, setSelectedMinute] = useState<string | null>(null);
@@ -25,6 +25,8 @@ function TimeInput({ label }: InputProps) {
         readOnly
         type="text"
         label={label}
+        className={className}
+        {...rest}
       />
       <ClockIcon className={iconStyle} />
       {isFocus && (
