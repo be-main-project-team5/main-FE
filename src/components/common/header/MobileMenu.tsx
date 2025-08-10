@@ -19,7 +19,7 @@ function MobileMenu({
     <>
       {/* 모바일 메뉴 버튼 */}
       <div className="md:hidden">
-        <button onClick={onToggleDropdown} className="p-2">
+        <button type="button" onClick={onToggleDropdown} className="p-2">
           {isLoggedIn ? (
             <UserIcon className="h-6 w-6 text-gray-800" />
           ) : (
@@ -41,11 +41,17 @@ function MobileMenu({
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록
             <div className="w-full py-1">
-              <button className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500">
+              <button
+                type="button"
+                className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500"
+              >
                 로그인
               </button>
               <hr className="mx-1 my-5 border border-gray-200" />
-              <button className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500">
+              <button
+                type="button"
+                className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500"
+              >
                 회원가입
               </button>
             </div>
