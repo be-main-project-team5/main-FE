@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { UserIcon } from '@heroicons/react/24/solid';
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
@@ -33,23 +34,26 @@ export function UserAvatarImage({
   avatarSize = 'md',
   className,
 }: UserAvatarImageProps) {
-  const isImageAvailable = Boolean(profileImageUrl);
+  // 이미지 로드 실패 시 아이콘으로 폴백
+  const [isError, setIsError] = useState(false);
+  const showIconFallback = !profileImageUrl || isError;
 
   return (
     <div
       className={clsx(avatarSizeVariants({ size: avatarSize }), className)}
       aria-label={altText}
     >
-      {isImageAvailable ? (
+      {showIconFallback ? (
+        <div className="flex h-full w-full items-center justify-center">
+          <UserIcon className="mt-2 h-3/4 w-3/4 text-fuchsia-600" />
+        </div>
+      ) : (
         <img
           src={profileImageUrl}
           alt={altText}
           className="h-full w-full rounded-full object-cover"
+          onError={() => setIsError(true)}
         />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <UserIcon className="mt-2 h-3/4 w-3/4 text-fuchsia-600" />
-        </div>
       )}
     </div>
   );
