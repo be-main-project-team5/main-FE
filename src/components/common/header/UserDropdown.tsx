@@ -1,7 +1,7 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 
 type UserDropdownProps = {
-  userName?: string;
+  userName: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
