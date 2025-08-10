@@ -23,6 +23,7 @@ module.exports = {
       'error',
       { namedComponents: 'function-declaration' },
     ],
+    'import/no-extraneous-dependencies': 'off',
     'prettier/prettier': 'error',
     'linebreak-style': ['error', 'unix'],
   },
