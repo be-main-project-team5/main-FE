@@ -22,7 +22,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'error',
-    "linebreak-style": ["error", "unix"],
+    'linebreak-style': ["error", "unix"],
   },
   settings: {
     react: { version: 'detect' },
@@ -34,4 +34,5 @@ module.exports = {
       node: {},
     },
   },
+  ignorePatterns: ["scripts/verify-commit.js"],
 };
