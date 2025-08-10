@@ -4,7 +4,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
-    project: './tsconfig.json',
+    project: './tsconfig.eslint.json',
     ecmaFeatures: { jsx: true },
   },
   plugins: [
@@ -22,7 +22,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'error',
-    // 기타 커스텀 룰
   },
   settings: {
     react: { version: 'detect' },
