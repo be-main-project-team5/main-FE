@@ -1,10 +1,13 @@
 import { UserIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
 type UserDropdownProps = {
   userName: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
+  profileImageUrl?: string;
 };
 
 function UserDropdown({
@@ -12,35 +15,57 @@ function UserDropdown({
   isOpen,
   onToggle,
   isMobile,
+  profileImageUrl,
 }: UserDropdownProps) {
+  const displayUserName = userName?.trim() || '회원';
+
+  const userGreetingClass = clsx(
+    'text-sm font-semibold',
+    isMobile ? 'my-3' : 'my-4',
+  );
+
+  const dropdownItemClass = (extra?: string) =>
+    clsx(
+      'w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500',
+      extra,
+    );
+
   const dropdownContent = (
     <div className="w-full py-1">
       <div className="mb-8 flex flex-col items-center">
-        <div className="h-20 w-20 rounded-full bg-yellow-300" />
-        <div className={`my-${isMobile ? '3' : '4'} text-sm font-semibold`}>
-          {userName}님, 환영합니다
-        </div>
+        <UserAvatarImage
+          profileImageUrl={profileImageUrl}
+          altText={`${displayUserName} 프로필 이미지`}
+          avatarSize="xl"
+          className="shadow-sm"
+        />
+        <div className={userGreetingClass}>{displayUserName}님, 환영합니다</div>
       </div>
+
       <button
         type="button"
-        className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
+        className={dropdownItemClass(
+          isMobile ? 'py-2 text-sm' : 'py-1 text-base',
+        )}
       >
         마이페이지
       </button>
+
       <hr className="mx-1 my-5 border border-gray-200" />
+
       <button
         type="button"
-        className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
+        className={dropdownItemClass(
+          isMobile ? 'py-2 text-sm' : 'py-1 text-base',
+        )}
       >
         로그아웃
       </button>
     </div>
   );
 
-  // 모바일 환경: 버튼 없이 바로 콘텐츠만 렌더링
   if (isMobile) return dropdownContent;
 
-  // 데스크탑 환경: 사용자 아이콘 버튼과 드롭다운 함께 렌더링
   return (
     <div className="relative flex items-center">
       <button

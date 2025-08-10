@@ -1,5 +1,4 @@
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
-
 import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
@@ -7,6 +6,7 @@ type MobileMenuProps = {
   userName: string;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
+  profileImageUrl?: string;
 };
 
 function MobileMenu({
@@ -14,10 +14,10 @@ function MobileMenu({
   userName,
   isDropdownOpen,
   onToggleDropdown,
+  profileImageUrl,
 }: MobileMenuProps) {
   return (
     <>
-      {/* 모바일 메뉴 버튼 */}
       <div className="md:hidden">
         <button type="button" onClick={onToggleDropdown} className="p-2">
           {isLoggedIn ? (
@@ -37,6 +37,7 @@ function MobileMenu({
               isOpen
               onToggle={() => {}}
               isMobile
+              profileImageUrl={profileImageUrl}
             />
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록

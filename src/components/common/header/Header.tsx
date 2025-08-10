@@ -22,14 +22,18 @@ function Header({ isLoggedIn, userName = 'abc' }: HeaderProps) {
         DingDing
       </Link>
 
-      <DesktopMenu isLoggedIn={isLoggedIn} userName={userName} />
+      <DesktopMenu
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+        profileImageUrl={profileImageUrl}
+      />
 
-      {/* 모바일 메뉴 (햄버거 or 사용자 아이콘, 드롭다운 포함) */}
       <MobileMenu
         isLoggedIn={isLoggedIn}
         userName={userName}
         isDropdownOpen={isMobileDropdownOpen}
         onToggleDropdown={handleToggleMobileMenu}
+        profileImageUrl={profileImageUrl}
       />
     </header>
   );
