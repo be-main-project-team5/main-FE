@@ -14,7 +14,7 @@ function IdolCard({
   const { idolGroup, position } = details;
   const [isLiked, setIsLiked] = useState<boolean>();
 
-  const handleClickLike = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClickLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsLiked(prev => !prev);
   };
@@ -40,7 +40,7 @@ function IdolCard({
       )}
 
       <div className="transition-filter absolute inset-0 flex h-full w-full items-end rounded-lg bg-gradient-to-b from-transparent to-neutral-800 opacity-0 duration-300 ease-out group-hover:opacity-100">
-        <div onClick={handleClickLike}>
+        <button type="button" onClick={handleClickLike}>
           <HeartIcon
             className={clsx(
               'absolute top-2.75 right-3 z-10 h-12 w-12',
@@ -49,7 +49,7 @@ function IdolCard({
                 : 'fill-neutral-100 text-neutral-500',
             )}
           />
-        </div>
+        </button>
         <div className="flex w-full flex-col gap-2 py-4 text-center opacity-0 transition-all duration-300 ease-out group-hover:opacity-100">
           <h4 className="text-lg font-semibold text-gray-100">{title}</h4>
           <div className="flex flex-col gap-1">
