@@ -18,6 +18,14 @@ function DesktopMenu({
 
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
 
+  const handleLogin = () => {
+    console.log('로그인 페이지로 이동');
+  };
+
+  const handleSignup = () => {
+    console.log('회원가입 페이지로 이동');
+  };
+
   return (
     <nav className="hidden items-center space-x-3 pr-10 md:flex">
       {isLoggedIn ? (
@@ -30,10 +38,20 @@ function DesktopMenu({
         />
       ) : (
         <>
-          <Button variant="secondary" size="md" className="w-[96px]">
+          <Button
+            variant="secondary"
+            size="md"
+            className="w-[96px]"
+            onClick={handleLogin}
+          >
             로그인
           </Button>
-          <Button variant="primary" size="md" className="w-[96px]">
+          <Button
+            variant="primary"
+            size="md"
+            className="w-[96px]"
+            onClick={handleSignup}
+          >
             회원가입
           </Button>
         </>

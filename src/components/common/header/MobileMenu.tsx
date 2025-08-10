@@ -20,6 +20,14 @@ function MobileMenu({
   const dropdownButtonClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
+  const handleLogin = () => {
+    console.log('로그인 페이지로 이동');
+  };
+
+  const handleSignup = () => {
+    console.log('회원가입 페이지로 이동');
+  };
+
   return (
     <>
       <div className="md:hidden">
@@ -46,11 +54,19 @@ function MobileMenu({
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록
             <div className="w-full py-1">
-              <button type="button" className={dropdownButtonClass}>
+              <button
+                type="button"
+                onClick={handleLogin}
+                className={dropdownButtonClass}
+              >
                 로그인
               </button>
               <hr className="mx-1 my-3 border border-gray-200" />
-              <button type="button" className={dropdownButtonClass}>
+              <button
+                type="button"
+                onClick={handleSignup}
+                className={dropdownButtonClass}
+              >
                 회원가입
               </button>
             </div>

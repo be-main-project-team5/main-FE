@@ -28,6 +28,14 @@ function UserDropdown({
   const dropdownItemClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
+  const handleMyPage = () => {
+    console.log('마이페이지로 이동');
+  };
+
+  const handleLogout = () => {
+    console.log('로그아웃 처리');
+  };
+
   const dropdownContent = (
     <div className="w-full py-1">
       <div className="mb-7 flex flex-col items-center">
@@ -40,13 +48,21 @@ function UserDropdown({
         <div className={userGreetingClass}>{displayUserName}님, 환영합니다</div>
       </div>
 
-      <button type="button" className={dropdownItemClass}>
+      <button
+        type="button"
+        onClick={handleMyPage}
+        className={dropdownItemClass}
+      >
         마이페이지
       </button>
 
       <hr className="mx-1 my-3 border border-gray-200" />
 
-      <button type="button" className={dropdownItemClass}>
+      <button
+        type="button"
+        onClick={handleLogout}
+        className={dropdownItemClass}
+      >
         로그아웃
       </button>
     </div>
