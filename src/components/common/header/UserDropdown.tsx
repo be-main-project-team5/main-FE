@@ -20,19 +20,19 @@ function UserDropdown({
   const displayUserName = userName?.trim() || '회원';
 
   const userGreetingClass = clsx(
-    'text-sm font-semibold',
+    'text-base font-medium text-gray-600',
     isMobile ? 'my-3' : 'my-4',
   );
 
   const dropdownItemClass = (extra?: string) =>
     clsx(
-      'w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500',
+      'w-full pl-2 text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500',
       extra,
     );
 
   const dropdownContent = (
     <div className="w-full py-1">
-      <div className="mb-8 flex flex-col items-center">
+      <div className="mb-7 flex flex-col items-center">
         <UserAvatarImage
           profileImageUrl={profileImageUrl}
           altText={`${displayUserName} 프로필 이미지`}
@@ -45,18 +45,18 @@ function UserDropdown({
       <button
         type="button"
         className={dropdownItemClass(
-          isMobile ? 'py-2 text-sm' : 'py-1 text-base',
+          isMobile ? 'py-2 text-lg' : 'py-1 text-lg',
         )}
       >
         마이페이지
       </button>
 
-      <hr className="mx-1 my-5 border border-gray-200" />
+      <hr className="mx-1 my-3 border border-gray-200" />
 
       <button
         type="button"
         className={dropdownItemClass(
-          isMobile ? 'py-2 text-sm' : 'py-1 text-base',
+          isMobile ? 'py-1 text-lg' : 'py-1 text-lg',
         )}
       >
         로그아웃
