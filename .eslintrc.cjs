@@ -7,10 +7,7 @@ module.exports = {
     project: './tsconfig.eslint.json',
     ecmaFeatures: { jsx: true },
   },
-  plugins: [
-    'prettier',
-    'react-refresh',
-  ],
+  plugins: ['prettier', 'react-refresh'],
   extends: [
     'airbnb',
     'airbnb-typescript',
@@ -22,8 +19,12 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/function-component-definition': [
+      'error',
+      { namedComponents: 'function-declaration' },
+    ],
     'prettier/prettier': 'error',
-    'linebreak-style': ["error", "unix"],
+    'linebreak-style': ['error', 'unix'],
   },
   settings: {
     react: { version: 'detect' },
@@ -35,5 +36,5 @@ module.exports = {
       node: {},
     },
   },
-  ignorePatterns: ["scripts/verify-commit.js"],
+  ignorePatterns: ['scripts/verify-commit.js'],
 };
