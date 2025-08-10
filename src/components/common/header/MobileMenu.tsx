@@ -4,7 +4,7 @@ import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
   isLoggedIn: boolean;
-  userName?: string;
+  userName: string;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
 };
