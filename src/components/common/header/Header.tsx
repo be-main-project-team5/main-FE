@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
 
@@ -9,11 +10,11 @@ export type HeaderProps = {
   profileImageUrl?: string;
 };
 
-const Header = ({
+function Header({
   isLoggedIn,
   userName = 'abc',
   profileImageUrl = '/default-profile.png',
-}: HeaderProps) => {
+}: HeaderProps) {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   const handleToggleMobileMenu = () => {
@@ -37,6 +38,6 @@ const Header = ({
       />
     </header>
   );
-};
+}
 
 export default Header;

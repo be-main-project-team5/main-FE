@@ -7,12 +7,12 @@ type UserDropdownProps = {
   isMobile: boolean;
 };
 
-const UserDropdown = ({
+function UserDropdown({
   userName,
   isOpen,
   onToggle,
   isMobile,
-}: UserDropdownProps) => {
+}: UserDropdownProps) {
   const dropdownContent = (
     <div className="w-full py-1">
       <div className="mb-8 flex flex-col items-center">
@@ -56,6 +56,6 @@ const UserDropdown = ({
       )}
     </div>
   );
-};
+}
 
 export default UserDropdown;

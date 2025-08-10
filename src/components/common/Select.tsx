@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface SelectProps {
   list: Array<{ id: string | number; label: string }>;
@@ -19,7 +19,7 @@ export default function Select({
   const selectRef = useRef<HTMLDivElement>(null);
 
   const handleOnChangeSelectValue = (e: React.MouseEvent<HTMLLIElement>) => {
-    const value = e.currentTarget.dataset.value;
+    const { value } = e.currentTarget.dataset;
     if (value) {
       setCurrentValue(value);
       setShowOptions(false);

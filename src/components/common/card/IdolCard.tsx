@@ -1,6 +1,7 @@
 import { HeartIcon, UserIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
+
 import type { IdolCardProps } from './card.types';
 
 function IdolCard({

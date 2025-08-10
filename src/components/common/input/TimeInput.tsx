@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
-import DefaultInput from './DefaultInput';
 import { ClockIcon } from '@heroicons/react/24/outline';
+import { useRef, useState } from 'react';
+
+import { useClickOutside } from '@/hooks/useClickOutside';
+
+import DefaultInput from './DefaultInput';
 import { iconStyle, timeStyle } from './input.styles';
 import type { InputProps } from './input.types';
-import { useClickOutside } from '@/hooks/useClickOutside';
 
 function TimeInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);

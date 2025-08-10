@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import DefaultInput from './DefaultInput';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
+
+import DefaultInput from './DefaultInput';
 import { iconStyle } from './input.styles';
 import type { InputProps } from './input.types';
 

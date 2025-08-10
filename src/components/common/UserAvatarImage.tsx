@@ -27,12 +27,12 @@ type UserAvatarImageProps = {
   className?: string;
 };
 
-export const UserAvatarImage = ({
+export function UserAvatarImage({
   profileImageUrl,
   altText = '사용자 프로필 이미지',
   avatarSize = 'md',
   className,
-}: UserAvatarImageProps) => {
+}: UserAvatarImageProps) {
   const isImageAvailable = Boolean(profileImageUrl);
 
   return (
@@ -53,4 +53,4 @@ export const UserAvatarImage = ({
       )}
     </div>
   );
-};
+}

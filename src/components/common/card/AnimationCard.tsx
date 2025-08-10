@@ -1,5 +1,7 @@
-import placeholderSmall from '@/assets/images/placeholder-sm.jpg';
 import clsx from 'clsx';
+
+import placeholderSmall from '@/assets/images/placeholder-sm.jpg';
+
 import type { AnimationCardProps } from './card.types';
 
 function AnimationCard({

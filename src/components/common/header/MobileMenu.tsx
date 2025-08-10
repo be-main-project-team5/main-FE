@@ -1,4 +1,5 @@
-import { UserIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
+
 import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
@@ -8,12 +9,12 @@ type MobileMenuProps = {
   onToggleDropdown: () => void;
 };
 
-const MobileMenu = ({
+function MobileMenu({
   isLoggedIn,
   userName,
   isDropdownOpen,
   onToggleDropdown,
-}: MobileMenuProps) => {
+}: MobileMenuProps) {
   return (
     <>
       {/* 모바일 메뉴 버튼 */}
@@ -33,9 +34,9 @@ const MobileMenu = ({
           {isLoggedIn ? (
             <UserDropdown
               userName={userName}
-              isOpen={true}
+              isOpen
               onToggle={() => {}}
-              isMobile={true}
+              isMobile
             />
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록
@@ -53,6 +54,6 @@ const MobileMenu = ({
       )}
     </>
   );
-};
+}
 
 export default MobileMenu;

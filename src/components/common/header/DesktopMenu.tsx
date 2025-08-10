@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import { Button } from '@/components/common/Button';
+
 import UserDropdown from './UserDropdown';
 
 type DesktopMenuProps = {
@@ -7,7 +9,7 @@ type DesktopMenuProps = {
   userName?: string;
 };
 
-const DesktopMenu = ({ isLoggedIn, userName }: DesktopMenuProps) => {
+function DesktopMenu({ isLoggedIn, userName }: DesktopMenuProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
@@ -35,6 +37,6 @@ const DesktopMenu = ({ isLoggedIn, userName }: DesktopMenuProps) => {
       )}
     </nav>
   );
-};
+}
 
 export default DesktopMenu;
