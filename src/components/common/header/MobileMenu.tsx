@@ -1,4 +1,5 @@
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
+
 import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
@@ -16,6 +17,9 @@ function MobileMenu({
   onToggleDropdown,
   profileImageUrl,
 }: MobileMenuProps) {
+  const dropdownButtonClass =
+    'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
+
   return (
     <>
       <div className="md:hidden">
@@ -42,17 +46,11 @@ function MobileMenu({
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록
             <div className="w-full py-1">
-              <button
-                type="button"
-                className="w-full pl-2 text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500"
-              >
+              <button type="button" className={dropdownButtonClass}>
                 로그인
               </button>
-              <hr className="mx-1 my-5 border border-gray-200" />
-              <button
-                type="button"
-                className="w-full pl-2 text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500"
-              >
+              <hr className="mx-1 my-3 border border-gray-200" />
+              <button type="button" className={dropdownButtonClass}>
                 회원가입
               </button>
             </div>
