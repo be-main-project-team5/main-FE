@@ -22,7 +22,6 @@ function Header({
   };
 
   const displayUserName = userName?.trim() || '회원';
-  const displayProfileImage = profileImageUrl || '/images/default-profile.png';
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 flex h-16 items-center justify-between border-b border-gray-300 bg-white pr-6">
@@ -33,7 +32,7 @@ function Header({
       <DesktopMenu
         isLoggedIn={isLoggedIn}
         userName={displayUserName}
-        profileImageUrl={displayProfileImage}
+        profileImageUrl={profileImageUrl}
       />
 
       <MobileMenu
@@ -41,7 +40,7 @@ function Header({
         userName={displayUserName}
         isDropdownOpen={isMobileDropdownOpen}
         onToggleDropdown={handleToggleMobileMenu}
-        profileImageUrl={displayProfileImage}
+        profileImageUrl={profileImageUrl}
       />
     </header>
   );
