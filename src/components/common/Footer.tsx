@@ -9,18 +9,30 @@ function Footer() {
               DingDing
             </span>
             <div className="flex gap-4 text-sm text-gray-600">
-              <a href="#" className="hover:underline">
+              <button
+                type="button"
+                className="hover:cursor-pointer hover:underline"
+              >
                 GitHub
-              </a>
-              <a href="#" className="hover:underline">
+              </button>
+              <button
+                type="button"
+                className="hover:cursor-pointer hover:underline"
+              >
                 Notion
-              </a>
-              <a href="#" className="hover:underline">
+              </button>
+              <button
+                type="button"
+                className="hover:cursor-pointer hover:underline"
+              >
                 API
-              </a>
-              <a href="#" className="hover:underline">
+              </button>
+              <button
+                type="button"
+                className="hover:cursor-pointer hover:underline"
+              >
                 Contact
-              </a>
+              </button>
             </div>
           </div>
         </div>
