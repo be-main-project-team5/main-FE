@@ -7,14 +7,9 @@ import MobileMenu from './MobileMenu';
 export type HeaderProps = {
   isLoggedIn: boolean;
   userName?: string;
-  profileImageUrl?: string;
 };
 
-function Header({
-  isLoggedIn,
-  userName = 'abc',
-  profileImageUrl = '/default-profile.png',
-}: HeaderProps) {
+function Header({ isLoggedIn, userName = 'abc' }: HeaderProps) {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   const handleToggleMobileMenu = () => {
