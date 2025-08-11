@@ -7,11 +7,11 @@ import type { IdolCardProps } from './card.types';
 function IdolCard({
   imageSrc = '',
   title = '',
-  details,
+  detail,
   className,
   ...rest
 }: IdolCardProps) {
-  const { idolGroup, position } = details;
+  const { idolGroup, position } = detail;
   const [isLiked, setIsLiked] = useState<boolean>();
 
   const handleClickLike = (e: React.MouseEvent) => {

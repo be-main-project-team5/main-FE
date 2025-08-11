@@ -1,11 +1,16 @@
-export interface AnimationCardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export type CardTypes = 'animation' | 'idol';
+
+interface BaseCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  type: CardTypes;
+}
+
+export interface AnimationCardProps extends BaseCardProps {
   title: string;
   description: string;
 }
 
-export interface IdolCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  imageSrc?: string;
+export interface IdolCardProps extends BaseCardProps {
   title: string;
-  details: { idolGroup: string; position: string };
+  imageSrc?: string;
+  detail: { idolGroup: string; position: string };
 }
