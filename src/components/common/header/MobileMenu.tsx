@@ -4,9 +4,10 @@ import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
   isLoggedIn: boolean;
-  userName: string;
+  userName?: string;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
+  profileImageUrl?: string;
 };
 
 function MobileMenu({
@@ -14,10 +15,21 @@ function MobileMenu({
   userName,
   isDropdownOpen,
   onToggleDropdown,
+  profileImageUrl,
 }: MobileMenuProps) {
+  const dropdownButtonClass =
+    'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
+
+  const handleLogin = () => {
+    // TODO: 로그인 페이지 라우팅 구현
+  };
+
+  const handleSignup = () => {
+    // TODO: 회원가입 페이지 라우팅 구현
+  };
+
   return (
     <>
-      {/* 모바일 메뉴 버튼 */}
       <div className="md:hidden">
         <button type="button" onClick={onToggleDropdown} className="p-2">
           {isLoggedIn ? (
@@ -33,24 +45,27 @@ function MobileMenu({
         <div className="absolute top-16 right-0 z-50 w-52 border border-gray-200 bg-white p-4 shadow md:hidden">
           {isLoggedIn ? (
             <UserDropdown
-              userName={userName}
+              userName={userName || '회원'}
               isOpen
               onToggle={() => {}}
               isMobile
+              profileImageUrl={profileImageUrl}
             />
           ) : (
             // 비로그인 시 로그인/회원가입 버튼 목록
             <div className="w-full py-1">
               <button
                 type="button"
-                className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500"
+                onClick={handleLogin}
+                className={dropdownButtonClass}
               >
                 로그인
               </button>
-              <hr className="mx-1 my-5 border border-gray-200" />
+              <hr className="mx-1 my-3 border border-gray-200" />
               <button
                 type="button"
-                className="w-full pl-2 text-left hover:font-semibold hover:text-fuchsia-500"
+                onClick={handleSignup}
+                className={dropdownButtonClass}
               >
                 회원가입
               </button>

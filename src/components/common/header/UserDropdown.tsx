@@ -1,10 +1,13 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 
+import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+
 type UserDropdownProps = {
-  userName: string;
+  userName?: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
+  profileImageUrl?: string;
 };
 
 function UserDropdown({
@@ -12,25 +15,48 @@ function UserDropdown({
   isOpen,
   onToggle,
   isMobile,
+  profileImageUrl,
 }: UserDropdownProps) {
+  const userGreetingClass = 'text-base font-medium text-gray-600 my-4';
+  const dropdownItemClass =
+    'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
+
+  const handleMyPage = () => {
+    // TODO: 마이페이지 라우팅 구현
+  };
+
+  const handleLogout = () => {
+    // TODO: 로그아웃 처리 구현
+  };
+
   const dropdownContent = (
     <div className="w-full py-1">
-      <div className="mb-8 flex flex-col items-center">
-        <div className="h-20 w-20 rounded-full bg-yellow-300" />
-        <div className={`my-${isMobile ? '3' : '4'} text-sm font-semibold`}>
-          {userName}님, 환영합니다
+      <div className="mb-7 flex flex-col items-center">
+        <UserAvatarImage
+          profileImageUrl={profileImageUrl}
+          altText="사용자 프로필 이미지"
+          avatarSize="xl"
+          className="shadow-sm"
+        />
+        <div className={userGreetingClass}>
+          {userName?.trim() || '회원'}님, 환영합니다
         </div>
       </div>
+
       <button
         type="button"
-        className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
+        onClick={handleMyPage}
+        className={dropdownItemClass}
       >
         마이페이지
       </button>
-      <hr className="mx-1 my-5 border border-gray-200" />
+
+      <hr className="mx-1 my-3 border border-gray-200" />
+
       <button
         type="button"
-        className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
+        onClick={handleLogout}
+        className={dropdownItemClass}
       >
         로그아웃
       </button>
