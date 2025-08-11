@@ -1,18 +1,18 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 
 type UserDropdownProps = {
-  userName?: string;
+  userName: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
 };
 
-const UserDropdown = ({
+function UserDropdown({
   userName,
   isOpen,
   onToggle,
   isMobile,
-}: UserDropdownProps) => {
+}: UserDropdownProps) {
   const dropdownContent = (
     <div className="w-full py-1">
       <div className="mb-8 flex flex-col items-center">
@@ -22,12 +22,14 @@ const UserDropdown = ({
         </div>
       </div>
       <button
+        type="button"
         className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
       >
         마이페이지
       </button>
       <hr className="mx-1 my-5 border border-gray-200" />
       <button
+        type="button"
         className={`w-full py-${isMobile ? '2' : '1'} pl-2 text-left ${isMobile ? 'text-sm' : 'text-md'} hover:font-semibold hover:text-fuchsia-500`}
       >
         로그아웃
@@ -42,6 +44,7 @@ const UserDropdown = ({
   return (
     <div className="relative flex items-center">
       <button
+        type="button"
         onClick={onToggle}
         className="mr-14 ml-auto flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-gray-100"
         aria-label="사용자 드롭다운 열기"
@@ -56,6 +59,6 @@ const UserDropdown = ({
       )}
     </div>
   );
-};
+}
 
 export default UserDropdown;

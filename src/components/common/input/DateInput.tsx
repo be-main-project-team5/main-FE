@@ -1,27 +1,30 @@
-import { useRef, useState } from 'react';
-import DefaultInput from './DefaultInput';
+import 'react-day-picker/style.css';
+
 import {
   CalendarDaysIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
+import { useRef, useState } from 'react';
 import {
   type ChevronProps,
   DayPicker,
   getDefaultClassNames,
 } from 'react-day-picker';
-import 'react-day-picker/style.css';
-import { iconStyle } from './input.styles';
-import type { InputProps } from './input.types';
+
 import { useClickOutside } from '@/hooks/useClickOutside';
 
-const CustomChevron = ({ orientation, ...rest }: ChevronProps) => {
+import DefaultInput from './DefaultInput';
+import { iconStyle } from './input.styles';
+import type { InputProps } from './input.types';
+
+function CustomChevron({ orientation, ...rest }: ChevronProps) {
   return orientation === 'left' ? (
     <ChevronLeftIcon {...rest} className="h-5 w-5 text-fuchsia-500" />
   ) : (
     <ChevronRightIcon {...rest} className="h-5 w-5 text-fuchsia-500" />
   );
-};
+}
 
 function DateInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);

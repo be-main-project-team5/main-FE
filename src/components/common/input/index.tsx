@@ -1,9 +1,9 @@
 import DateInput from './DateInput';
 import DefaultInput from './DefaultInput';
+import type { FieldTypes, InputProps, TextAreaProps } from './input.types';
 import PasswordInput from './PasswordInput';
 import TextArea from './TextArea';
 import TimeInput from './TimeInput';
-import type { InputProps, FieldTypes, TextAreaProps } from './input.types';
 
 const InputMap: Record<FieldTypes, React.ComponentType<any>> = {
   text: DefaultInput,

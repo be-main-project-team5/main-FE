@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface SelectProps {
   list: Array<{ id: string | number; label: string }>;
@@ -19,7 +19,7 @@ export default function Select({
   const selectRef = useRef<HTMLDivElement>(null);
 
   const handleOnChangeSelectValue = (e: React.MouseEvent<HTMLLIElement>) => {
-    const value = e.currentTarget.dataset.value;
+    const { value } = e.currentTarget.dataset;
     if (value) {
       setCurrentValue(value);
       setShowOptions(false);
@@ -44,6 +44,8 @@ export default function Select({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={clsx(
         "relative rounded-lg border-1 border-gray-200 bg-white text-sm text-gray-500 before:absolute before:right-3 before:text-lg before:content-['⌵']",
         size === 'primary' && 'px-3 py-3 before:top-1',
@@ -51,11 +53,18 @@ export default function Select({
         className,
       )}
       onClick={() => setShowOptions(prev => !prev)}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setShowOptions(prev => !prev);
+        }
+      }}
       ref={selectRef}
     >
-      <label className="">{currentValue}</label>
+      <label htmlFor="custom-select">{currentValue}</label>
       {showOptions && (
         <ul
+          id="custom-select"
           className={clsx(
             'absolute left-0 z-100 w-full rounded-lg border-1 border-gray-200 bg-white p-1',
             size === 'primary' && 'top-12',
@@ -65,6 +74,9 @@ export default function Select({
           {list.map((data, index) => (
             <li
               key={data.id}
+              role="option"
+              tabIndex={0}
+              aria-selected={data.label === currentValue}
               className={clsx(
                 'text-black hover:bg-gray-50',
                 data.label === currentValue && 'font-semibold',
@@ -75,6 +87,12 @@ export default function Select({
               )}
               data-value={data.label}
               onClick={handleOnChangeSelectValue}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleOnChangeSelectValue(e as any); // 타입 강제 변환 (필요하면)
+                }
+              }}
             >
               {data.label}
             </li>
