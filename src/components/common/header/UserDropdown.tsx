@@ -1,10 +1,9 @@
 import { UserIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
 type UserDropdownProps = {
-  userName: string;
+  userName?: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
@@ -18,13 +17,7 @@ function UserDropdown({
   isMobile,
   profileImageUrl,
 }: UserDropdownProps) {
-  const displayUserName = userName?.trim() || '회원';
-
-  const userGreetingClass = clsx(
-    'text-base font-medium text-gray-600',
-    isMobile ? 'my-3' : 'my-4',
-  );
-
+  const userGreetingClass = 'text-base font-medium text-gray-600 my-4';
   const dropdownItemClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
@@ -41,11 +34,13 @@ function UserDropdown({
       <div className="mb-7 flex flex-col items-center">
         <UserAvatarImage
           profileImageUrl={profileImageUrl}
-          altText={`${displayUserName} 프로필 이미지`}
+          altText="사용자 프로필 이미지"
           avatarSize="xl"
           className="shadow-sm"
         />
-        <div className={userGreetingClass}>{displayUserName}님, 환영합니다</div>
+        <div className={userGreetingClass}>
+          {userName?.trim() || '회원'}님, 환영합니다
+        </div>
       </div>
 
       <button
@@ -68,8 +63,10 @@ function UserDropdown({
     </div>
   );
 
+  // 모바일 환경: 버튼 없이 바로 콘텐츠만 렌더링
   if (isMobile) return dropdownContent;
 
+  // 데스크탑 환경: 사용자 아이콘 버튼과 드롭다운 함께 렌더링
   return (
     <div className="relative flex items-center">
       <button

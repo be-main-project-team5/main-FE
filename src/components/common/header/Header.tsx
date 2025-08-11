@@ -10,11 +10,7 @@ export type HeaderProps = {
   profileImageUrl?: string;
 };
 
-function Header({
-  isLoggedIn,
-  userName = 'abc',
-  profileImageUrl,
-}: HeaderProps) {
+function Header({ isLoggedIn, userName, profileImageUrl }: HeaderProps) {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   const handleToggleMobileMenu = () => {

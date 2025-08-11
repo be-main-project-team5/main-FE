@@ -27,19 +27,18 @@ function DesktopMenu({
     // TODO: 회원가입 페이지 라우팅 구현
   };
 
-  const displayUserName = userName || '회원';
-
   return (
     <nav className="hidden items-center space-x-3 pr-10 md:flex">
       {isLoggedIn ? (
         <UserDropdown
-          userName={displayUserName}
+          userName={userName || '회원'}
           isOpen={isDropdownOpen}
           onToggle={handleToggleDropdown}
           isMobile={false}
           profileImageUrl={profileImageUrl}
         />
       ) : (
+        // 비로그인 상태: 로그인 / 회원가입 버튼
         <>
           <Button
             variant="secondary"

@@ -4,7 +4,7 @@ import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
   isLoggedIn: boolean;
-  userName: string;
+  userName?: string;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
   profileImageUrl?: string;
@@ -45,7 +45,7 @@ function MobileMenu({
         <div className="absolute top-16 right-0 z-50 w-52 border border-gray-200 bg-white p-4 shadow md:hidden">
           {isLoggedIn ? (
             <UserDropdown
-              userName={userName}
+              userName={userName || '회원'}
               isOpen
               onToggle={() => {}}
               isMobile
