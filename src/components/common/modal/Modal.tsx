@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
@@ -27,7 +27,7 @@ export default function Modal({
         onClick={e => e.stopPropagation()}
       >
         <XMarkIcon
-          className={'absolute top-4 right-4 w-5 cursor-pointer'}
+          className="absolute top-4 right-4 w-5 cursor-pointer"
           onClick={onClose}
         />
         <h2 className="my-2 text-xl font-semibold">{title}</h2>
