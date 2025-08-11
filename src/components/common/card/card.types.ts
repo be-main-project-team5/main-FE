@@ -12,5 +12,5 @@ export interface AnimationCardProps extends BaseCardProps {
 export interface IdolCardProps extends BaseCardProps {
   title: string;
   imageSrc?: string;
-  details: { idolGroup: string; position: string };
+  detail: { idolGroup: string; position: string };
 }
