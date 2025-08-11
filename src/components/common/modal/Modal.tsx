@@ -33,17 +33,14 @@ export default function Modal({
 
   return createPortal(
     <div
+      role="presentation"
+      tabIndex={-1}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
       onClick={onClose}
-      role="button"
-      tabIndex={0}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onClose();
-        }
-      }}
     >
       <div
+        role="presentation"
+        tabIndex={-1}
         className="relative m-8 flex w-full max-w-md flex-col items-center gap-2 rounded-xl bg-white px-6 py-8 shadow-lg"
         onClick={e => e.stopPropagation()}
       >
