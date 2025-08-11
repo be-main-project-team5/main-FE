@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { UserIcon } from '@heroicons/react/24/solid';
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 const avatarSizeVariants = cva(
   'inline-block rounded-full overflow-hidden bg-fuchsia-100 text-white flex items-center justify-center',

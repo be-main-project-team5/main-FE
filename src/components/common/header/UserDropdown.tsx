@@ -29,11 +29,11 @@ function UserDropdown({
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
   const handleMyPage = () => {
-    console.log('마이페이지로 이동');
+    // TODO: 마이페이지 라우팅 구현
   };
 
   const handleLogout = () => {
-    console.log('로그아웃 처리');
+    // TODO: 로그아웃 처리 구현
   };
 
   const dropdownContent = (

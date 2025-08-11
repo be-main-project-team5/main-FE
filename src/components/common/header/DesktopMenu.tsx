@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
+
 import UserDropdown from './UserDropdown';
 
 type DesktopMenuProps = {
@@ -19,18 +20,20 @@ function DesktopMenu({
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
 
   const handleLogin = () => {
-    console.log('로그인 페이지로 이동');
+    // TODO: 로그인 페이지 라우팅 구현
   };
 
   const handleSignup = () => {
-    console.log('회원가입 페이지로 이동');
+    // TODO: 회원가입 페이지 라우팅 구현
   };
+
+  const displayUserName = userName || '회원';
 
   return (
     <nav className="hidden items-center space-x-3 pr-10 md:flex">
       {isLoggedIn ? (
         <UserDropdown
-          userName={userName}
+          userName={displayUserName}
           isOpen={isDropdownOpen}
           onToggle={handleToggleDropdown}
           isMobile={false}

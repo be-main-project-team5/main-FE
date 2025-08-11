@@ -21,11 +21,11 @@ function MobileMenu({
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
   const handleLogin = () => {
-    console.log('로그인 페이지로 이동');
+    // TODO: 로그인 페이지 라우팅 구현
   };
 
   const handleSignup = () => {
-    console.log('회원가입 페이지로 이동');
+    // TODO: 회원가입 페이지 라우팅 구현
   };
 
   return (
