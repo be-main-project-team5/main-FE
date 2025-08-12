@@ -1,0 +1,45 @@
+@reference '@/index.css';
+@import 'tailwindcss' important;
+
+@layer utilities {
+  [data-calendar] .rbc-month-view {
+    @apply border-0;
+  }
+  [data-calendar] .rbc-header,
+  [data-calendar] .rbc-header + .rbc-header {
+    @apply border-0 px-1;
+  }
+  [data-calendar] .rbc-day-bg,
+  [data-calendar] .rbc-day-bg + .rbc-day-bg {
+    @apply border-0;
+  }
+  [data-calendar] .rbc-month-row,
+  [data-calendar] .rbc-month-row + .rbc-month-row {
+    @apply border-0 py-1;
+  }
+  [data-calendar] .rbc-date-cell {
+    @apply flex justify-center px-1;
+  }
+  [data-calendar] .rbc-now {
+    @apply font-semibold text-fuchsia-500;
+  }
+  [data-calendar] .rbc-today {
+    @apply bg-white;
+  }
+  [data-calendar] .rbc-day-bg:not(.is-selected):hover {
+    @apply rounded-md bg-fuchsia-50;
+  }
+  [data-calendar] .rbc-off-range {
+    @apply text-gray-300;
+  }
+  [data-calendar] .rbc-off-range-bg {
+    @apply bg-white;
+  }
+
+  [data-calendar] .is-selected {
+    @apply rounded-md bg-fuchsia-400;
+  }
+  [data-calendar] .rbc-current {
+    @apply font-semibold text-white;
+  }
+}
