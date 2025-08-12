@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
+import { handleToggleOnKeyDown } from '@/utils/handleToggleOnKeyDown';
 
 interface SelectProps {
   list: Array<{ id: string | number; label: string }>;
@@ -53,12 +54,7 @@ export default function Select({
         className,
       )}
       onClick={() => setShowOptions(prev => !prev)}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          setShowOptions(prev => !prev);
-        }
-      }}
+      onKeyDown={e => handleToggleOnKeyDown(e, setShowOptions)}
       ref={selectRef}
     >
       <label htmlFor="custom-select">{currentValue}</label>
@@ -90,7 +86,7 @@ export default function Select({
               onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  handleOnChangeSelectValue(e as any); // 타입 강제 변환 (필요하면)
+                  handleOnChangeSelectValue(e as any);
                 }
               }}
             >
