@@ -18,8 +18,11 @@ export default function Select({
   const [currentValue, setCurrentValue] = useState<string>(placeholder);
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  const handleOnChangeSelectValue = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleOnChangeSelectValue = (
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>,
+  ) => {
     const { value } = e.currentTarget.dataset;
     if (value) {
       setCurrentValue(value);
@@ -27,6 +30,17 @@ export default function Select({
     }
     e.stopPropagation();
   };
+
+  useEffect(() => {
+    if (showOptions) {
+      const focusIndex = list.findIndex(item => item.label === currentValue);
+      if (focusIndex !== -1 && optionRefs.current[focusIndex]) {
+        optionRefs.current[focusIndex]?.focus();
+      } else if (optionRefs.current[0]) {
+        optionRefs.current[0]?.focus();
+      }
+    }
+  }, [showOptions, currentValue, list]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -42,6 +56,24 @@ export default function Select({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [selectRef]);
+
+  const handleOptionKeyDown = (
+    e: React.KeyboardEvent<HTMLLIElement>,
+    index: number,
+  ) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleOnChangeSelectValue(e);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = (index + 1) % list.length;
+      optionRefs.current[nextIndex]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = (index - 1 + list.length) % list.length;
+      optionRefs.current[prevIndex]?.focus();
+    }
+  };
 
   return (
     <div
@@ -62,7 +94,7 @@ export default function Select({
         <ul
           id="custom-select"
           className={clsx(
-            'absolute left-0 z-100 w-full rounded-lg border-1 border-gray-200 bg-white p-1',
+            'absolute left-0 z-100 flex w-full flex-col gap-1 rounded-lg border-1 border-gray-200 bg-white p-1',
             size === 'primary' && 'top-12',
             size === 'small' && 'top-10',
           )}
@@ -72,9 +104,12 @@ export default function Select({
               key={data.id}
               role="option"
               tabIndex={0}
+              ref={el => {
+                optionRefs.current[index] = el;
+              }}
               aria-selected={data.label === currentValue}
               className={clsx(
-                'text-black hover:bg-gray-50',
+                'text-black hover:bg-gray-50 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-300',
                 data.label === currentValue && 'font-semibold',
                 size === 'primary' && 'px-8 py-3',
                 size === 'small' && 'px-2 py-2',
@@ -83,12 +118,7 @@ export default function Select({
               )}
               data-value={data.label}
               onClick={handleOnChangeSelectValue}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleOnChangeSelectValue(e as any);
-                }
-              }}
+              onKeyDown={e => handleOptionKeyDown(e, index)}
             >
               {data.label}
             </li>
