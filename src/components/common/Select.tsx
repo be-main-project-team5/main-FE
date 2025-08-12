@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
+
 import { handleToggleOnKeyDown } from '@/utils/handleToggleOnKeyDown';
 
 interface SelectProps {
