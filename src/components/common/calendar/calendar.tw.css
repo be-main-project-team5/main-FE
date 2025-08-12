@@ -35,11 +35,20 @@
   [data-calendar] .rbc-off-range-bg {
     @apply bg-white;
   }
+  [data-calendar] .rbc-current {
+    @apply font-semibold text-white;
+  }
+  [data-calendar] .rbc-event {
+    @apply border border-solid border-fuchsia-300 bg-white text-fuchsia-300;
+  }
+  [data-calendar] .rbc-row-segment {
+    @apply pr-1 pl-[3px];
+  }
+  [data-calendar] .rbc-show-more {
+    @apply rounded-md bg-fuchsia-300 px-1 py-[2px] text-white;
+  }
 
   [data-calendar] .is-selected {
     @apply rounded-md bg-fuchsia-300 transition-all duration-500 ease-out;
-  }
-  [data-calendar] .rbc-current {
-    @apply font-semibold text-white;
   }
 }
