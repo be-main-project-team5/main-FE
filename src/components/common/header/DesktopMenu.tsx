@@ -28,7 +28,7 @@ function DesktopMenu({
   };
 
   return (
-    <nav className="hidden items-center space-x-3 pr-10 md:flex">
+    <nav className="hidden items-center space-x-3 md:flex">
       {isLoggedIn ? (
         <UserDropdown
           userName={userName || '회원'}
