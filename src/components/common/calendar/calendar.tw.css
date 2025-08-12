@@ -27,7 +27,7 @@
     @apply bg-white;
   }
   [data-calendar] .rbc-day-bg:not(.is-selected):hover {
-    @apply rounded-md bg-fuchsia-50;
+    @apply rounded-md bg-fuchsia-50 transition-all duration-300 ease-out;
   }
   [data-calendar] .rbc-off-range {
     @apply text-gray-300;
@@ -37,7 +37,7 @@
   }
 
   [data-calendar] .is-selected {
-    @apply rounded-md bg-fuchsia-400;
+    @apply rounded-md bg-fuchsia-300 transition-all duration-500 ease-out;
   }
   [data-calendar] .rbc-current {
     @apply font-semibold text-white;
