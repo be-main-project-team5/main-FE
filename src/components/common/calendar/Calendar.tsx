@@ -26,6 +26,90 @@ interface CalendarProps
   className?: string;
 }
 
+type ScheduleType = {
+  title: string;
+  startTime: Date;
+  endTime: Date;
+  description?: string;
+  isPublic: boolean;
+};
+
+const SCHEDULE_EXAMPLES: ScheduleType[] = [
+  {
+    title: '2025 첫번째 콘서트',
+    startTime: new Date('2025-08-24'),
+    endTime: new Date('2025-08-24'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '2025 첫번째 콘서트',
+    startTime: new Date('2025-08-27'),
+    endTime: new Date('2025-08-27'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '2025 두번쨰 콘서트',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '00동 사인회',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '런닝맨 촬영',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '뮤직뱅크 참여',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '2025 세번째 콘서트',
+    startTime: new Date('2025-08-29'),
+    endTime: new Date('2025-08-29'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    title: '2025 네번째 콘서트',
+    startTime: new Date('2025-08-30'),
+    endTime: new Date('2025-08-30'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+];
+
+type RbcEvent = {
+  title: string;
+  start: Date;
+  end: Date;
+  allDay?: boolean;
+  resource?: ScheduleType; // 원본 보관
+};
+
+const rbcEventsList = (list: ScheduleType[]): RbcEvent[] =>
+  list.map(s => ({
+    title: s.title,
+    start: s.startTime,
+    end: dayjs(s.endTime).endOf('day').toDate(),
+    allDay: true,
+    resource: s,
+  }));
+
 const djLocalizer = dayjsLocalizer(dayjs);
 
 function Calendar({ className, ...rest }: CalendarProps) {
@@ -57,6 +141,7 @@ function Calendar({ className, ...rest }: CalendarProps) {
       )}
     >
       <BigCalendar
+        events={rbcEventsList(SCHEDULE_EXAMPLES)}
         date={selectedDate}
         onNavigate={newDate => setSelectedDate(newDate)}
         components={{ toolbar: CalendarToolbar }}
