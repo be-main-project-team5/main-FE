@@ -3,20 +3,22 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Button } from '../Button';
 
 interface CalendarToolbarProps {
-  label?: string;
+  year: number;
+  month: number;
   handleMovePrevMonth: () => void;
   handleMoveNextMonth: () => void;
   handleMoveCurrentMonth: () => void;
 }
 
 function MyCalendarToolbar({
-  label = '2000년 7월',
+  year,
+  month,
   handleMovePrevMonth,
   handleMoveNextMonth,
   handleMoveCurrentMonth,
 }: CalendarToolbarProps) {
   return (
-    <div className="flex w-full justify-between p-5">
+    <div className="flex w-full justify-between py-5">
       <Button
         size="sm"
         variant="outline"
@@ -27,7 +29,9 @@ function MyCalendarToolbar({
           TODAY
         </span>
       </Button>
-      <span className="text-lg font-semibold text-gray-700">{label}</span>
+      <span className="text-xl font-semibold text-gray-700">
+        {year}년 {month}월
+      </span>
       <div className="flex w-fit gap-2">
         <Button
           size="sm"
