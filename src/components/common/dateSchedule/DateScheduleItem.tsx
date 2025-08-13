@@ -11,17 +11,8 @@ import {
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
-import type { Schedule, UserRole } from './dateSchedule.types';
+import type { DateScheduleItemProps } from './dateSchedule.types';
 import { formatDateSlash } from './dateSchedule.utils';
-
-type Props = {
-  item: Schedule;
-  role: UserRole;
-  onBookmarkToggle?: (id: string) => void;
-  onNotifyToggle?: (id: string) => void;
-  onEditClick?: (id: string) => void;
-  onDeleteClick?: (id: string) => void;
-};
 
 const iconSize = 'h-5 w-5 sm:h-6 sm:w-6';
 const iconColor = 'text-fuchsia-600';
@@ -35,7 +26,7 @@ export default function DateScheduleItem({
   onNotifyToggle,
   onEditClick,
   onDeleteClick,
-}: Props) {
+}: DateScheduleItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleToggleOpen = () => setIsOpen(p => !p);
   const handleBookmark = () => onBookmarkToggle?.(item.id);
