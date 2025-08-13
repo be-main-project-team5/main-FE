@@ -1,17 +1,18 @@
-import { useMemo, useState } from 'react';
 import {
-  StarIcon as StarOutline,
   BellIcon as BellOutline,
+  StarIcon as StarOutline,
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import {
-  StarIcon as StarSolid,
   BellIcon as BellSolid,
   PencilIcon,
+  StarIcon as StarSolid,
 } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+
 import type { Schedule, UserRole } from './dateSchedule.types';
 import { formatDateSlash } from './dateSchedule.utils';
-import clsx from 'clsx';
 
 type Props = {
   item: Schedule;
@@ -42,74 +43,76 @@ export default function DateScheduleItem({
   const handleEdit = () => onEditClick?.(item.id);
   const handleDelete = () => onDeleteClick?.(item.id);
 
-  const actions = useMemo(() => {
-    switch (role) {
-      case 'fan':
-        return [
-          <button
-            key="bm"
-            type="button"
-            aria-label="즐겨찾기"
-            className={iconBtn}
-            onClick={handleBookmark}
-          >
-            {item.isBookmarked ? (
-              <StarSolid className={clsx(iconSize, iconColor)} />
-            ) : (
-              <StarOutline className={clsx(iconSize, iconColor)} />
-            )}
-          </button>,
-        ];
-      case 'favorites':
-        return [
-          <button
-            key="bm"
-            type="button"
-            aria-label="즐겨찾기"
-            className={iconBtn}
-            onClick={handleBookmark}
-          >
+  let actions: React.ReactNode[] = [];
+  switch (role) {
+    case 'fan':
+      actions = [
+        <button
+          key="bm"
+          type="button"
+          aria-label="즐겨찾기"
+          className={iconBtn}
+          onClick={handleBookmark}
+        >
+          {item.isBookmarked ? (
             <StarSolid className={clsx(iconSize, iconColor)} />
-          </button>,
-          <button
-            key="nf"
-            type="button"
-            aria-label="알림 설정"
-            className={iconBtn}
-            onClick={handleNotify}
-          >
-            {item.isNotified ? (
-              <BellSolid className={clsx(iconSize, iconColor)} />
-            ) : (
-              <BellOutline className={clsx(iconSize, iconColor)} />
-            )}
-          </button>,
-        ];
-      case 'manager':
-        return [
-          <button
-            key="ed"
-            type="button"
-            aria-label="수정"
-            className={iconBtn}
-            onClick={handleEdit}
-          >
-            <PencilIcon className={clsx(iconSize, iconColor)} />
-          </button>,
-          <button
-            key="del"
-            type="button"
-            aria-label="삭제"
-            className={iconBtn}
-            onClick={handleDelete}
-          >
-            <TrashIcon className={clsx(iconSize, iconColor)} />
-          </button>,
-        ];
-      default:
-        return [];
-    }
-  }, [item.id, role, item.isBookmarked, item.isNotified]);
+          ) : (
+            <StarOutline className={clsx(iconSize, iconColor)} />
+          )}
+        </button>,
+      ];
+      break;
+    case 'favorites':
+      actions = [
+        <button
+          key="bm"
+          type="button"
+          aria-label="즐겨찾기"
+          className={iconBtn}
+          onClick={handleBookmark}
+        >
+          <StarSolid className={clsx(iconSize, iconColor)} />
+        </button>,
+        <button
+          key="nf"
+          type="button"
+          aria-label="알림 설정"
+          className={iconBtn}
+          onClick={handleNotify}
+        >
+          {item.isNotified ? (
+            <BellSolid className={clsx(iconSize, iconColor)} />
+          ) : (
+            <BellOutline className={clsx(iconSize, iconColor)} />
+          )}
+        </button>,
+      ];
+      break;
+    case 'manager':
+      actions = [
+        <button
+          key="ed"
+          type="button"
+          aria-label="수정"
+          className={iconBtn}
+          onClick={handleEdit}
+        >
+          <PencilIcon className={clsx(iconSize, iconColor)} />
+        </button>,
+        <button
+          key="del"
+          type="button"
+          aria-label="삭제"
+          className={iconBtn}
+          onClick={handleDelete}
+        >
+          <TrashIcon className={clsx(iconSize, iconColor)} />
+        </button>,
+      ];
+      break;
+    default:
+      actions = [];
+  }
 
   return (
     <li className="rounded-2xl transition hover:bg-gray-50">
