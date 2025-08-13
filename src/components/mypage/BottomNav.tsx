@@ -2,11 +2,11 @@ import clsx from 'clsx';
 
 const MYPAGE_BOTTOM_NAV = ['로그아웃', '회원 탈퇴'];
 
-export default function BottomNav({ className }: { className: string }) {
+export default function BottomNav({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        'flex-col items-center gap-3 border-t-1 border-gray-200 py-10 text-xs md:items-start md:gap-6 md:text-sm',
+        'flex-col items-center gap-3 border-gray-200 py-10 text-xs md:items-start md:gap-6 md:border-t-1 md:text-sm',
         className,
       )}
     >
