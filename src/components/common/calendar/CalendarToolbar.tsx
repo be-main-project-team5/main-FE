@@ -23,9 +23,11 @@ function CalendarToolbar({
           TODAY
         </span>
       </Button>
-      <span className="text-xl font-semibold text-gray-700">
-        {year}년 {month}월
-      </span>
+      <div className="flex items-center">
+        <span className="text-md font-semibold text-gray-700 sm:text-xl">
+          {year}년 {month}월
+        </span>
+      </div>
       <div className="flex w-fit gap-2">
         <Button
           size="sm"
