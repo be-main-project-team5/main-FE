@@ -13,15 +13,14 @@ import { useState } from 'react';
 
 import type { DateScheduleItemProps } from './dateSchedule.types';
 import { formatDateSlash } from './dateSchedule.utils';
-import { type ActionIcon, getScheduleActions } from './getScheduleActions';
+import { getScheduleActions, type ActionIcon } from './getScheduleActions';
+import { IconButton } from './IconButton';
 
 const iconSize = 'h-5 w-5 sm:h-6 sm:w-6';
 const iconColor = 'text-fuchsia-600';
-const iconBtn =
-  'inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md hover:bg-fuchsia-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400';
 
-// 아이콘 타입을 실제 아이콘으로 렌더링 (예: 'star' → <StarIcon />)
-function renderIcon(icon: ActionIcon) {
+/** 아이콘 타입을 실제 아이콘으로 렌더링 (예: 'star' → <StarIcon />) */
+function renderIcon(icon: ActionIcon): React.ReactNode {
   switch (icon) {
     case 'star':
       return <StarOutline className={clsx(iconSize, iconColor)} />;
@@ -51,7 +50,7 @@ export default function DateScheduleItem({
   const [isOpen, setIsOpen] = useState(false);
   const handleToggleOpen = () => setIsOpen(prev => !prev);
 
-  // 역할별 액션 버튼 정보
+  // 역할별 액션 버튼 정보 (유틸: .ts, JSX 없음)
   const actionsInfo = getScheduleActions(role, item, {
     onBookmarkToggle,
     onNotifyToggle,
@@ -90,16 +89,13 @@ export default function DateScheduleItem({
         <div className="shrink-0 basis-[88px] sm:basis-[100px] md:basis-[108px]">
           <div className="flex justify-end gap-1">
             {actionsInfo.map(action => (
-              <button
+              <IconButton
                 key={action.key}
-                type="button"
-                aria-label={action.ariaLabel}
-                className={iconBtn}
+                ariaLabel={action.ariaLabel}
                 onClick={action.onClick}
-                title={action.ariaLabel}
               >
                 {renderIcon(action.icon)}
-              </button>
+              </IconButton>
             ))}
           </div>
         </div>
