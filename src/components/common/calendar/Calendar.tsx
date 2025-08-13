@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { buttonHoverStyle, divHoverStyle } from './calendar.styles';
 import CalendarToolbar from './CalendarToolbar';
@@ -125,7 +125,10 @@ function Calendar() {
     }
   };
 
-  console.log(viewDate);
+  // *memo - 선택한 날짜 값 넘기는 로직 작성할 때 수정 후 사용
+  useEffect(() => {
+    // console.log(selectedDate);
+  }, [selectedDate]);
 
   return (
     <div className="">
