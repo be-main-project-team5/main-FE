@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from '@/components/common/Footer';
 import { Header } from '@/components/common/header';
 import Nav from '@/components/mypage/Nav';
+import BottomNav from '@/components/mypage/BottomNav';
 
 export default function MyPageLayout() {
   return (
@@ -13,15 +14,7 @@ export default function MyPageLayout() {
           <h2 className="py-10 text-3xl font-semibold">마이페이지</h2>
 
           <Nav />
-
-          <div className="flex flex-col items-start gap-2 border-t-1 border-gray-200 py-10 text-sm">
-            <button type="button" className="px-4 py-2">
-              <p className="hover:underline">로그아웃</p>
-            </button>
-            <button type="button" className="px-4 py-2">
-              <p className="hover:underline">회원 탈퇴</p>
-            </button>
-          </div>
+          <BottomNav />
         </aside>
 
         <main>
