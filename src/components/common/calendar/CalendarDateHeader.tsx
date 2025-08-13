@@ -1,6 +1,20 @@
+import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
 import type { CalendarDateHeaderProps } from './calendar.types';
+
+const dateHeaderStyles = cva('py-1', {
+  variants: {
+    selectedDate: {
+      true: 'bg-fuchsia-400 font-semibold text-white',
+      false: '',
+    },
+    todayDate: {
+      true: 'text-fuchsia-600',
+      false: '',
+    },
+  },
+});
 
 function CalendarDateHeader({
   date,
@@ -10,9 +24,7 @@ function CalendarDateHeader({
   return (
     <div
       className={clsx(
-        'py-1',
-        isToday && 'text-fuchsia-600',
-        isSelected && 'bg-fuchsia-400 font-semibold text-white',
+        dateHeaderStyles({ selectedDate: isSelected, todayDate: isToday }),
       )}
     >
       {date.date()}
