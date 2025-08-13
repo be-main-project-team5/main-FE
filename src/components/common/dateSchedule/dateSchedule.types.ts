@@ -12,13 +12,25 @@ export type Schedule = {
   isNotified?: boolean;
 };
 
-export type DateScheduleListProps = {
+// 공통 핸들러 타입
+type ScheduleActionHandler = (id: string) => void;
+
+// 공통 Props
+interface ScheduleActionProps {
+  onBookmarkToggle?: ScheduleActionHandler;
+  onNotifyToggle?: ScheduleActionHandler;
+  onEditClick?: ScheduleActionHandler;
+  onDeleteClick?: ScheduleActionHandler;
+}
+
+export interface DateScheduleListProps extends ScheduleActionProps {
   role: UserRole;
   selectedDate: string;
   schedules: Schedule[];
-  onBookmarkToggle?: (id: string) => void;
-  onNotifyToggle?: (id: string) => void;
-  onEditClick?: (id: string) => void;
-  onDeleteClick?: (id: string) => void;
   className?: string;
-};
+}
+
+export interface DateScheduleItemProps extends ScheduleActionProps {
+  item: Schedule;
+  role: UserRole;
+}
