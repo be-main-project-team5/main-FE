@@ -12,6 +12,14 @@ export type Schedule = {
   isNotified?: boolean;
 };
 
+export interface IconButtonProps {
+  ariaLabel: string;
+  onClick: () => void;
+  children: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
+}
+
 // 공통 핸들러 타입
 type ScheduleActionHandler = (id: string) => void;
 
