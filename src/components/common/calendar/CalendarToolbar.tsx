@@ -1,14 +1,8 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { Button } from '../Button';
-
-interface CalendarToolbarProps {
-  year: number;
-  month: number;
-  handleMovePrevMonth: () => void;
-  handleMoveNextMonth: () => void;
-  handleMoveCurrentMonth: () => void;
-}
+import { ButtonStyle, IconStyle } from './calendar.styles';
+import type { CalendarToolbarProps } from './calendar.types';
 
 function CalendarToolbar({
   year,
@@ -23,7 +17,7 @@ function CalendarToolbar({
         size="sm"
         variant="outline"
         onClick={handleMoveCurrentMonth}
-        className="group border-none hover:border-none hover:bg-gray-300"
+        className={ButtonStyle}
       >
         <span className="px-2.5 text-sm font-medium text-gray-400 group-hover:text-white">
           TODAY
@@ -37,17 +31,17 @@ function CalendarToolbar({
           size="sm"
           variant="outline"
           onClick={handleMovePrevMonth}
-          className="group border-none hover:border-none hover:bg-gray-300"
+          className={ButtonStyle}
         >
-          <ArrowLeftIcon className="size-5 text-gray-400 group-hover:text-white" />
+          <ArrowLeftIcon className={IconStyle} />
         </Button>
         <Button
           size="sm"
           variant="outline"
           onClick={handleMoveNextMonth}
-          className="group border-none hover:border-none hover:bg-gray-300"
+          className={ButtonStyle}
         >
-          <ArrowRightIcon className="size-5 text-gray-400 group-hover:text-white" />
+          <ArrowRightIcon className={IconStyle} />
         </Button>
       </div>
     </div>

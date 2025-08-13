@@ -17,3 +17,8 @@ export const divHoverStyle = clsx(
   baseStyle,
   hoverStyle,
 );
+
+export const ButtonStyle =
+  'group border-none hover:border-none hover:bg-gray-300';
+
+export const IconStyle = 'size-5 text-gray-400 group-hover:text-white';
