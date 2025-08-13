@@ -32,3 +32,11 @@ export interface CalendarDateProps {
   selectedDate: Dayjs;
   handleClickDate: (date: Dayjs) => void;
 }
+
+export interface CalendarToolbarProps {
+  year: number;
+  month: number;
+  handleMovePrevMonth: () => void;
+  handleMoveNextMonth: () => void;
+  handleMoveCurrentMonth: () => void;
+}
