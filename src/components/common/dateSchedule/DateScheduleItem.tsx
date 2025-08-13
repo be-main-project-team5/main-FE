@@ -9,15 +9,36 @@ import {
   StarIcon as StarSolid,
 } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import type { DateScheduleItemProps } from './dateSchedule.types';
 import { formatDateSlash } from './dateSchedule.utils';
+import { getScheduleActions, type ActionIcon } from './getScheduleActions';
 
 const iconSize = 'h-5 w-5 sm:h-6 sm:w-6';
 const iconColor = 'text-fuchsia-600';
 const iconBtn =
   'inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md hover:bg-fuchsia-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400';
+
+// 아이콘 타입을 실제 아이콘으로 렌더링 (예: 'star' → <StarIcon />)
+function renderIcon(icon: ActionIcon) {
+  switch (icon) {
+    case 'star':
+      return <StarOutline className={clsx(iconSize, iconColor)} />;
+    case 'star-filled':
+      return <StarSolid className={clsx(iconSize, iconColor)} />;
+    case 'bell':
+      return <BellOutline className={clsx(iconSize, iconColor)} />;
+    case 'bell-filled':
+      return <BellSolid className={clsx(iconSize, iconColor)} />;
+    case 'edit':
+      return <PencilIcon className={clsx(iconSize, iconColor)} />;
+    case 'delete':
+      return <TrashIcon className={clsx(iconSize, iconColor)} />;
+    default:
+      return null;
+  }
+}
 
 export default function DateScheduleItem({
   item,
@@ -28,82 +49,15 @@ export default function DateScheduleItem({
   onDeleteClick,
 }: DateScheduleItemProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const handleToggleOpen = () => setIsOpen(p => !p);
-  const handleBookmark = () => onBookmarkToggle?.(item.id);
-  const handleNotify = () => onNotifyToggle?.(item.id);
-  const handleEdit = () => onEditClick?.(item.id);
-  const handleDelete = () => onDeleteClick?.(item.id);
+  const handleToggleOpen = () => setIsOpen(prev => !prev);
 
-  let actions: React.ReactNode[] = [];
-  switch (role) {
-    case 'fan':
-      actions = [
-        <button
-          key="bm"
-          type="button"
-          aria-label="즐겨찾기"
-          className={iconBtn}
-          onClick={handleBookmark}
-        >
-          {item.isBookmarked ? (
-            <StarSolid className={clsx(iconSize, iconColor)} />
-          ) : (
-            <StarOutline className={clsx(iconSize, iconColor)} />
-          )}
-        </button>,
-      ];
-      break;
-    case 'favorites':
-      actions = [
-        <button
-          key="bm"
-          type="button"
-          aria-label="즐겨찾기"
-          className={iconBtn}
-          onClick={handleBookmark}
-        >
-          <StarSolid className={clsx(iconSize, iconColor)} />
-        </button>,
-        <button
-          key="nf"
-          type="button"
-          aria-label="알림 설정"
-          className={iconBtn}
-          onClick={handleNotify}
-        >
-          {item.isNotified ? (
-            <BellSolid className={clsx(iconSize, iconColor)} />
-          ) : (
-            <BellOutline className={clsx(iconSize, iconColor)} />
-          )}
-        </button>,
-      ];
-      break;
-    case 'manager':
-      actions = [
-        <button
-          key="ed"
-          type="button"
-          aria-label="수정"
-          className={iconBtn}
-          onClick={handleEdit}
-        >
-          <PencilIcon className={clsx(iconSize, iconColor)} />
-        </button>,
-        <button
-          key="del"
-          type="button"
-          aria-label="삭제"
-          className={iconBtn}
-          onClick={handleDelete}
-        >
-          <TrashIcon className={clsx(iconSize, iconColor)} />
-        </button>,
-      ];
-      break;
-    default:
-      actions = [];
-  }
+  // 역할별 액션 버튼 정보
+  const actionsInfo = getScheduleActions(role, item, {
+    onBookmarkToggle,
+    onNotifyToggle,
+    onEditClick,
+    onDeleteClick,
+  });
 
   return (
     <li className="rounded-2xl transition hover:bg-gray-50">
@@ -134,7 +88,20 @@ export default function DateScheduleItem({
         </button>
 
         <div className="shrink-0 basis-[88px] sm:basis-[100px] md:basis-[108px]">
-          <div className="flex justify-end gap-1">{actions}</div>
+          <div className="flex justify-end gap-1">
+            {actionsInfo.map(action => (
+              <button
+                key={action.key}
+                type="button"
+                aria-label={action.ariaLabel}
+                className={iconBtn}
+                onClick={action.onClick}
+                title={action.ariaLabel}
+              >
+                {renderIcon(action.icon)}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
