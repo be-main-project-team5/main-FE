@@ -2,8 +2,8 @@ import '@/App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Layout from './components/layouts/Layout';
-import Main from './pages/Main';
+import Layout from '@/components/layouts/Layout';
+import Main from '@/pages/Main';
 
 function App() {
   return (
