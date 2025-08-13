@@ -1,10 +1,17 @@
+import clsx from 'clsx';
+
 const MYPAGE_BOTTOM_NAV = ['로그아웃', '회원 탈퇴'];
 
-export default function BottomNav() {
+export default function BottomNav({ className }: { className: string }) {
   return (
-    <div className="flex flex-col items-start gap-2 border-t-1 border-gray-200 py-10 text-sm">
+    <div
+      className={clsx(
+        'flex-col items-center gap-3 border-t-1 border-gray-200 py-10 text-xs md:items-start md:gap-6 md:text-sm',
+        className,
+      )}
+    >
       {MYPAGE_BOTTOM_NAV.map(el => (
-        <button type="button" className="px-4 py-2">
+        <button type="button" className="mx-4">
           <p className="hover:underline">{el}</p>
         </button>
       ))}
