@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
 const baseStyle =
-  "relative before:absolute before:w-1 hover:before:bg-fuchsia-300 before:content-[''] before:transition-all before:duration-300 before:ease-out after:absolute after:h-1 hover:after:bg-fuchsia-300 after:content-[''] after:transition-all after:duration-300 after:ease-out before:h-0 after:w-0";
+  "relative before:absolute before:w-1 before:content-[''] before:transition-all before:duration-300 before:ease-out after:absolute after:h-1 after:content-[''] after:transition-all after:duration-300 after:ease-out before:h-0 after:w-0";
 
 const hoverStyle =
-  'hover:before:bg-fuchsia-300 hover:after:bg-fuchsia-300 hover:before:h-full hover:after:w-full';
+  'hover:before:bg-fuchsia-400 hover:after:bg-fuchsia-400 hover:before:h-full hover:after:w-full';
 
 export const buttonHoverStyle = clsx(
   'before:top-0 before:left-0 after:top-0 after:left-0',

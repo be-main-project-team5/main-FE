@@ -11,8 +11,8 @@ function CalendarDateHeader({
     <div
       className={clsx(
         'py-1',
-        isToday && 'text-fuchsia-500',
-        isSelected && 'bg-fuchsia-300 font-semibold text-white',
+        isToday && 'text-fuchsia-600',
+        isSelected && 'bg-fuchsia-400 font-semibold text-white',
       )}
     >
       {date.date()}

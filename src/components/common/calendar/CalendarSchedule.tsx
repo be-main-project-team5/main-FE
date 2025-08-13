@@ -10,7 +10,7 @@ function CalendarSchedule({ schedule, isSelected }: CalendarScheduleProps) {
       className={clsx(
         'truncate p-2 py-[0.25vh] text-[1.5vw] font-medium sm:py-[1vh] lg:text-base',
         isSelected
-          ? 'hidden bg-fuchsia-300 text-fuchsia-400 md:block md:bg-white'
+          ? 'hidden bg-fuchsia-300 text-fuchsia-500 md:block md:bg-white'
           : 'bg-fuchsia-300 text-white',
       )}
     >
