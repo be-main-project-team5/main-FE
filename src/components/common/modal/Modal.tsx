@@ -59,7 +59,7 @@ export default function Modal({
               onClick={onClose}
               aria-label="모달 닫기"
             >
-              <XMarkIcon className="w-5 cursor-pointer" />
+              <XMarkIcon className="w-5" />
             </button>
             <h2 className="my-2 text-xl font-semibold">{title}</h2>
             {children}

@@ -72,7 +72,7 @@ function UserDropdown({
       <button
         type="button"
         onClick={onToggle}
-        className="mr-[-8px] flex cursor-pointer items-center justify-center rounded-full p-2 transition hover:bg-gray-100"
+        className="mr-[-8px] flex items-center justify-center rounded-full p-2 transition hover:bg-gray-100"
         aria-label="사용자 드롭다운 열기"
       >
         <UserIcon className="h-6 w-6 text-gray-700" />
