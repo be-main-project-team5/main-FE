@@ -3,20 +3,29 @@ import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
+import {
+  buttonActiveStyle,
+  buttonInactiveStyle,
+  divActiveStyle,
+  divInactiveStyle,
+} from './myCalendar.styles';
 import MyCalendarToolbar from './MyCalendarToolbar';
 
-const dateStyles = cva('py-1 flex justify-center aspect-5/6 text-center', {
-  variants: {
-    currentMonth: {
-      true: 'text-gray-700',
-      false: 'text-gray-300',
-    },
-    selected: {
-      true: 'border border-3 border-fuchsia-500 hover:border-fuchsia-500',
-      false: 'hover:bg-fuchsia-50',
+const dateStyles = cva(
+  'relative py-1 flex justify-center aspect-5/6 text-center',
+  {
+    variants: {
+      currentMonth: {
+        true: 'text-gray-700',
+        false: 'text-gray-300',
+      },
+      selected: {
+        true: buttonActiveStyle,
+        false: buttonInactiveStyle,
+      },
     },
   },
-});
+);
 
 function MyCalendar() {
   const [viewDate, setViewDate] = useState(dayjs());
@@ -95,7 +104,14 @@ function MyCalendar() {
                   }),
                 )}
               >
-                {date.date()}
+                <div
+                  className={clsx(
+                    'h-full w-full',
+                    isSelected ? divActiveStyle : divInactiveStyle,
+                  )}
+                >
+                  <span>{date.date()}</span>
+                </div>
               </button>
             );
           })}
