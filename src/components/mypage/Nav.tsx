@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
 
@@ -11,6 +11,11 @@ const MYPAGE_NAV = [
 
 export default function Nav() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleClickButton = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <nav className="items-strech flex flex-col pb-10">
@@ -24,6 +29,7 @@ export default function Nav() {
               'flex w-full !justify-between py-4',
               isActive ? 'bg-gray-100 font-semibold' : 'bg-white',
             )}
+            onClick={() => handleClickButton(path)}
           >
             <p>{label}</p>
             <ChevronRightIcon className="w-5" />
