@@ -1,4 +1,3 @@
-import React from 'react';
 import type { IconButtonProps } from './dateSchedule.types';
 
 const baseBtn =
