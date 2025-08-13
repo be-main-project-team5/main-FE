@@ -1,6 +1,16 @@
+import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
 import type { CalendarScheduleFooterProps } from './calendar.types';
+
+const dateFooterMdStyles = cva('md:hidden', {
+  variants: {
+    selectedDate: {
+      true: 'hidden',
+      false: '',
+    },
+  },
+});
 
 function CalendarDateFooter({
   hiddenCount,
@@ -11,7 +21,12 @@ function CalendarDateFooter({
       <span className="hidden md:inline">
         {hiddenCount > 0 && `+ ${hiddenCount} more`}
       </span>
-      <span className={clsx('md:hidden', isSelected && 'hidden')}>
+      <span
+        className={clsx(
+          dateFooterMdStyles({ selectedDate: isSelected }),
+          isSelected && 'hidden',
+        )}
+      >
         {hiddenCount > 0 && `+ ${hiddenCount}`}
       </span>
     </div>
