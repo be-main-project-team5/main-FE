@@ -12,7 +12,7 @@ import {
 import MyCalendarToolbar from './MyCalendarToolbar';
 
 const dateStyles = cva(
-  'relative py-1 flex justify-center aspect-5/6 text-center',
+  'relative py-1 flex justify-center aspect-2/3 text-center',
   {
     variants: {
       currentMonth: {
@@ -123,7 +123,9 @@ function MyCalendar() {
   };
 
   const handleMoveCurrentMonth = () => {
-    setViewDate(dayjs());
+    const today = dayjs().startOf('day');
+    setViewDate(today);
+    setSelectedDate(today);
   };
 
   const handleClickDate = (date: Dayjs) => {
@@ -139,9 +141,10 @@ function MyCalendar() {
 
   return (
     <div className="">
-      <div className="h-fit w-full rounded-md shadow-[0_0_20px_5px_#00000015]">
+      <div className="h-fit w-full rounded-md p-1 shadow-[0_0_20px_5px_#00000015]">
         <MyCalendarToolbar
-          label={`${viewDate.year()}년 ${viewDate.month() + 1}월`}
+          year={viewDate.year()}
+          month={viewDate.month() + 1}
           handleMovePrevMonth={handleMovePrevMonth}
           handleMoveNextMonth={handleMoveNextMonth}
           handleMoveCurrentMonth={handleMoveCurrentMonth}
@@ -158,6 +161,7 @@ function MyCalendar() {
           {viewDates.map(date => {
             const isCurrentMonth = date.month() === viewDate.month();
             const isSelected = date.isSame(selectedDate, 'day');
+            const isToday = date.isSame(dayjs(), 'day');
 
             const schedulesForDate = SCHEDULE_EXAMPLES.filter(schedule =>
               dayjs(schedule.startTime).isSame(date, 'day'),
@@ -180,17 +184,25 @@ function MyCalendar() {
               >
                 <div
                   className={clsx(
-                    'flex h-full w-full flex-col',
+                    'flex h-full w-full flex-col justify-between',
                     isSelected ? divActiveStyle : divInactiveStyle,
                   )}
                 >
-                  <div className="py-1">{date.date()}</div>
-                  <div className="flex flex-1 flex-col justify-between p-1">
+                  <div
+                    className={clsx(
+                      isToday && 'text-fuchsia-500',
+                      isSelected &&
+                        'bg-fuchsia-300 pb-1 font-semibold text-white',
+                    )}
+                  >
+                    {date.date()}
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-1 p-1">
                     {visibleSchedules.map(schedule => (
                       <div
                         key={schedule.id}
                         className={clsx(
-                          'truncate rounded-lg px-2 py-1 font-medium',
+                          'truncate rounded-lg px-2 py-2 text-[0.9em] font-medium',
                           isSelected
                             ? 'bg-white text-fuchsia-400'
                             : 'bg-fuchsia-300 text-white',
@@ -200,7 +212,7 @@ function MyCalendar() {
                       </div>
                     ))}
                   </div>
-                  <div className="items-end py-1 text-fuchsia-200">
+                  <div className="py-1 text-[0.9em] text-fuchsia-200">
                     {hiddenCount > 0 && `+ ${hiddenCount} more`}
                   </div>
                 </div>
