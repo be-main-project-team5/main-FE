@@ -1,12 +1,13 @@
+import { CalendarIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import DateScheduleItem from './DateScheduleItem';
+
 import type { DateScheduleListProps } from './dateSchedule.types';
 import {
   filterByDate,
-  sortByTimeAsc,
   formatMonthDay,
+  sortByTimeAsc,
 } from './dateSchedule.utils';
-import { CalendarIcon } from '@heroicons/react/24/solid';
+import DateScheduleItem from './DateScheduleItem';
 
 function DateScheduleList({
   role,
