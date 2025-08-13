@@ -10,7 +10,7 @@ interface CalendarToolbarProps {
   handleMoveCurrentMonth: () => void;
 }
 
-function MyCalendarToolbar({
+function CalendarToolbar({
   year,
   month,
   handleMovePrevMonth,
@@ -54,4 +54,4 @@ function MyCalendarToolbar({
   );
 }
 
-export default MyCalendarToolbar;
+export default CalendarToolbar;

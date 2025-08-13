@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
-import { buttonHoverStyle, divHoverStyle } from './myCalendar.styles';
-import MyCalendarToolbar from './MyCalendarToolbar';
+import { buttonHoverStyle, divHoverStyle } from './calendar.styles';
+import CalendarToolbar from './CalendarToolbar';
 
 const dateStyles = cva('flex justify-center aspect-2/3 text-center', {
   variants: {
@@ -82,7 +82,7 @@ const SCHEDULE_EXAMPLES = [
   },
 ];
 
-function MyCalendar() {
+function Calendar() {
   const [viewDate, setViewDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(dayjs());
   // viewDate.year() -> 연도
@@ -130,7 +130,7 @@ function MyCalendar() {
   return (
     <div className="">
       <div className="h-fit w-full rounded-md p-1 shadow-[0_0_20px_5px_#00000015]">
-        <MyCalendarToolbar
+        <CalendarToolbar
           year={viewDate.year()}
           month={viewDate.month() + 1}
           handleMovePrevMonth={handleMovePrevMonth}
@@ -220,4 +220,4 @@ function MyCalendar() {
   );
 }
 
-export default MyCalendar;
+export default Calendar;
