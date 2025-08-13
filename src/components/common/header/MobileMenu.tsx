@@ -31,7 +31,7 @@ function MobileMenu({
   return (
     <>
       <div className="md:hidden">
-        <button type="button" onClick={onToggleDropdown} className="p-2">
+        <button type="button" onClick={onToggleDropdown}>
           {isLoggedIn ? (
             <UserIcon className="h-6 w-6 text-gray-800" />
           ) : (
