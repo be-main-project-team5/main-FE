@@ -50,7 +50,6 @@ export default function DateScheduleItem({
   const [isOpen, setIsOpen] = useState(false);
   const handleToggleOpen = () => setIsOpen(prev => !prev);
 
-  // 역할별 액션 버튼 정보 (유틸: .ts, JSX 없음)
   const actionsInfo = getScheduleActions(role, item, {
     onBookmarkToggle,
     onNotifyToggle,
