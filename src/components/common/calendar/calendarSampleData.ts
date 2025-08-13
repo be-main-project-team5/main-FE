@@ -1,0 +1,68 @@
+import type { ScheduleTypes } from './calendar.types';
+
+export const SCHEDULE_EXAMPLES: ScheduleTypes[] = [
+  {
+    id: 0,
+    title: '오즈대학교 축제',
+    startTime: '2025-08-24',
+    endTime: '2025-08-24',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 1,
+    title: '2025 첫번째 콘서트',
+    startTime: '2025-08-27',
+    endTime: '2025-08-27',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 2,
+    title: '2025 두번째 콘서트',
+    startTime: '2025-08-28',
+    endTime: '2025-08-28',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 3,
+    title: '성수 팬사인회',
+    startTime: '2025-08-28',
+    endTime: '2025-08-28',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 4,
+    title: '예능 프로그램 촬영',
+    startTime: '2025-08-28',
+    endTime: '2025-08-28',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 5,
+    title: '뮤직뱅크 출연',
+    startTime: '2025-08-28',
+    endTime: '2025-08-28',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 6,
+    title: '2025 세번째 콘서트',
+    startTime: '2025-08-29',
+    endTime: '2025-08-29',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 7,
+    title: '2025 네번째 콘서트',
+    startTime: '2025-08-30',
+    endTime: '2025-08-30',
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+];
