@@ -3,29 +3,17 @@ import clsx from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
-import {
-  buttonActiveStyle,
-  buttonInactiveStyle,
-  divActiveStyle,
-  divInactiveStyle,
-} from './myCalendar.styles';
+import { buttonHoverStyle, divHoverStyle } from './myCalendar.styles';
 import MyCalendarToolbar from './MyCalendarToolbar';
 
-const dateStyles = cva(
-  'relative py-1 flex justify-center aspect-2/3 text-center',
-  {
-    variants: {
-      currentMonth: {
-        true: 'text-gray-700',
-        false: 'text-gray-300',
-      },
-      selected: {
-        true: buttonActiveStyle,
-        false: buttonInactiveStyle,
-      },
+const dateStyles = cva('flex justify-center aspect-2/3 text-center', {
+  variants: {
+    currentMonth: {
+      true: 'text-gray-700',
+      false: 'text-gray-300',
     },
   },
-);
+});
 
 const SCHEDULE_EXAMPLES = [
   {
@@ -178,21 +166,21 @@ function MyCalendar() {
                 className={clsx(
                   dateStyles({
                     currentMonth: isCurrentMonth,
-                    selected: isSelected,
                   }),
+                  buttonHoverStyle,
                 )}
               >
                 <div
                   className={clsx(
-                    'flex h-full w-full flex-col justify-between',
-                    isSelected ? divActiveStyle : divInactiveStyle,
+                    'flex h-full min-h-fit w-full flex-col justify-between',
+                    divHoverStyle,
                   )}
                 >
                   <div
                     className={clsx(
+                      'py-1',
                       isToday && 'text-fuchsia-500',
-                      isSelected &&
-                        'bg-fuchsia-300 pb-1 font-semibold text-white',
+                      isSelected && 'bg-fuchsia-300 font-semibold text-white',
                     )}
                   >
                     {date.date()}
@@ -202,18 +190,25 @@ function MyCalendar() {
                       <div
                         key={schedule.id}
                         className={clsx(
-                          'truncate rounded-lg px-2 py-2 text-[0.9em] font-medium',
+                          'truncate p-2 py-[0.25vh] text-[1.5vw] font-medium sm:py-[1vh] lg:text-base',
                           isSelected
-                            ? 'bg-white text-fuchsia-400'
+                            ? 'hidden bg-fuchsia-300 text-fuchsia-400 md:block md:bg-white'
                             : 'bg-fuchsia-300 text-white',
                         )}
                       >
-                        {schedule.title}
+                        <span className="hidden md:inline">
+                          {schedule.title}
+                        </span>
                       </div>
                     ))}
                   </div>
-                  <div className="py-1 text-[0.9em] text-fuchsia-200">
-                    {hiddenCount > 0 && `+ ${hiddenCount} more`}
+                  <div className="py-1 text-[2vw] text-fuchsia-300 md:text-sm">
+                    <span className="hidden md:inline">
+                      {hiddenCount > 0 && `+ ${hiddenCount} more`}
+                    </span>
+                    <span className={clsx('md:hidden', isSelected && 'hidden')}>
+                      {hiddenCount > 0 && `+ ${hiddenCount}`}
+                    </span>
                   </div>
                 </div>
               </button>
