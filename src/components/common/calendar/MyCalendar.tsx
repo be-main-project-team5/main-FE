@@ -27,6 +27,73 @@ const dateStyles = cva(
   },
 );
 
+const SCHEDULE_EXAMPLES = [
+  {
+    id: 0,
+    title: '2025 부산 축제',
+    startTime: new Date('2025-08-24'),
+    endTime: new Date('2025-08-24'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 1,
+    title: '2025 첫번째 콘서트',
+    startTime: new Date('2025-08-27'),
+    endTime: new Date('2025-08-27'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 2,
+    title: '2025 두번째 콘서트',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 3,
+    title: '서울 팬사인회',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 4,
+    title: '예능 프로그램 촬영',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 5,
+    title: '뮤직뱅크 출연',
+    startTime: new Date('2025-08-28'),
+    endTime: new Date('2025-08-28'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 6,
+    title: '2025 세번째 콘서트',
+    startTime: new Date('2025-08-29'),
+    endTime: new Date('2025-08-29'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+  {
+    id: 7,
+    title: '2025 네번째 콘서트',
+    startTime: new Date('2025-08-30'),
+    endTime: new Date('2025-08-30'),
+    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    isPublic: true,
+  },
+];
+
 function MyCalendar() {
   const [viewDate, setViewDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -92,6 +159,13 @@ function MyCalendar() {
             const isCurrentMonth = date.month() === viewDate.month();
             const isSelected = date.isSame(selectedDate, 'day');
 
+            const schedulesForDate = SCHEDULE_EXAMPLES.filter(schedule =>
+              dayjs(schedule.startTime).isSame(date, 'day'),
+            );
+            const maxVisible = 3;
+            const visibleSchedules = schedulesForDate.slice(0, maxVisible);
+            const hiddenCount = schedulesForDate.length - maxVisible;
+
             return (
               <button
                 type="button"
@@ -106,11 +180,29 @@ function MyCalendar() {
               >
                 <div
                   className={clsx(
-                    'h-full w-full',
+                    'flex h-full w-full flex-col',
                     isSelected ? divActiveStyle : divInactiveStyle,
                   )}
                 >
-                  <span>{date.date()}</span>
+                  <div className="py-1">{date.date()}</div>
+                  <div className="flex flex-1 flex-col justify-between p-1">
+                    {visibleSchedules.map(schedule => (
+                      <div
+                        key={schedule.id}
+                        className={clsx(
+                          'truncate rounded-lg px-2 py-1 font-medium',
+                          isSelected
+                            ? 'bg-white text-fuchsia-400'
+                            : 'bg-fuchsia-300 text-white',
+                        )}
+                      >
+                        {schedule.title}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="items-end py-1 text-fuchsia-200">
+                    {hiddenCount > 0 && `+ ${hiddenCount} more`}
+                  </div>
                 </div>
               </button>
             );
