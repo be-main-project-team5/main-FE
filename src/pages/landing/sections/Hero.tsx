@@ -1,11 +1,6 @@
-import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
-
-const heroPositionStyle = 'mx-[calc(50%-50vw)]';
-const heroBackgroundStyle =
-  'bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat';
 
 function Hero() {
   const navigate = useNavigate();
@@ -13,7 +8,7 @@ function Hero() {
   const handleClick = () => navigate('/login');
 
   return (
-    <div className={clsx(heroPositionStyle, heroBackgroundStyle)}>
+    <div className="bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat">
       <div className="flex flex-col items-center gap-8 bg-white/15 px-[2.5%] py-24 text-white md:p-24">
         <h1 className="flex flex-col gap-4 text-center text-4xl font-bold tracking-tight break-keep sm:text-5xl xl:flex-row xl:gap-0">
           <span className="hidden xl:block">최애 아이돌의 스케줄,&nbsp;</span>
