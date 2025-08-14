@@ -20,7 +20,7 @@ export default function MyPageLayout() {
 
         <Nav className="md:hidden" />
 
-        <main className="flex-1">
+        <main className="w-full flex-1">
           <Outlet />
         </main>
 
