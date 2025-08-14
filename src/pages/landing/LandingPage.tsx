@@ -1,7 +1,15 @@
+import Hero from './sections/Hero';
+import RoleCards from './sections/RoleCards';
+
 function LandingPage() {
   return (
     <div>
-      <span>LandingPage</span>
+      <section>
+        <Hero />
+      </section>
+      <section>
+        <RoleCards />
+      </section>
     </div>
   );
 }
