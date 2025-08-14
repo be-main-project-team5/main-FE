@@ -6,7 +6,7 @@ function RoleCards() {
       <h4 className="text-center text-2xl font-bold">
         팬·매니저·아이돌, 딩딩이 하나로 연결해 드려요
       </h4>
-      <div className="flex scale-100 gap-8">
+      <div className="flex scale-100 flex-col gap-8 sm:scale-65 sm:flex-row md:scale-78 lg:scale-100">
         <Card
           type="animation"
           title="팬"
