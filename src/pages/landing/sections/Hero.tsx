@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
 
@@ -7,6 +8,10 @@ const heroBackgroundStyle =
   'bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat';
 
 function Hero() {
+  const navigate = useNavigate();
+
+  const handleClick = () => navigate('/login');
+
   return (
     <div className={clsx(heroPositionStyle, heroBackgroundStyle)}>
       <div className="flex flex-col items-center gap-8 bg-white/15 px-[2.5%] py-24 text-white md:p-24">
@@ -20,7 +25,7 @@ function Hero() {
           <p>딩딩이 최애 아이돌의 공개 스케줄을 미리 알아보고</p>
           <p>놓치지 않도록 알림으로 알려드릴게요.</p>
         </div>
-        <Button variant="primary" size="lg" shape="pill">
+        <Button variant="primary" size="lg" shape="pill" onClick={handleClick}>
           시작하기
         </Button>
       </div>
