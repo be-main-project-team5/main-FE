@@ -1,11 +1,34 @@
-import { useRef } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 
 import Card from '@/components/common/card';
 import { useDraggable } from '@/hooks/useDraggable';
 
+type Idol = {
+  id: number;
+  name: string;
+  group: string;
+  position: string;
+  imageUrl?: string;
+};
+
 export default function FavoriteIdols() {
   const containerRef = useRef<HTMLDivElement>(null);
   const events = useDraggable(containerRef);
+
+  const [idols, setIdols] = useState<Idol[]>([]);
+
+  useEffect(() => {
+    const fetchIdols = async () => {
+      try {
+        const response = await axios.get('/bookmark/idol');
+        setIdols(response.data);
+      } catch (error) {
+        console.error('Failed to fetch idols:', error);
+      }
+    };
+    fetchIdols();
+  }, []);
 
   return (
     <section className="w-full">
@@ -17,36 +40,15 @@ export default function FavoriteIdols() {
         ref={containerRef}
         {...events}
       >
-        <Card
-          type="idol"
-          title="장원영"
-          detail={{ idolGroup: '아이브', position: '보컬' }}
-          className="flex-shrink-0"
-        />
-        <Card
-          type="idol"
-          title="장원영"
-          detail={{ idolGroup: '아이브', position: '보컬' }}
-          className="flex-shrink-0"
-        />
-        <Card
-          type="idol"
-          title="장원영"
-          detail={{ idolGroup: '아이브', position: '보컬' }}
-          className="flex-shrink-0"
-        />
-        <Card
-          type="idol"
-          title="장원영"
-          detail={{ idolGroup: '아이브', position: '보컬' }}
-          className="flex-shrink-0"
-        />
-        <Card
-          type="idol"
-          title="장원영"
-          detail={{ idolGroup: '아이브', position: '보컬' }}
-          className="flex-shrink-0"
-        />
+        {idols.map(idol => (
+          <Card
+            key={idol.id}
+            type="idol"
+            title={idol.name}
+            detail={{ idolGroup: idol.group, position: idol.position }}
+            className="flex-shrink-0"
+          />
+        ))}
       </div>
     </section>
   );
