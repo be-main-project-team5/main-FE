@@ -1,18 +1,18 @@
-import React, { useMemo, useState } from 'react';
 import {
   useInfiniteQuery,
-  useQuery,
   useMutation,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import React, { useMemo, useState } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import SearchBar from '@/components/common/SearchBar';
 import IdolCard from '@/components/common/IdolCard';
+import SearchBar from '@/components/common/SearchBar';
 import { useDebounce } from '@/hooks/useDebounce';
 import {
-  searchIdols,
   fetchFavoriteIdols,
+  searchIdols,
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
 
@@ -25,6 +25,31 @@ export type Idol = {
 };
 
 const PAGE_SIZE = 6;
+
+// 컴포넌트들을 렌더 외부로 이동
+function LoadingSpinner() {
+  return <p className="text-center text-gray-500">불러오는 중...</p>;
+}
+
+function ErrorMessage() {
+  return (
+    <p className="text-center text-red-500" aria-live="polite">
+      에러가 발생했습니다.
+    </p>
+  );
+}
+
+function EmptySearchResult() {
+  return (
+    <p className="text-center text-gray-500" aria-live="polite">
+      검색 결과가 없습니다.
+    </p>
+  );
+}
+
+function LoadingFooter() {
+  return <p className="py-4 text-center text-gray-500">불러오는 중...</p>;
+}
 
 export default function IdolSearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,7 +72,9 @@ export default function IdolSearchPage() {
     enabled: debouncedSearchQuery.trim().length > 0,
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => {
+        setTimeout(resolve, 300);
+      });
       return searchIdols(debouncedSearchQuery, pageParam, PAGE_SIZE); // 🚀 API 연결 시 교체
     },
     getNextPageParam: lastPage => lastPage.nextPage,
@@ -89,6 +116,22 @@ export default function IdolSearchPage() {
     [favoriteIdols],
   );
 
+  const footerComponent = isFetchingNextPage ? <LoadingFooter /> : null;
+
+  const itemContentRenderer = (_: number, idol: Idol) => (
+    <div className="flex items-center justify-center p-2">
+      <IdolCard
+        idolId={idol.id}
+        name={idol.name}
+        groupName={idol.groupName}
+        position={idol.position}
+        imageSrc={idol.avatarUrl}
+        isFavorited={favoriteIdSet.has(idol.id)}
+        onToggleFavorite={() => toggleFavorite(idol.id)}
+      />
+    </div>
+  );
+
   return (
     <div className="mx-auto box-border flex min-h-[calc(100svh-21rem)] w-full max-w-7xl flex-col px-4 pt-16 pb-20 md:px-8 lg:px-12 xl:px-16">
       <div className="mb-16 text-center">
@@ -110,19 +153,9 @@ export default function IdolSearchPage() {
       </div>
 
       <div className="flex-grow">
-        {isLoading && (
-          <p className="text-center text-gray-500">불러오는 중...</p>
-        )}
-        {isError && (
-          <p className="text-center text-red-500" aria-live="polite">
-            에러가 발생했습니다.
-          </p>
-        )}
-        {shouldShowEmptyState && (
-          <p className="text-center text-gray-500" aria-live="polite">
-            검색 결과가 없습니다.
-          </p>
-        )}
+        {isLoading && <LoadingSpinner />}
+        {isError && <ErrorMessage />}
+        {shouldShowEmptyState && <EmptySearchResult />}
 
         {!isLoading && !isError && idolsToDisplay.length > 0 && (
           <VirtuosoGrid
@@ -137,27 +170,10 @@ export default function IdolSearchPage() {
             increaseViewportBy={{ top: 0, bottom: 100 }}
             overscan={2}
             components={{
-              Footer: () =>
-                isFetchingNextPage ? (
-                  <p className="py-4 text-center text-gray-500">
-                    불러오는 중...
-                  </p>
-                ) : null,
+              Footer: () => footerComponent,
             }}
             listClassName="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-y-10"
-            itemContent={(_, idol) => (
-              <div className="flex items-center justify-center p-2">
-                <IdolCard
-                  idolId={idol.id}
-                  name={idol.name}
-                  groupName={idol.groupName}
-                  position={idol.position}
-                  imageSrc={idol.avatarUrl}
-                  isFavorited={favoriteIdSet.has(idol.id)}
-                  onToggleFavorite={() => toggleFavorite(idol.id)}
-                />
-              </div>
-            )}
+            itemContent={itemContentRenderer}
           />
         )}
       </div>

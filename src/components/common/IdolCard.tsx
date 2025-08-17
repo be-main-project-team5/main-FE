@@ -1,6 +1,7 @@
-import React from 'react';
-import clsx from 'clsx';
 import { HeartIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import React from 'react';
+
 import Card from '@/components/common/card';
 
 type IdolCardProps = {
@@ -14,6 +15,7 @@ type IdolCardProps = {
 };
 
 export default function IdolCard({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   idolId: _idolId, // 미사용 경고 회피
   name,
   groupName,
