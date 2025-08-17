@@ -1,3 +1,5 @@
+import Profile from '@/components/mypage/Profile';
+
 export default function MyProfile() {
-  return <div>내 프로필</div>;
+  return <Profile />;
 }
