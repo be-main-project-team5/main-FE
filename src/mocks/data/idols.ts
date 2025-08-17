@@ -264,7 +264,9 @@ let favorites = getFavoritesFromStorage();
 
 // 🎯 찜한 아이돌 조회
 export async function fetchFavoriteIdols(): Promise<Idol[]> {
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => {
+    setTimeout(resolve, 500);
+  });
 
   // localStorage에서 최신 데이터 다시 읽기 (다른 탭에서 변경될 수 있음)
   favorites = getFavoritesFromStorage();
@@ -285,7 +287,9 @@ export async function searchIdols(
   page: number,
   pageSize: number,
 ): Promise<{ items: Idol[]; nextPage: number | undefined }> {
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise(resolve => {
+    setTimeout(resolve, 300);
+  });
 
   if (!query.trim()) {
     return { items: [], nextPage: undefined };
