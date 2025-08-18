@@ -17,7 +17,10 @@ export type Idol = {
 const SERVER_FAVORITES_KEY = 'mock-server-favorites'; // 서버(목업) 측 즐겨찾기 상태
 const POSITIONS: Idol['position'][] = ['보컬', '댄서', '랩'];
 
-const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
+const sleep = (ms: number) =>
+  new Promise<void>(resolve => {
+    setTimeout(resolve, ms);
+  });
 
 function loadServerFavorites(): string[] {
   try {
@@ -193,7 +196,7 @@ function buildMockIdols(): Idol[] {
   allGroups.forEach(({ group, members }) => {
     members.forEach((name, idx) => {
       idols.push({
-        id: String(idCounter++),
+        id: String((idCounter += 1)),
         name,
         groupName: group,
         avatarUrl: avatar(`${group}-${name}`), // DiceBear로 안정된(재현가능한) 이미지 생성
