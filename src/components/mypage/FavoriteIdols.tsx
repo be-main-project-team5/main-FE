@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
 import Card from '@/components/common/card';
+import { mediaQuery } from '@/constants/breakpoints';
 import { useDraggable } from '@/hooks/useDraggable';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 type Idol = {
   id: number;
@@ -13,6 +15,7 @@ type Idol = {
 };
 
 export default function FavoriteIdols() {
+  const isDesktop = useMediaQuery(mediaQuery.tablet);
   const containerRef = useRef<HTMLDivElement>(null);
   const events = useDraggable(containerRef);
 
@@ -38,7 +41,7 @@ export default function FavoriteIdols() {
       <div
         className="flex w-full flex-col flex-wrap items-center gap-4 md:flex-row md:flex-nowrap md:overflow-x-scroll"
         ref={containerRef}
-        {...events}
+        {...(isDesktop ? events : '')}
       >
         {idols.map(idol => (
           <Card
