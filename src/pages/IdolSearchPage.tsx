@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   useInfiniteQuery,
   useMutation,
@@ -47,6 +48,7 @@ export default function IdolSearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { favorites, toggleFavorite } = useFavoritesStore();
   const prevFavoritesRef = useRef<string[]>(favorites);
@@ -95,6 +97,26 @@ export default function IdolSearchPage() {
     },
   });
 
+  function handleCardClick(id: string) {
+    // 상세 페이지는 아직 없으므로 라우팅만 연결
+    navigate(`/idols/${id}`);
+  }
+
+  function renderItem(_: number, idol: Idol) {
+    return (
+      <div className="flex items-center justify-center p-2">
+        <Card
+          type="idol"
+          idolId={idol.id}
+          title={idol.name}
+          imageSrc={idol.avatarUrl}
+          detail={{ idolGroup: idol.groupName, position: idol.position }}
+          onClick={() => handleCardClick(idol.id)}
+        />
+      </div>
+    );
+  }
+
   useEffect(() => {
     if (!favoriteIdols || hydratedRef.current) return;
 
@@ -142,20 +164,6 @@ export default function IdolSearchPage() {
     isSearching && !isSearchLoading && !isError && idolsToDisplay.length === 0;
 
   const footerComponent = isFetchingNextPage ? <LoadingFooter /> : null;
-
-  function renderItem(_: number, idol: Idol) {
-    return (
-      <div className="flex items-center justify-center p-2">
-        <Card
-          type="idol"
-          idolId={idol.id}
-          title={idol.name}
-          imageSrc={idol.avatarUrl}
-          detail={{ idolGroup: idol.groupName, position: idol.position }}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="mx-auto box-border flex min-h-[calc(100svh-21rem)] w-full max-w-7xl flex-col px-4 pt-16 pb-20 md:px-8 lg:px-12 xl:px-16">
