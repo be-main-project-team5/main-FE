@@ -6,7 +6,7 @@ export default function BottomNav({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        'flex-col items-center gap-3 border-gray-200 py-10 text-xs md:items-start md:gap-6 md:border-t-1 md:text-sm',
+        'flex flex-col items-center gap-3 border-gray-200 py-10 text-xs md:items-start md:gap-6 md:border-t-1 md:text-sm',
         className,
       )}
     >
