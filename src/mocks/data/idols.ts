@@ -14,7 +14,7 @@ export type Idol = {
 // ==============================
 // 상수/유틸
 // ==============================
-const SERVER_FAVORITES_KEY = 'mock-server-favorites';
+const SERVER_FAVORITES_KEY = 'mock-server-favorites'; // 서버(목업) 측 즐겨찾기 상태
 const POSITIONS: Idol['position'][] = ['보컬', '댄서', '랩'];
 
 const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -36,9 +36,10 @@ function saveServerFavorites(ids: string[]) {
   }
 }
 
-// seed 기반 placeholder 이미지 (각 아이돌마다 고유 이미지 느낌)
+// DiceBear(무료·상업가능) 아바타 PNG
+// ref: https://www.dicebear.com/styles/thumbs/
 const avatar = (seed: string, size = 256) =>
-  `https://picsum.photos/seed/${encodeURIComponent(seed)}/${size}/${size}`;
+  `https://api.dicebear.com/7.x/thumbs/png?seed=${encodeURIComponent(seed)}&size=${size}`;
 
 // ==============================
 // 한글 그룹 데이터 (200+명 보장)
@@ -175,7 +176,7 @@ const GROUPS: GroupDef[] = [
   { group: '딩딩', members: ['디노', '딩딩', '딩구', '땡땡', '딩고'] },
 ];
 
-// 추가 더미 그룹 (무한스크롤용으로 대량 생성)
+// 무한스크롤용 대량 생성
 const EXTRA_GROUPS: GroupDef[] = Array.from({ length: 30 }).map((_, gi) => ({
   group: `연습생유닛-${gi + 1}`,
   members: Array.from({ length: 7 }).map(
@@ -195,13 +196,13 @@ function buildMockIdols(): Idol[] {
         id: String(idCounter++),
         name,
         groupName: group,
-        avatarUrl: avatar(`${group}-${name}`),
+        avatarUrl: avatar(`${group}-${name}`), // DiceBear로 안정된(재현가능한) 이미지 생성
         position: POSITIONS[idx % POSITIONS.length],
       });
     });
   });
 
-  // 이름/그룹 기준 안정 정렬
+  // 이름/그룹 기준 안정 정렬(목업 고정성)
   idols.sort((a, b) => {
     if (a.name === b.name) return a.groupName.localeCompare(b.groupName);
     return a.name.localeCompare(b.name);
@@ -252,7 +253,7 @@ export async function searchIdols(
 
 /**
  * 즐겨찾기 토글 (서버 상태를 뒤집음)
- * - 실제 API 연결 시 add/remove 엔드포인트로 교체
+ * - 🚀 실제 API 연결 시 add/remove 엔드포인트로 교체
  */
 export async function toggleFavorite(
   id: string,
@@ -267,4 +268,31 @@ export async function toggleFavorite(
   saveServerFavorites(updated);
 
   return { id, isFavorited: current.has(id) };
+}
+
+// ==============================
+// 개발 편의 유틸(로컬 상태 초기화)
+// ==============================
+
+/** 목업 "서버" 즐겨찾기(localStorage) 초기화 */
+export function resetMockServerFavorites() {
+  try {
+    localStorage.removeItem(SERVER_FAVORITES_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+/**
+ * 목업 전체 초기화(권장)
+ * - 서버(목업) 즐겨찾기 + 클라이언트(zustand persist) 모두 초기화
+ * - 사용: 콘솔에서 resetAllMockData()
+ */
+export function resetAllMockData() {
+  try {
+    localStorage.removeItem(SERVER_FAVORITES_KEY); // 서버 목업 상태
+    localStorage.removeItem('favorites-storage'); // zustand persist 기본키
+  } catch {
+    // ignore
+  }
 }
