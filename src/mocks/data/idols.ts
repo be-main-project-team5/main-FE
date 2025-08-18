@@ -1,368 +1,270 @@
-import type { Idol } from '@/pages/IdolSearchPage';
+// src/mocks/data/idols.ts
 
-// 🎯 30명의 아이돌 데이터
-const IDOLS: Idol[] = [
-  // 뉴진스 5명
-  {
-    id: '1',
-    name: '민지',
-    groupName: '뉴진스',
-    avatarUrl: 'https://picsum.photos/150/150?random=1',
-    position: '보컬',
-  },
-  {
-    id: '2',
-    name: '하니',
-    groupName: '뉴진스',
-    avatarUrl: 'https://picsum.photos/150/150?random=2',
-    position: '댄서',
-  },
-  {
-    id: '3',
-    name: '다니엘',
-    groupName: '뉴진스',
-    avatarUrl: 'https://picsum.photos/150/150?random=3',
-    position: '랩',
-  },
-  {
-    id: '4',
-    name: '해린',
-    groupName: '뉴진스',
-    avatarUrl: 'https://picsum.photos/150/150?random=4',
-    position: '보컬',
-  },
-  {
-    id: '5',
-    name: '혜인',
-    groupName: '뉴진스',
-    avatarUrl: 'https://picsum.photos/150/150?random=5',
-    position: '댄서',
-  },
+// ==============================
+// 타입
+// ==============================
+export type Idol = {
+  id: string;
+  name: string;
+  groupName: string;
+  avatarUrl: string;
+  position: '보컬' | '댄서' | '랩';
+};
 
-  // 르세라핌 5명
-  {
-    id: '6',
-    name: '채원',
-    groupName: '르세라핌',
-    avatarUrl: 'https://picsum.photos/150/150?random=6',
-    position: '보컬',
-  },
-  {
-    id: '7',
-    name: '사쿠라',
-    groupName: '르세라핌',
-    avatarUrl: 'https://picsum.photos/150/150?random=7',
-    position: '댄서',
-  },
-  {
-    id: '8',
-    name: '윤진',
-    groupName: '르세라핌',
-    avatarUrl: 'https://picsum.photos/150/150?random=8',
-    position: '랩',
-  },
-  {
-    id: '9',
-    name: '카즈하',
-    groupName: '르세라핌',
-    avatarUrl: 'https://picsum.photos/150/150?random=9',
-    position: '보컬',
-  },
-  {
-    id: '10',
-    name: '은채',
-    groupName: '르세라핌',
-    avatarUrl: 'https://picsum.photos/150/150?random=10',
-    position: '댄서',
-  },
+// ==============================
+// 상수/유틸
+// ==============================
+const SERVER_FAVORITES_KEY = 'mock-server-favorites';
+const POSITIONS: Idol['position'][] = ['보컬', '댄서', '랩'];
 
-  // 아이브 6명
-  {
-    id: '11',
-    name: '유진',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=11',
-    position: '보컬',
-  },
-  {
-    id: '12',
-    name: '가을',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=12',
-    position: '댄서',
-  },
-  {
-    id: '13',
-    name: '레이',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=13',
-    position: '랩',
-  },
-  {
-    id: '14',
-    name: '원영',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=14',
-    position: '보컬',
-  },
-  {
-    id: '15',
-    name: '리즈',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=15',
-    position: '댄서',
-  },
-  {
-    id: '16',
-    name: '이서',
-    groupName: '아이브',
-    avatarUrl: 'https://picsum.photos/150/150?random=16',
-    position: '랩',
-  },
+const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-  // 에스파 4명
-  {
-    id: '17',
-    name: '카리나',
-    groupName: '에스파',
-    avatarUrl: 'https://picsum.photos/150/150?random=17',
-    position: '보컬',
-  },
-  {
-    id: '18',
-    name: '윈터',
-    groupName: '에스파',
-    avatarUrl: 'https://picsum.photos/150/150?random=18',
-    position: '댄서',
-  },
-  {
-    id: '19',
-    name: '지젤',
-    groupName: '에스파',
-    avatarUrl: 'https://picsum.photos/150/150?random=19',
-    position: '랩',
-  },
-  {
-    id: '20',
-    name: '닝닝',
-    groupName: '에스파',
-    avatarUrl: 'https://picsum.photos/150/150?random=20',
-    position: '보컬',
-  },
-
-  // 레드벨벳 5명
-  {
-    id: '21',
-    name: '아이린',
-    groupName: '레드벨벳',
-    avatarUrl: 'https://picsum.photos/150/150?random=21',
-    position: '보컬',
-  },
-  {
-    id: '22',
-    name: '슬기',
-    groupName: '레드벨벳',
-    avatarUrl: 'https://picsum.photos/150/150?random=22',
-    position: '댄서',
-  },
-  {
-    id: '23',
-    name: '웬디',
-    groupName: '레드벨벳',
-    avatarUrl: 'https://picsum.photos/150/150?random=23',
-    position: '랩',
-  },
-  {
-    id: '24',
-    name: '조이',
-    groupName: '레드벨벳',
-    avatarUrl: 'https://picsum.photos/150/150?random=24',
-    position: '보컬',
-  },
-  {
-    id: '25',
-    name: '예리',
-    groupName: '레드벨벳',
-    avatarUrl: 'https://picsum.photos/150/150?random=25',
-    position: '댄서',
-  },
-
-  // 트와이스 5명 (일부만)
-  {
-    id: '26',
-    name: '나연',
-    groupName: '트와이스',
-    avatarUrl: 'https://picsum.photos/150/150?random=26',
-    position: '보컬',
-  },
-  {
-    id: '27',
-    name: '정연',
-    groupName: '트와이스',
-    avatarUrl: 'https://picsum.photos/150/150?random=27',
-    position: '댄서',
-  },
-  {
-    id: '28',
-    name: '모모',
-    groupName: '트와이스',
-    avatarUrl: 'https://picsum.photos/150/150?random=28',
-    position: '랩',
-  },
-  {
-    id: '29',
-    name: '사나',
-    groupName: '트와이스',
-    avatarUrl: 'https://picsum.photos/150/150?random=29',
-    position: '보컬',
-  },
-  {
-    id: '30',
-    name: '지효',
-    groupName: '트와이스',
-    avatarUrl: 'https://picsum.photos/150/150?random=30',
-    position: '댄서',
-  },
-];
-
-// 💾 localStorage 키
-const FAVORITES_KEY = 'idol-favorites';
-
-// 💖 localStorage에서 찜 목록 가져오기
-function getFavoritesFromStorage(): Set<string> {
-  if (typeof window === 'undefined') return new Set();
-
+function loadServerFavorites(): string[] {
   try {
-    const saved = localStorage.getItem(FAVORITES_KEY);
-    if (saved) {
-      const favoriteIds = JSON.parse(saved);
-      console.log('💾 저장된 찜 목록 불러옴:', favoriteIds);
-      return new Set(favoriteIds);
-    }
-  } catch (error) {
-    console.error('❌ 찜 목록 불러오기 실패:', error);
-  }
-
-  return new Set();
-}
-
-// 💾 localStorage에 찜 목록 저장하기
-function saveFavoritesToStorage(favorites: Set<string>): void {
-  if (typeof window === 'undefined') return;
-
-  try {
-    const favoriteIds = Array.from(favorites);
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favoriteIds));
-    console.log('💾 찜 목록 저장됨:', favoriteIds);
-  } catch (error) {
-    console.error('❌ 찜 목록 저장 실패:', error);
-  }
-}
-
-// 💖 찜한 아이돌 관리 (localStorage에서 초기화)
-let favorites = getFavoritesFromStorage();
-
-// 🎯 찜한 아이돌 조회
-export async function fetchFavoriteIdols(): Promise<Idol[]> {
-  await new Promise(resolve => {
-    setTimeout(resolve, 500);
-  });
-
-  // localStorage에서 최신 데이터 다시 읽기 (다른 탭에서 변경될 수 있음)
-  favorites = getFavoritesFromStorage();
-
-  if (favorites.size === 0) {
-    console.log('💔 찜한 아이돌이 없습니다.');
+    const raw = localStorage.getItem(SERVER_FAVORITES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
     return [];
   }
-
-  const favoriteIdols = IDOLS.filter(idol => favorites.has(idol.id));
-  console.log(`💖 찜한 아이돌 ${favoriteIdols.length}명 조회 완료`);
-  return favoriteIdols;
 }
 
-// 🔍 아이돌 검색
+function saveServerFavorites(ids: string[]) {
+  try {
+    localStorage.setItem(SERVER_FAVORITES_KEY, JSON.stringify(ids));
+  } catch {
+    // ignore
+  }
+}
+
+// seed 기반 placeholder 이미지 (각 아이돌마다 고유 이미지 느낌)
+const avatar = (seed: string, size = 256) =>
+  `https://picsum.photos/seed/${encodeURIComponent(seed)}/${size}/${size}`;
+
+// ==============================
+// 한글 그룹 데이터 (200+명 보장)
+// ==============================
+type GroupDef = { group: string; members: string[] };
+
+const GROUPS: GroupDef[] = [
+  { group: '에스파', members: ['카리나', '윈터', '지젤', '닝닝'] },
+  { group: '뉴진스', members: ['민지', '하니', '다니엘', '해린', '혜인'] },
+  {
+    group: '아이브',
+    members: ['안유진', '가을', '레이', '장원영', '리즈', '이서'],
+  },
+  {
+    group: '르세라핌',
+    members: ['사쿠라', '김채원', '허윤진', '카즈하', '홍은채'],
+  },
+  { group: '블랙핑크', members: ['지수', '제니', '로제', '리사'] },
+  {
+    group: '트와이스',
+    members: [
+      '나연',
+      '정연',
+      '모모',
+      '사나',
+      '지효',
+      '미나',
+      '다현',
+      '채영',
+      '쯔위',
+    ],
+  },
+  { group: '있지', members: ['예지', '리아', '류진', '채령', '유나'] },
+  {
+    group: '엔믹스',
+    members: ['해원', '릴리', '설윤', '배이', '지우', '규진'],
+  },
+  { group: '(여자)아이들', members: ['미연', '민니', '소연', '우기', '슈화'] },
+  { group: '레드벨벳', members: ['아이린', '슬기', '웬디', '조이', '예리'] },
+
+  {
+    group: '방탄소년단',
+    members: ['RM', '진', '슈가', '제이홉', '지민', '뷔', '정국'],
+  },
+  {
+    group: '세븐틴',
+    members: [
+      '에스쿱스',
+      '정한',
+      '조슈아',
+      '준',
+      '호시',
+      '원우',
+      '우지',
+      '디에잇',
+      '민규',
+      '도겸',
+      '승관',
+      '버논',
+      '디노',
+    ],
+  },
+  {
+    group: '스트레이키즈',
+    members: ['방찬', '리노', '창빈', '현진', '한', '필릭스', '승민', '아이엔'],
+  },
+  {
+    group: '엑소',
+    members: [
+      '수호',
+      '시우민',
+      '레이',
+      '백현',
+      '첸',
+      '찬열',
+      '디오',
+      '카이',
+      '세훈',
+    ],
+  },
+  {
+    group: '엔시티 127',
+    members: [
+      '태일',
+      '쟈니',
+      '태용',
+      '유타',
+      '도영',
+      '재현',
+      '정우',
+      '마크',
+      '해찬',
+    ],
+  },
+  {
+    group: '엔시티 드림',
+    members: ['마크', '런쥔', '제노', '해찬', '재민', '천러', '지성'],
+  },
+  {
+    group: '더보이즈',
+    members: [
+      '상연',
+      '제이콥',
+      '영훈',
+      '현재',
+      '주연',
+      '케빈',
+      '뉴',
+      '큐',
+      '주학년',
+      '선우',
+      '에릭',
+    ],
+  },
+  {
+    group: '에이티즈',
+    members: ['홍중', '성화', '윤호', '여상', '산', '민기', '우영', '종호'],
+  },
+  {
+    group: '아이콘',
+    members: ['진환', '윤형', '바비', '동혁', '주네', '찬우'],
+  },
+  { group: '하이라이트', members: ['윤두준', '양요섭', '이기광', '손동운'] },
+
+  // 혼성/추가
+  {
+    group: 'K-STAR',
+    members: ['은하수', '별빛', '태양', '달빛', '새벽', '노을'],
+  },
+  {
+    group: '빔프로젝트',
+    members: ['라이트', '섀도', '미러', '프리즘', '레인보우'],
+  },
+  { group: '딩딩', members: ['디노', '딩딩', '딩구', '땡땡', '딩고'] },
+];
+
+// 추가 더미 그룹 (무한스크롤용으로 대량 생성)
+const EXTRA_GROUPS: GroupDef[] = Array.from({ length: 30 }).map((_, gi) => ({
+  group: `연습생유닛-${gi + 1}`,
+  members: Array.from({ length: 7 }).map(
+    (__, mi) => `연습생${gi + 1}-${mi + 1}`,
+  ),
+}));
+
+function buildMockIdols(): Idol[] {
+  let idCounter = 1;
+  const idols: Idol[] = [];
+
+  const allGroups = [...GROUPS, ...EXTRA_GROUPS];
+
+  allGroups.forEach(({ group, members }) => {
+    members.forEach((name, idx) => {
+      idols.push({
+        id: String(idCounter++),
+        name,
+        groupName: group,
+        avatarUrl: avatar(`${group}-${name}`),
+        position: POSITIONS[idx % POSITIONS.length],
+      });
+    });
+  });
+
+  // 이름/그룹 기준 안정 정렬
+  idols.sort((a, b) => {
+    if (a.name === b.name) return a.groupName.localeCompare(b.groupName);
+    return a.name.localeCompare(b.name);
+  });
+
+  return idols;
+}
+
+export const MOCK_IDOLS: Idol[] = buildMockIdols(); // 200명 이상
+
+// ==============================
+// 목업 API
+// ==============================
+
+export async function fetchFavoriteIdols(): Promise<Idol[]> {
+  await sleep(200);
+  const favIds = new Set(loadServerFavorites());
+  return MOCK_IDOLS.filter(i => favIds.has(i.id));
+}
+
+/**
+ * 검색 + 페이지네이션(무한스크롤)
+ * @returns { items, nextPage }
+ */
 export async function searchIdols(
   query: string,
   page: number,
   pageSize: number,
-): Promise<{ items: Idol[]; nextPage: number | undefined }> {
-  await new Promise(resolve => {
-    setTimeout(resolve, 300);
+): Promise<{ items: Idol[]; nextPage: number | null }> {
+  await sleep(250);
+
+  const q = query.trim().toLowerCase();
+  if (!q) return { items: [], nextPage: null };
+
+  const filtered = MOCK_IDOLS.filter(i => {
+    const name = i.name.toLowerCase();
+    const group = i.groupName.toLowerCase();
+    return name.includes(q) || group.includes(q);
   });
 
-  if (!query.trim()) {
-    return { items: [], nextPage: undefined };
-  }
-
-  const filtered = IDOLS.filter(
-    idol => idol.name.includes(query) || idol.groupName.includes(query),
-  );
-
-  const startIndex = page * pageSize;
-  const endIndex = startIndex + pageSize;
-  const items = filtered.slice(startIndex, endIndex);
-  const nextPage = endIndex < filtered.length ? page + 1 : undefined;
+  const start = page * pageSize;
+  const end = start + pageSize;
+  const items = filtered.slice(start, end);
+  const nextPage = end < filtered.length ? page + 1 : null;
 
   return { items, nextPage };
 }
 
-// 💖 찜하기 토글 (localStorage 저장 포함!)
-export function toggleFavorite(idolId: string): boolean {
-  const wasAdded = !favorites.has(idolId);
+/**
+ * 즐겨찾기 토글 (서버 상태를 뒤집음)
+ * - 실제 API 연결 시 add/remove 엔드포인트로 교체
+ */
+export async function toggleFavorite(
+  id: string,
+): Promise<{ id: string; isFavorited: boolean }> {
+  await sleep(150);
 
-  if (favorites.has(idolId)) {
-    favorites.delete(idolId);
-    console.log(`💔 ${idolId}번 아이돌 찜 해제`);
-  } else {
-    favorites.add(idolId);
-    console.log(`💖 ${idolId}번 아이돌 찜 추가`);
-  }
+  const current = new Set(loadServerFavorites());
+  if (current.has(id)) current.delete(id);
+  else current.add(id);
 
-  // 💾 localStorage에 즉시 저장!
-  saveFavoritesToStorage(favorites);
+  const updated = Array.from(current);
+  saveServerFavorites(updated);
 
-  return wasAdded;
-}
-
-// 🧪 테스트용 함수들
-export function addTestFavorites() {
-  favorites.add('1'); // 민지
-  favorites.add('11'); // 유진
-  favorites.add('17'); // 카리나
-  saveFavoritesToStorage(favorites);
-  console.log('💖 테스트용 찜 3명 추가 및 저장:', Array.from(favorites));
-}
-
-export function clearFavorites() {
-  favorites.clear();
-  saveFavoritesToStorage(favorites);
-  console.log('💔 모든 찜 목록 삭제 및 저장');
-}
-
-export function getCurrentFavorites() {
-  return Array.from(favorites);
-}
-
-// 🗑️ localStorage 데이터 완전 삭제 (개발용)
-export function clearStorage() {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(FAVORITES_KEY);
-    favorites.clear();
-    console.log('🗑️ localStorage 찜 데이터 완전 삭제');
-  }
-}
-
-// 브라우저 콘솔에서 테스트
-if (typeof window !== 'undefined') {
-  (window as any).favoriteTest = {
-    addTestFavorites,
-    clearFavorites,
-    getCurrentFavorites,
-    clearStorage, // 개발용 추가
-  };
-  console.log('🧪 콘솔 테스트:');
-  console.log('  window.favoriteTest.addTestFavorites()');
-  console.log('  window.favoriteTest.getCurrentFavorites()');
-  console.log('  window.favoriteTest.clearStorage() - 완전 삭제');
+  return { id, isFavorited: current.has(id) };
 }
