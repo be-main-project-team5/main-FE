@@ -8,7 +8,7 @@ import { Header } from '../common/header';
 const layoutStyle = cva('m-auto mt-16', {
   variants: {
     component: {
-      default: 'max-w-screen-xl',
+      default: 'max-w-[1360px] px-6 md:px-10',
       landing: '',
     },
   },
