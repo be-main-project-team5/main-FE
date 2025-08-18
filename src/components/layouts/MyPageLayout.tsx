@@ -4,27 +4,33 @@ import Footer from '@/components/common/Footer';
 import { Header } from '@/components/common/header';
 import BottomNav from '@/components/mypage/BottomNav';
 import Nav from '@/components/mypage/Nav';
+import { mediaQuery } from '@/constants/breakpoints';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 export default function MyPageLayout() {
+  const isDesktop = useMediaQuery(mediaQuery.tablet);
+
   return (
     <>
       <Header isLoggedIn={false} />
       <div className="m-auto mt-16 flex max-w-[1360px] flex-col items-center px-6 md:flex-row md:items-stretch md:px-10">
-        <aside className="hidden w-55 flex-col justify-between pr-4 md:flex">
-          <div>
-            <h2 className="py-10 text-3xl font-semibold">마이페이지</h2>
-            <Nav />
-          </div>
-          <BottomNav className="hidden md:flex" />
-        </aside>
+        {isDesktop ? (
+          <aside className="flex w-55 flex-shrink-0 flex-col justify-between pr-4">
+            <div>
+              <h2 className="py-10 text-3xl font-semibold">마이페이지</h2>
+              <Nav />
+            </div>
+            <BottomNav />
+          </aside>
+        ) : (
+          <Nav className="w-full" />
+        )}
 
-        <Nav className="md:hidden" />
-
-        <main className="w-full min-w-0 flex-1">
+        <main className="w-full flex-1 md:min-w-0 md:pl-4">
           <Outlet />
         </main>
 
-        <BottomNav className="flex md:hidden" />
+        {!isDesktop && <BottomNav />}
       </div>
       <Footer />
     </>
