@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useRef } from 'react';
 import {
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef } from 'react';
 
-import { useFavoritesStore } from '@/stores/favoritesStore';
 import {
   fetchFavoriteIdols,
   searchIdols,
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
+import { useFavoritesStore } from '@/stores/favoritesStore';
 
 export type Idol = {
   id: string;
@@ -48,10 +48,12 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     enabled: debouncedSearchQuery.trim().length > 0,
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise<void>(resolve => {
+        setTimeout(resolve, 300);
+      });
       return searchIdols(debouncedSearchQuery, pageParam, PAGE_SIZE);
     },
-    getNextPageParam: lastPage => lastPage.nextPage,
+    getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
   });
 
   // 서버 동기화

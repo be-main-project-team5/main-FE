@@ -5,12 +5,12 @@ import SearchBar from '@/components/common/SearchBar';
 import { useDebounce } from '@/hooks/useDebounce';
 
 import IdolSearchList from './IdolSearchList';
-import { useIdolSearch } from './useIdolSearch';
 import {
-  LoadingSpinner,
-  ErrorMessage,
   EmptySearchResult,
+  ErrorMessage,
+  LoadingSpinner,
 } from './IdolSearchStates';
+import { useIdolSearch } from './useIdolSearch';
 
 export default function IdolSearchPage() {
   const [searchQuery, setSearchQuery] = useState('');

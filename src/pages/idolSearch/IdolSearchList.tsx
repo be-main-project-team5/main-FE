@@ -1,5 +1,7 @@
 import { VirtuosoGrid } from 'react-virtuoso';
+
 import Card from '@/components/common/card';
+
 import type { Idol } from './useIdolSearch';
 
 type Props = {
@@ -10,6 +12,17 @@ type Props = {
   isFetchingNextPage: boolean;
   onCardClick: (id: string) => void;
 };
+
+type VirtuosoContext = { isFetchingNextPage: boolean };
+
+function GridFooter({ context }: { context?: VirtuosoContext }) {
+  if (!context?.isFetchingNextPage) return null;
+  return (
+    <div className="col-span-full w-full">
+      <p className="py-4 text-center !text-fuchsia-400">불러오는 중...</p>
+    </div>
+  );
+}
 
 export default function IdolSearchList({
   idols,
@@ -44,12 +57,8 @@ export default function IdolSearchList({
       }}
       increaseViewportBy={{ top: 0, bottom: 100 }}
       overscan={2}
-      components={{
-        Footer: () =>
-          isFetchingNextPage ? (
-            <p className="py-4 text-center text-fuchsia-400">불러오는 중...</p>
-          ) : null,
-      }}
+      components={{ Footer: GridFooter }}
+      context={{ isFetchingNextPage }}
       listClassName="grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-3 lg:gap-y-10"
       itemContent={renderItem}
     />
