@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 import { useFavoritesStore } from '@/stores/favoritesStore';
+
 import type { IdolCardProps } from './card.types';
 
 function IdolCard({
