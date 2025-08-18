@@ -10,6 +10,7 @@ const layoutStyle = cva('m-auto mt-16', {
     component: {
       default: 'max-w-[1360px] px-6 md:px-10',
       landing: '',
+      chat: '',
     },
   },
   defaultVariants: {
@@ -18,17 +19,29 @@ const layoutStyle = cva('m-auto mt-16', {
 });
 
 interface LayoutProps {
-  component?: 'default' | 'landing';
+  component?: 'default' | 'landing' | 'chat';
 }
 
-export default function Layout({ component }: LayoutProps) {
+export default function Layout({ component = 'default' }: LayoutProps) {
   return (
     <>
-      <Header isLoggedIn={false} />
-      <main className={clsx(layoutStyle({ component }))}>
-        <Outlet />
-      </main>
-      <Footer />
+      {(component === 'default' || component === 'landing') && (
+        <>
+          <Header isLoggedIn={false} />
+          <main className={clsx(layoutStyle({ component }))}>
+            <Outlet />
+          </main>
+          <Footer />
+        </>
+      )}
+      {component === 'chat' && (
+        <>
+          <Header isLoggedIn={false} />
+          <main className={clsx(layoutStyle({ component }))}>
+            <Outlet />
+          </main>
+        </>
+      )}
     </>
   );
 }
