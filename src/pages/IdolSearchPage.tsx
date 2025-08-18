@@ -109,7 +109,7 @@ export default function IdolSearchPage() {
           type="idol"
           idolId={idol.id}
           title={idol.name}
-          imageSrc={idol.avatarUrl}
+          imageSrc={idol.avatarUrl || ''}
           detail={{ idolGroup: idol.groupName, position: idol.position }}
           onClick={() => handleCardClick(idol.id)}
         />
