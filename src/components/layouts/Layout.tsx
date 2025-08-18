@@ -25,23 +25,11 @@ interface LayoutProps {
 export default function Layout({ component = 'default' }: LayoutProps) {
   return (
     <>
-      {(component === 'default' || component === 'landing') && (
-        <>
-          <Header isLoggedIn={false} />
-          <main className={clsx(layoutStyle({ component }))}>
-            <Outlet />
-          </main>
-          <Footer />
-        </>
-      )}
-      {component === 'chat' && (
-        <>
-          <Header isLoggedIn={false} />
-          <main className={clsx(layoutStyle({ component }))}>
-            <Outlet />
-          </main>
-        </>
-      )}
+      <Header isLoggedIn={false} />
+      <main className={clsx(layoutStyle({ component }))}>
+        <Outlet />
+      </main>
+      {component !== 'chat' && <Footer />}
     </>
   );
 }
