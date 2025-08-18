@@ -1,19 +1,19 @@
 import { Button } from '@/components/common/Button';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+import { mediaQuery } from '@/constants/breakpoints';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 export default function Profile() {
+  const isDesktop = useMediaQuery(mediaQuery.tablet);
+  const isMobile = useMediaQuery(mediaQuery.mobile);
+
+  const avatarSize = isDesktop ? '2xl' : isMobile ? 'md' : 'xl';
+  const buttonSize = isMobile ? 'sm' : 'md';
+
   return (
     <section className="my-6 flex items-center justify-between gap-6 rounded-3xl border-2 border-gray-200 p-6 md:my-25 md:flex-col md:border-none">
       <div className="flex items-center gap-6 md:flex-col">
-        <div className="block grid items-center sm:hidden">
-          <UserAvatarImage avatarSize="md" />
-        </div>
-        <div className="hidden sm:block md:hidden">
-          <UserAvatarImage avatarSize="xl" />
-        </div>
-        <div className="hidden md:block">
-          <UserAvatarImage avatarSize="2xl" />
-        </div>
+        <UserAvatarImage avatarSize={avatarSize} />
 
         <div>
           <p className="text-xs text-gray-500 sm:text-sm md:text-3xl md:text-black">
@@ -26,16 +26,9 @@ export default function Profile() {
         </p>
       </div>
 
-      <div className="block sm:hidden">
-        <Button shape="pill" variant="secondary" size="sm">
-          프로필 수정
-        </Button>
-      </div>
-      <div className="hidden sm:block">
-        <Button shape="pill" variant="secondary" size="md">
-          프로필 수정
-        </Button>
-      </div>
+      <Button shape="pill" variant="secondary" size={buttonSize}>
+        프로필 수정
+      </Button>
     </section>
   );
 }
