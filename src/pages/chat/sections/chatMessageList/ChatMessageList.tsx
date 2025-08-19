@@ -1,12 +1,68 @@
+import { useEffect } from 'react';
+
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
+import { CHAT_EXAMPLES } from '../../chatSampleData';
+
 function ChatMessageList() {
+  const toKstDate = (iso: string | Date): Date =>
+    new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000);
+
+  const toDateKey = (dt: Date) => {
+    const year = dt.getUTCFullYear();
+    const month = String(dt.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(dt.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const toFiveMinutesKey = (dt: Date) => {
+    const hour = String(dt.getUTCHours()).padStart(2, '0');
+    const minute = dt.getUTCMinutes();
+    const flooredMinute = String(Math.floor(minute / 5) * 5).padStart(2, '0');
+    return `${hour}:${flooredMinute}`;
+  };
+
+  const sortedChatData = [...CHAT_EXAMPLES].sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  );
+
+  const groupedChatData = sortedChatData.reduce(
+    (acc: Record<string, Record<string, Chat[]>>, cur) => {
+      const kst = toKstDate(cur.createdAt);
+      const dKey = toDateKey(kst);
+      const tKey = toFiveMinutesKey(kst);
+
+      if (acc[dKey] === undefined) acc[dKey] = {};
+      const day = acc[dKey];
+
+      if (day[tKey] === undefined) day[tKey] = [];
+      const bucket = day[tKey];
+
+      const last = bucket.at?.(-1);
+
+      if (last?.author === cur.author) {
+        last.texts.push(cur.text);
+        last.endAt = kst.toISOString();
+      } else {
+        bucket.push({
+          author: cur.author,
+          texts: [cur.text],
+          startAt: kst.toISOString(),
+          endAt: kst.toISOString(),
+        });
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  useEffect(() => {
+    console.log(groupedChatData);
+  }, []);
+
   return (
     <div className="chat-scrollbar flex h-full flex-col justify-end overflow-y-auto py-2 pe-2">
-      <div className="w-full text-center text-xs font-medium text-gray-500">
-        2025/08/19
-      </div>
-
       {/* 상대 메시지 공간 */}
       <div className="flex gap-2">
         <UserAvatarImage />
