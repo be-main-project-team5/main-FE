@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import ChatComposer from './sections/ChatComposer';
 import ChatConversationList from './sections/ChatConversationList';
-import ChatMessageList from './sections/ChatMessageList';
+import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 
 function Chat() {
   const [isVisible, setIsVisible] = useState(false);
