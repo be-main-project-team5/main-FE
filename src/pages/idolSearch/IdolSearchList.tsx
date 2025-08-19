@@ -4,6 +4,8 @@ import Card from '@/components/common/card';
 
 import type { Idol } from './useIdolSearch';
 
+import GridFooter from './components/GridFooter';
+
 type Props = {
   idols: Idol[];
   isSearching: boolean;
@@ -12,17 +14,6 @@ type Props = {
   isFetchingNextPage: boolean;
   onCardClick: (id: string) => void;
 };
-
-type VirtuosoContext = { isFetchingNextPage: boolean };
-
-function GridFooter({ context }: { context?: VirtuosoContext }) {
-  if (!context?.isFetchingNextPage) return null;
-  return (
-    <div className="col-span-full w-full">
-      <p className="py-4 text-center !text-fuchsia-400">불러오는 중...</p>
-    </div>
-  );
-}
 
 export default function IdolSearchList({
   idols,
