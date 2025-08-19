@@ -6,7 +6,6 @@ export type UserRole = 'manager' | 'idol' | 'fan' | 'favorites';
 type ScheduleActionHandler = (id: number) => void;
 
 interface ScheduleActionProps {
-  onBookmarkToggle?: ScheduleActionHandler;
   onNotifyToggle?: ScheduleActionHandler;
   onEditClick?: ScheduleActionHandler;
   onDeleteClick?: ScheduleActionHandler;
