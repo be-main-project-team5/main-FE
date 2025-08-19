@@ -26,7 +26,7 @@ export default function MyPageLayout() {
           <Nav className="w-full" />
         )}
 
-        <main className="w-full flex-1 md:min-w-0 md:pl-4">
+        <main className="w-full flex-1 py-4 md:min-w-0 md:py-10 md:pl-4">
           <Outlet />
         </main>
 
