@@ -7,7 +7,10 @@ export const ALL_SCHEDULES = [
     description: 'NCT WISH at 올림픽공원 핸드볼경기장',
     isPublic: true,
     group: { id: 101, name: 'NCT WISH' },
-    members: [{ id: 1, name: '시온' }, { id: 2, name: '리쿠' }],
+    members: [
+      { id: 1, name: '시온' },
+      { id: 2, name: '리쿠' },
+    ],
   },
   {
     id: 2,
