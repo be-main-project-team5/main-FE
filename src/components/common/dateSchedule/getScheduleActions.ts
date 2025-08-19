@@ -1,4 +1,6 @@
-import type { Schedule, UserRole } from './dateSchedule.types';
+import type { Schedule } from '@/types/schedule';
+
+import type { UserRole } from './dateSchedule.types';
 
 export type ActionIcon =
   | 'star'
@@ -22,10 +24,10 @@ export interface ScheduleActionInfo {
 }
 
 type Handlers = {
-  onBookmarkToggle?: (id: string) => void;
-  onNotifyToggle?: (id: string) => void;
-  onEditClick?: (id: string) => void;
-  onDeleteClick?: (id: string) => void;
+  onBookmarkToggle?: (id: number) => void;
+  onNotifyToggle?: (id: number) => void;
+  onEditClick?: (id: number) => void;
+  onDeleteClick?: (id: number) => void;
 };
 
 export function getScheduleActions(
