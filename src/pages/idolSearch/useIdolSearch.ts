@@ -6,13 +6,13 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import {
   fetchFavoriteIdols,
   searchIdols,
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
 import { useFavoritesStore } from '@/stores/favoritesStore';
-import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 
 export type Idol = {
   id: string;
@@ -45,7 +45,9 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     enabled: debouncedSearchQuery.trim().length > 0,
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      await new Promise<void>(r => setTimeout(r, 300));
+      await new Promise<void>(resolve => {
+        setTimeout(resolve, 300);
+      });
       return searchIdols(debouncedSearchQuery, pageParam, PAGE_SIZE);
     },
     getNextPageParam: lastPage => lastPage.nextPage ?? undefined,

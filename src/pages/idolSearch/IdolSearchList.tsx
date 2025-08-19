@@ -2,9 +2,8 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import Card from '@/components/common/card';
 
-import type { Idol } from './useIdolSearch';
-
 import GridFooter from './components/GridFooter';
+import type { Idol } from './useIdolSearch';
 
 type Props = {
   idols: Idol[];
