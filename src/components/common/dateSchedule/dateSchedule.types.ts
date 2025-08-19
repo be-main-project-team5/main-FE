@@ -1,20 +1,9 @@
+import type { Schedule } from '@/types/schedule';
+
 export type UserRole = 'manager' | 'idol' | 'fan' | 'favorites';
 
-// 일정 데이터 구조
-export type Schedule = {
-  id: string;
-  dateISO: string;
-  time: string;
-  summary: string;
-  title: string;
-  location: string;
-  participants: string[];
-  isBookmarked?: boolean;
-  isNotified?: boolean;
-};
-
 // 일정에서 공통으로 쓰이는 버튼 동작(이벤트) 타입
-type ScheduleActionHandler = (id: string) => void;
+type ScheduleActionHandler = (id: number) => void;
 
 interface ScheduleActionProps {
   onBookmarkToggle?: ScheduleActionHandler;
