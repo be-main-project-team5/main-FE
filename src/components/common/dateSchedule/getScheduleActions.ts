@@ -24,7 +24,8 @@ export interface ScheduleActionInfo {
 }
 
 type Handlers = {
-  onBookmarkToggle?: (id: number) => void;
+  toggleFavoriteSchedule: (schedule: Schedule) => void;
+  isFavoriteSchedule: (scheduleId: number) => boolean;
   onNotifyToggle?: (id: number) => void;
   onEditClick?: (id: number) => void;
   onDeleteClick?: (id: number) => void;
@@ -33,7 +34,13 @@ type Handlers = {
 export function getScheduleActions(
   role: UserRole,
   item: Schedule,
-  { onBookmarkToggle, onNotifyToggle, onEditClick, onDeleteClick }: Handlers,
+  {
+    toggleFavoriteSchedule,
+    isFavoriteSchedule,
+    onNotifyToggle,
+    onEditClick,
+    onDeleteClick,
+  }: Handlers,
 ): ScheduleActionInfo[] {
   switch (role) {
     case 'fan':
@@ -41,8 +48,8 @@ export function getScheduleActions(
         {
           key: 'bookmark',
           ariaLabel: '즐겨찾기',
-          icon: item.isBookmarked ? 'star-filled' : 'star',
-          onClick: () => onBookmarkToggle?.(item.id),
+          icon: isFavoriteSchedule(item.id) ? 'star-filled' : 'star',
+          onClick: () => toggleFavoriteSchedule(item),
         },
       ];
 
@@ -51,8 +58,8 @@ export function getScheduleActions(
         {
           key: 'bookmark',
           ariaLabel: '즐겨찾기',
-          icon: 'star-filled',
-          onClick: () => onBookmarkToggle?.(item.id),
+          icon: isFavoriteSchedule(item.id) ? 'star-filled' : 'star',
+          onClick: () => toggleFavoriteSchedule(item),
         },
         {
           key: 'notification',
