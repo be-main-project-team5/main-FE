@@ -1,13 +1,20 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 
+import type { Schedule } from '@/types/schedule';
+
 import CalendarDate from './CalendarDate';
 import CalendarToolbar from './CalendarToolbar';
 import CalendarWeekDays from './CalendarWeekDays';
 
-function Calendar() {
-  const [viewDate, setViewDate] = useState(dayjs());
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+interface CalendarProps {
+  selectedDate: Dayjs;
+  onDateChange: (date: Dayjs) => void;
+  schedules: Schedule[];
+}
+
+function Calendar({ selectedDate, onDateChange, schedules }: CalendarProps) {
+  const [viewDate, setViewDate] = useState(selectedDate);
 
   const viewDates = useMemo(() => {
     const firstDateOfMonth = viewDate.startOf('month');
@@ -26,6 +33,18 @@ function Calendar() {
     return dates;
   }, [viewDate]);
 
+  const schedulesByDate = useMemo(() => {
+    const map = new Map<string, Schedule[]>();
+    schedules.forEach(schedule => {
+      const date = schedule.startTime.split('T')[0]; // YYYY-MM-DD
+      if (!map.has(date)) {
+        map.set(date, []);
+      }
+      map.get(date)?.push(schedule);
+    });
+    return map;
+  }, [schedules]);
+
   const handleMovePrevMonth = () => {
     setViewDate(prev => prev.add(-1, 'month'));
   };
@@ -37,12 +56,12 @@ function Calendar() {
   const handleMoveCurrentMonth = () => {
     const today = dayjs().startOf('day');
     setViewDate(today);
-    setSelectedDate(today);
+    onDateChange(today);
   };
 
   const handleClickDate = (date: Dayjs) => {
     const clickedDate = date.startOf('day');
-    setSelectedDate(clickedDate);
+    onDateChange(clickedDate);
 
     if (!date.isSame(viewDate, 'month')) {
       setViewDate(clickedDate);
@@ -72,6 +91,9 @@ function Calendar() {
             viewDate={viewDate}
             selectedDate={selectedDate}
             handleClickDate={handleClickDate}
+            schedulesForDate={
+              schedulesByDate.get(date.format('YYYY-MM-DD')) || []
+            }
           />
         ))}
       </div>

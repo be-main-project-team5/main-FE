@@ -1,14 +1,6 @@
 import type { Dayjs } from 'dayjs';
 
-// *memo - 스케줄 타입은 api 연결할 때 명세서 참고해서 확정된 형식으로 수정 후 사용
-export interface ScheduleTypes {
-  id: number;
-  title: string;
-  startTime: string;
-  endTime: string;
-  description?: string;
-  isPublic: boolean;
-}
+import type { Schedule } from '@/types/schedule';
 
 export interface CalendarDateHeaderProps {
   date: Dayjs;
@@ -17,7 +9,7 @@ export interface CalendarDateHeaderProps {
 }
 
 export interface CalendarScheduleProps {
-  schedule: ScheduleTypes;
+  schedule: Schedule;
   isSelected: boolean;
 }
 
@@ -31,6 +23,7 @@ export interface CalendarDateProps {
   viewDate: Dayjs;
   selectedDate: Dayjs;
   handleClickDate: (date: Dayjs) => void;
+  schedulesForDate: Schedule[];
 }
 
 export interface CalendarToolbarProps {

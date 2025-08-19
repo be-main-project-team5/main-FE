@@ -11,6 +11,9 @@ import {
 import clsx from 'clsx';
 import { useState } from 'react';
 
+import { useFavoriteSchedulesStore } from '@/stores/favoriteSchedulesStore';
+import { isGroupSchedule, isIdolSchedule } from '@/types/schedule';
+
 import type { DateScheduleItemProps } from './dateSchedule.types';
 import { formatDateSlash } from './dateSchedule.utils';
 import { type ActionIcon, getScheduleActions } from './getScheduleActions';
@@ -42,7 +45,6 @@ function renderIcon(icon: ActionIcon): React.ReactNode {
 export default function DateScheduleItem({
   item,
   role,
-  onBookmarkToggle,
   onNotifyToggle,
   onEditClick,
   onDeleteClick,
@@ -50,12 +52,24 @@ export default function DateScheduleItem({
   const [isOpen, setIsOpen] = useState(false);
   const handleToggleOpen = () => setIsOpen(prev => !prev);
 
+  const { toggleFavoriteSchedule, isFavoriteSchedule } =
+    useFavoriteSchedulesStore();
+
   const actionsInfo = getScheduleActions(role, item, {
-    onBookmarkToggle,
+    toggleFavoriteSchedule,
+    isFavoriteSchedule,
     onNotifyToggle,
     onEditClick,
     onDeleteClick,
   });
+
+  const time = new Date(item.startTime).toLocaleTimeString('ko-KR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+
+  const displayDate = item.startTime.split('T')[0];
 
   return (
     <li className="rounded-2xl transition hover:bg-gray-50">
@@ -68,7 +82,7 @@ export default function DateScheduleItem({
           className="mr-2 shrink-0 basis-[100px] text-left sm:mr-3 sm:basis-[112px] md:mr-4 md:basis-[120px]"
         >
           <span className="text-base whitespace-nowrap text-gray-700 tabular-nums select-none sm:text-lg">
-            {item.time}
+            {time}
           </span>
         </button>
 
@@ -77,11 +91,11 @@ export default function DateScheduleItem({
           onClick={handleToggleOpen}
           aria-expanded={isOpen}
           aria-controls={`schedule-detail-${item.id}`}
-          title={item.summary}
+          title={item.title}
           className="min-w-0 flex-1 truncate pl-1 text-left sm:pl-2 md:pl-3"
         >
           <span className="block text-base text-gray-700 sm:text-lg">
-            {item.summary}
+            {item.title}
           </span>
         </button>
 
@@ -106,10 +120,20 @@ export default function DateScheduleItem({
           className="rounded-xl bg-fuchsia-50 p-3 pl-[72px] text-sm text-gray-800 sm:p-4 sm:pl-[84px] sm:text-base md:pl-[96px]"
         >
           <p className="font-medium">{item.title}</p>
-          <p className="mt-2">장소: {item.location}</p>
-          <p>날짜: {formatDateSlash(item.dateISO)}</p>
-          {item.participants.length > 0 && (
-            <p>참여 아이돌: {item.participants.join(', ')}</p>
+          <p>날짜: {formatDateSlash(displayDate)}</p>
+
+          {isGroupSchedule(item) && (
+            <p>
+              아티스트: {item.group.name}
+              {item.members &&
+                item.members.length > 0 &&
+                ` (${item.members.map(m => m.name).join(', ')})`}
+            </p>
+          )}
+          {isIdolSchedule(item) && <p>아티스트: {item.idol.name}</p>}
+
+          {item.description && (
+            <p className="mt-2 whitespace-pre-wrap">{item.description}</p>
           )}
         </div>
       )}

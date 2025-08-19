@@ -42,5 +42,5 @@ module.exports = {
       node: {},
     },
   },
-  ignorePatterns: ['scripts/verify-commit.js'],
+  ignorePatterns: ['scripts/verify-commit.js', 'public/mockServiceWorker.js'],
 };
