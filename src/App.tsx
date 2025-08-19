@@ -4,10 +4,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import Layout from '@/components/layouts/Layout';
 import MyPageLayout from '@/components/layouts/MyPageLayout';
+import IdolSearchPage from '@/pages/idolSearch/IdolSearchPage';
 import LandingPage from '@/pages/landing/LandingPage';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
-import IdolSearchPage from '@/pages/idolSearch/IdolSearchPage';
 
 function App() {
   return (
