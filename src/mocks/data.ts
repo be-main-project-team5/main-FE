@@ -6,6 +6,8 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-20T14:00:00',
     description: 'NCT WISH at 올림픽공원 핸드볼경기장',
     isPublic: true,
+    group: { id: 101, name: 'NCT WISH' },
+    members: [{ id: 1, name: '시온' }, { id: 2, name: '리쿠' }],
   },
   {
     id: 2,
@@ -14,6 +16,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-20T19:00:00',
     description: '이펙스(EPEX) at 사운드웨이브 합정점',
     isPublic: true,
+    group: { id: 102, name: '이펙스(EPEX)' },
   },
   {
     id: 3,
@@ -22,6 +25,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-21T18:30:00',
     description: '세븐틴 at 고척스카이돔',
     isPublic: true,
+    group: { id: 103, name: '세븐틴' },
   },
   {
     id: 4,
@@ -30,6 +34,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-22T13:00:00',
     description: '아이브 at 코엑스 C홀',
     isPublic: true,
+    group: { id: 104, name: '아이브(IVE)' },
   },
   {
     id: 5,
@@ -38,6 +43,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-22T17:00:00',
     description: '스트레이키즈 at 잠실 실내체육관',
     isPublic: true,
+    group: { id: 105, name: '스트레이키즈' },
   },
   {
     id: 6,
@@ -46,6 +52,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-23T15:00:00',
     description: '르세라핌 at 올림픽공원 올림픽홀',
     isPublic: true,
+    group: { id: 106, name: '르세라핌' },
   },
   {
     id: 7,
@@ -54,6 +61,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-24T19:00:00',
     description: '뉴진스 at KSPO DOME',
     isPublic: true,
+    group: { id: 107, name: '뉴진스' },
   },
   {
     id: 8,
@@ -62,6 +70,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-25T16:00:00',
     description: '트와이스 at 더 현대 서울',
     isPublic: true,
+    group: { id: 108, name: '트와이스' },
   },
   {
     id: 9,
@@ -70,6 +79,7 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-26T18:00:00',
     description: '에이티즈 at 서울월드컵경기장',
     isPublic: true,
+    group: { id: 109, name: '에이티즈(ATEEZ)' },
   },
   {
     id: 10,
@@ -78,5 +88,6 @@ export const ALL_SCHEDULES = [
     endTime: '2025-08-27T14:00:00',
     description: '아이유 at 경희대 평화의전당',
     isPublic: true,
+    idol: { id: 110, name: '아이유' },
   },
 ];
