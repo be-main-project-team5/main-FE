@@ -6,7 +6,6 @@ import { buttonHoverStyle, divHoverStyle } from './calendar.styles';
 import type { CalendarDateProps } from './calendar.types';
 import CalendarDateFooter from './CalendarDateFooter';
 import CalendarDateHeader from './CalendarDateHeader';
-import { SCHEDULE_EXAMPLES } from './calendarSampleData';
 import CalendarSchedule from './CalendarSchedule';
 
 const dateStyles = cva('flex justify-center aspect-2/3 text-center', {
@@ -23,14 +22,12 @@ function CalendarDate({
   viewDate,
   selectedDate,
   handleClickDate,
+  schedulesForDate,
 }: CalendarDateProps) {
   const isCurrentMonth = date.month() === viewDate.month();
   const isSelected = date.isSame(selectedDate, 'day');
   const isToday = date.isSame(dayjs(), 'day');
 
-  const schedulesForDate = SCHEDULE_EXAMPLES.filter(schedule =>
-    dayjs(schedule.startTime).isSame(date, 'day'),
-  );
   const maxVisible = 3;
   const visibleSchedules = schedulesForDate.slice(0, maxVisible);
   const hiddenCount = schedulesForDate.length - maxVisible;
