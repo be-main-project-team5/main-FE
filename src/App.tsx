@@ -13,6 +13,7 @@ import FanMainPage from '@/pages/main/fan/FanMainPage';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
+import Chat from './pages/chat/Chat';
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
 
       <Route path="/admin" element={<Layout />}>
         <Route path="dashboard" element={<AdminDashboard />} />
+      </Route>
+      <Route path="/chat" element={<Layout component="chat" />}>
+        <Route index element={<Chat />} />
       </Route>
     </Routes>
   );
