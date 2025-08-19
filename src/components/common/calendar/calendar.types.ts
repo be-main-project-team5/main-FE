@@ -23,6 +23,7 @@ export interface CalendarDateProps {
   viewDate: Dayjs;
   selectedDate: Dayjs;
   handleClickDate: (date: Dayjs) => void;
+  schedulesForDate: Schedule[];
 }
 
 export interface CalendarToolbarProps {
