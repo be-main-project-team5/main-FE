@@ -50,8 +50,10 @@ export default function MySchedule() {
   };
 
   return (
-    <section>
-      <h3>즐겨찾기한 일정</h3>
+    <>
+      <h3 className="mb-10 hidden py-4 text-center text-3xl md:block">
+        즐겨찾기한 일정
+      </h3>
       <Calendar
         selectedDate={selectedDate}
         onDateChange={handleCalendarDateChange}
@@ -62,6 +64,6 @@ export default function MySchedule() {
         selectedDate={selectedDate.format('YYYY-MM-DD')}
         schedules={dailySchedules}
       />
-    </section>
+    </>
   );
 }
