@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
+import { ALL_SCHEDULES } from './data';
+
 export const handlers = [
   http.get('/bookmark/idol', () => {
     return HttpResponse.json([
@@ -28,5 +30,19 @@ export const handlers = [
         position: '보컬',
       },
     ]);
+  }),
+
+  http.get('/schedules/my', ({ request }) => {
+    const url = new URL(request.url);
+    const date = url.searchParams.get('date');
+
+    if (!date) {
+      return HttpResponse.json(ALL_SCHEDULES); // 날짜가 없으면 모든 스케줄 반환
+    }
+
+    const schedulesForDate = ALL_SCHEDULES.filter(schedule =>
+      schedule.startTime.startsWith(date),
+    );
+    return HttpResponse.json(schedulesForDate);
   }),
 ];
