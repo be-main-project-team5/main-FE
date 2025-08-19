@@ -1,13 +1,18 @@
-import type { ScheduleTypes } from './calendar.types';
+import type { Schedule } from '@/types/schedule';
 
-export const SCHEDULE_EXAMPLES: ScheduleTypes[] = [
+export const SCHEDULE_EXAMPLES: Schedule[] = [
   {
     id: 0,
     title: '오즈대학교 축제',
     startTime: '2025-08-24',
     endTime: '2025-08-24',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    description: '올해 첫 대학교 축제. 많은 관심 부탁드립니다.',
     isPublic: true,
+    group: { id: 1, name: '오메가(Ω)' },
+    members: [
+      { id: 1, name: '김오즈' },
+      { id: 2, name: '박오즈' },
+    ],
   },
   {
     id: 1,
@@ -16,38 +21,43 @@ export const SCHEDULE_EXAMPLES: ScheduleTypes[] = [
     endTime: '2025-08-27',
     description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
     isPublic: true,
+    group: { id: 1, name: '오메가(Ω)' },
   },
   {
     id: 2,
-    title: '2025 두번째 콘서트',
+    title: '개인 화보 촬영',
     startTime: '2025-08-28',
     endTime: '2025-08-28',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
-    isPublic: true,
+    description: '보그 9월호 개인 화보 촬영입니다.',
+    isPublic: false,
+    idol: { id: 1, name: '김오즈' },
   },
   {
     id: 3,
     title: '성수 팬사인회',
     startTime: '2025-08-28',
     endTime: '2025-08-28',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    description: '성수동에서 진행되는 팬사인회입니다.',
     isPublic: true,
+    group: { id: 1, name: '오메가(Ω)' },
   },
   {
     id: 4,
     title: '예능 프로그램 촬영',
     startTime: '2025-08-28',
     endTime: '2025-08-28',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
-    isPublic: true,
+    description: 'tvN 놀라운 토요일 촬영입니다.',
+    isPublic: false,
+    idol: { id: 2, name: '박오즈' },
   },
   {
     id: 5,
     title: '뮤직뱅크 출연',
     startTime: '2025-08-28',
     endTime: '2025-08-28',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
+    description: 'KBS 뮤직뱅크 1위 앵콜 무대',
     isPublic: true,
+    group: { id: 1, name: '오메가(Ω)' },
   },
   {
     id: 6,
@@ -56,13 +66,15 @@ export const SCHEDULE_EXAMPLES: ScheduleTypes[] = [
     endTime: '2025-08-29',
     description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
     isPublic: true,
+    group: { id: 1, name: '오메가(Ω)' },
   },
   {
     id: 7,
-    title: '2025 네번째 콘서트',
+    title: '라디오 출연',
     startTime: '2025-08-30',
     endTime: '2025-08-30',
-    description: '올해 첫 콘서트. 설명설명 어쩌고저쩌고 설명설명.',
-    isPublic: true,
+    description: 'MBC FM 라디오 정오의 희망곡 출연',
+    isPublic: false,
+    idol: { id: 1, name: '김오즈' },
   },
 ];
