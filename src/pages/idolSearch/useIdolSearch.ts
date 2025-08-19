@@ -4,7 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 
 import {
   fetchFavoriteIdols,
@@ -12,6 +12,7 @@ import {
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 
 export type Idol = {
   id: string;
@@ -26,16 +27,12 @@ const PAGE_SIZE = 6;
 export function useIdolSearch(debouncedSearchQuery: string) {
   const queryClient = useQueryClient();
   const { favorites, toggleFavorite } = useFavoritesStore();
-  const prevFavoritesRef = useRef<string[]>(favorites);
-  const hydratedRef = useRef(false);
 
-  // 즐겨찾기 패칭
   const { data: favoriteIdols, isLoading: isFavoritesLoading } = useQuery({
     queryKey: ['idols', 'favorites'],
     queryFn: fetchFavoriteIdols,
   });
 
-  // 검색 API
   const {
     data: searchData,
     fetchNextPage,
@@ -48,15 +45,12 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     enabled: debouncedSearchQuery.trim().length > 0,
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      await new Promise<void>(resolve => {
-        setTimeout(resolve, 300);
-      });
+      await new Promise<void>(r => setTimeout(r, 300));
       return searchIdols(debouncedSearchQuery, pageParam, PAGE_SIZE);
     },
     getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
   });
 
-  // 서버 동기화
   const { mutate: syncFavoritesWithServer } = useMutation({
     mutationFn: async ({
       added,
@@ -76,47 +70,19 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     },
   });
 
-  // 초기 즐겨찾기 동기화
-  useEffect(() => {
-    if (!favoriteIdols || hydratedRef.current) return;
-
-    const serverIds = favoriteIdols.map(i => i.id);
-    const clientSet = new Set(favorites);
-
-    serverIds.forEach(id => {
-      if (!clientSet.has(id)) toggleFavorite(id);
-    });
-
-    prevFavoritesRef.current = [...new Set([...favorites, ...serverIds])];
-    hydratedRef.current = true;
-  }, [favoriteIdols, favorites, toggleFavorite]);
-
-  // 클라이언트 → 서버 동기화
-  useEffect(() => {
-    const prev = prevFavoritesRef.current;
-    const curr = favorites;
-
-    if (!hydratedRef.current) {
-      prevFavoritesRef.current = curr;
-      return;
-    }
-
-    const added = curr.filter(id => !prev.includes(id));
-    const removed = prev.filter(id => !curr.includes(id));
-
-    if (added.length > 0 || removed.length > 0) {
+  useSyncArrayData<string>({
+    serverData: favoriteIdols?.map(i => i.id),
+    clientData: favorites,
+    applyFn: toggleFavorite,
+    onSync: (added, removed) => {
       syncFavoritesWithServer({ added, removed });
-    }
+    },
+  });
 
-    prevFavoritesRef.current = curr;
-  }, [favorites, syncFavoritesWithServer]);
-
-  // 결과 데이터
   const flatSearchIdols = useMemo(
     () => searchData?.pages.flatMap(page => page.items) ?? [],
     [searchData],
   );
-
   const isSearching = debouncedSearchQuery.trim().length > 0;
   const idolsToDisplay = isSearching ? flatSearchIdols : (favoriteIdols ?? []);
 
