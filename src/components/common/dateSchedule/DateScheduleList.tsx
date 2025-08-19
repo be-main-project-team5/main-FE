@@ -13,7 +13,6 @@ function DateScheduleList({
   role,
   selectedDate,
   schedules,
-  onBookmarkToggle,
   onNotifyToggle,
   onEditClick,
   onDeleteClick,
@@ -50,7 +49,6 @@ function DateScheduleList({
               key={item.id}
               item={item}
               role={role}
-              onBookmarkToggle={onBookmarkToggle}
               onNotifyToggle={onNotifyToggle}
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}
