@@ -2,7 +2,7 @@ import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
 function ChatMessageList() {
   return (
-    <div className="h-full overflow-y-auto py-2">
+    <div className="chat-scrollbar h-full overflow-y-auto py-2 pe-2">
       <div className="w-full text-center text-xs font-medium text-gray-500">
         2025/08/19
       </div>
