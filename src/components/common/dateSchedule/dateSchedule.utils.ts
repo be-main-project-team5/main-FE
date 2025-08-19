@@ -1,15 +1,15 @@
-import type { Schedule } from './dateSchedule.types';
+import type { Schedule } from '@/types/schedule';
 
 // ========== 스케줄 데이터 처리 ==========
 
-/** 선택한 날짜만 필터링 */
+/** 선택한 날짜의 스케줄만 필터링 (YYYY-MM-DD 형식의 날짜 문자열) */
 export function filterByDate(items: Schedule[], dateISO: string): Schedule[] {
-  return items.filter(it => it.dateISO === dateISO);
+  return items.filter(it => it.startTime.startsWith(dateISO));
 }
 
 /** 시간 오름차순 정렬 ('HH:mm' 가정) */
 export function sortByTimeAsc(items: Schedule[]): Schedule[] {
-  return [...items].sort((a, b) => a.time.localeCompare(b.time));
+  return [...items].sort((a, b) => a.startTime.localeCompare(b.startTime));
 }
 
 // ========== 날짜 포맷 변환 ==========
