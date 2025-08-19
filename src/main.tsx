@@ -7,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from '@/App';
 
+const queryClient = new QueryClient();
+
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') return;
 
@@ -26,4 +28,3 @@ enableMocking().then(() => {
     </StrictMode>,
   );
 });
-const queryClient = new QueryClient();
