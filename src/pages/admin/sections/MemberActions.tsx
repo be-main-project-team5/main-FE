@@ -1,5 +1,6 @@
 import { Button } from '@/components/common/Button';
-import { ADMIN_SECTION, ADMIN_TITLE, ADMIN_BUTTON_WRAP } from './adminStyles';
+
+import { ADMIN_BUTTON_WRAP, ADMIN_SECTION, ADMIN_TITLE } from './adminStyles';
 
 type Props = { onOpenMembers: () => void };
 

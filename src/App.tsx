@@ -5,14 +5,13 @@ import { Route, Routes } from 'react-router-dom';
 import AuthLayout from '@/components/layouts/AuthLayout';
 import Layout from '@/components/layouts/Layout';
 import MyPageLayout from '@/components/layouts/MyPageLayout';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
 import IdolSearchPage from '@/pages/idolSearch/IdolSearchPage';
 import LandingPage from '@/pages/landing/LandingPage';
 import Login from '@/pages/Login';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
-
-import AdminDashboard from '@/pages/admin/AdminDashboard';
 
 function App() {
   return (
