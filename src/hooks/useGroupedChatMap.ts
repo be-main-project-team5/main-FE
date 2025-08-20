@@ -32,5 +32,5 @@ export const useGroupedChatMap = (sortedData: ChatTypes[]) =>
         },
         {},
       ),
-    [],
+    [sortedData],
   );
