@@ -1,12 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import type { ChatTypes, GroupedChatListTypes } from '../../chat.types';
+import type {
+  ChatTypes,
+  GroupedChatListTypes,
+  GroupedChatTypes,
+} from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
 
-const renderDataByTime = (_, [dKey, dValue]) => (
+const renderDataByTime = (
+  _: number,
+  [dKey, dValue]: [string, Record<string, GroupedChatTypes[]>],
+) => (
   <div>
     <DateDivider dKey={dKey} />
 
