@@ -1,6 +1,11 @@
 import { http, HttpResponse } from 'msw';
 
 import { ALL_SCHEDULES } from './data';
+// import { CHAT_EXAMPLES } from './data/chats';
+
+// const CHATS_BY_ROOM = {
+//   'chat-001': CHAT_EXAMPLES,
+// };
 
 interface SignUpRequestBody {
   email: string;
@@ -32,12 +37,6 @@ const users: {
     profile_image_url: 'default-profile.jpg',
   },
 ];
-
-// import { CHAT_EXAMPLES } from './data/chats';
-
-// const CHATS_BY_ROOM = {
-//   'chat-001': CHAT_EXAMPLES,
-// };
 
 export const handlers = [
   http.get('/bookmark/idol', () => {
