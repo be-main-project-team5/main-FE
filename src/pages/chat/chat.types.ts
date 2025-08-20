@@ -9,15 +9,9 @@ export interface ChatTypes {
   sendAt: string;
 }
 
-export interface GroupedChatTypes {
-  id: string;
-  sender: {
-    id: string;
-    nickname: string;
-    profile_image: string | undefined;
-  };
+export type GroupedChatTypes = Omit<ChatTypes, 'content' | 'sendAt'> & {
   contents: string[];
-}
+};
 
 export type GroupedChatListTypes = Record<
   string,
