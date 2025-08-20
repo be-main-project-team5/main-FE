@@ -185,4 +185,277 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
     sendAt: '2025-08-19T06:11:30Z',
   },
+
+  // ── 반복 데이터
+  // ── 이후 상대 답장 (날짜만 다르게, id 고유) ─────────────────────────
+  {
+    id: 'm-014',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-20T06:11:30Z',
+  },
+  {
+    id: 'm-015',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-21T06:11:30Z',
+  },
+  {
+    id: 'm-016',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-22T06:11:30Z',
+  },
+  {
+    id: 'm-017',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-23T06:11:30Z',
+  },
+  {
+    id: 'm-018',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-24T06:11:30Z',
+  },
+  {
+    id: 'm-019',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-25T06:11:30Z',
+  },
+  {
+    id: 'm-020',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-26T06:11:30Z',
+  },
+  {
+    id: 'm-021',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-27T06:11:30Z',
+  },
+  {
+    id: 'm-022',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-28T06:11:30Z',
+  },
+  {
+    id: 'm-023',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-29T06:11:30Z',
+  },
+  {
+    id: 'm-024',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-30T06:11:30Z',
+  },
+  {
+    id: 'm-025',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-08-31T06:11:30Z',
+  },
+  {
+    id: 'm-026',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-01T06:11:30Z',
+  },
+  {
+    id: 'm-027',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-02T06:11:30Z',
+  },
+  {
+    id: 'm-028',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-03T06:11:30Z',
+  },
+  {
+    id: 'm-029',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-04T06:11:30Z',
+  },
+  {
+    id: 'm-030',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-05T06:11:30Z',
+  },
+  {
+    id: 'm-031',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-06T06:11:30Z',
+  },
+  {
+    id: 'm-032',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-07T06:11:30Z',
+  },
+  {
+    id: 'm-033',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-08T06:11:30Z',
+  },
+  {
+    id: 'm-034',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-09T06:11:30Z',
+  },
+  {
+    id: 'm-035',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-10T06:11:30Z',
+  },
+  {
+    id: 'm-036',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-11T06:11:30Z',
+  },
+  {
+    id: 'm-037',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-12T06:11:30Z',
+  },
+  {
+    id: 'm-038',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-13T06:11:30Z',
+  },
+  {
+    id: 'm-039',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-14T06:11:30Z',
+  },
+  {
+    id: 'm-040',
+    sender: {
+      id: 'manager-01',
+      nickname: '김ㅇㅇ 매니저',
+      profile_image: MANAGER_PROFILE_IMAGE,
+    },
+    content: '도면 받았습니다. 곧 업로드해서 링크 전달드릴게요.',
+    sendAt: '2025-09-15T06:11:30Z',
+  },
 ];
