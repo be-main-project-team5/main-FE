@@ -10,7 +10,7 @@ export interface ChatTypes {
 }
 
 export type GroupedChatTypes = Omit<ChatTypes, 'content' | 'sendAt'> & {
-  contents: string[];
+  contents: Array<{ id: string; text: string }>;
 };
 
 export type GroupedChatListTypes = Record<
@@ -20,5 +20,5 @@ export type GroupedChatListTypes = Record<
 
 export interface ChatMessageBubbleTypes {
   isMyChat: boolean;
-  content: string;
+  text: string;
 }
