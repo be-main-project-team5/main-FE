@@ -13,7 +13,11 @@ function ChatMessageGroup(data: GroupedChatTypes) {
   const { sender, contents } = data;
   const isMyChat = sender.id === USER_ID;
   const bubbles = contents.map(content => (
-    <ChatMessageBubble isMyChat={isMyChat} content={content} />
+    <ChatMessageBubble
+      key={content.id}
+      isMyChat={isMyChat}
+      text={content.text}
+    />
   ));
 
   return (
