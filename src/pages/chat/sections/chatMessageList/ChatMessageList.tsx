@@ -1,9 +1,25 @@
+import { cva } from 'class-variance-authority';
+import clsx from 'clsx';
 import { useEffect } from 'react';
-
-import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
 import type { GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
+import ChatMessageGroup from './ChatMessageGroup';
+
+// *memo - 로그인 시 전역 상태로 저장되는 userId 값이 존재한다고 가정
+const USER_ID = 'idol-01';
+
+const ChatTimeStyles = cva('py-1 text-[10px] font-medium text-gray-500', {
+  variants: {
+    lastMsgMine: {
+      true: 'pl-0 text-right',
+      false: 'pl-12',
+    },
+  },
+  defaultVariants: {
+    lastMsgMine: false,
+  },
+});
 
 function ChatMessageList() {
   const toKstDate = (iso: string | Date): Date =>
@@ -43,13 +59,11 @@ function ChatMessageList() {
 
       if (last?.sender.id === cur.sender.id) {
         last.contents.push(cur.content);
-        last.endAt = kst.toISOString();
       } else {
         bucket.push({
+          id: cur.id,
           sender: cur.sender,
           contents: [cur.content],
-          startAt: kst.toISOString(),
-          endAt: kst.toISOString(),
         });
       }
 
@@ -63,34 +77,36 @@ function ChatMessageList() {
   }, []);
 
   return (
-    <div className="chat-scrollbar flex h-full flex-col justify-end overflow-y-auto py-2 pe-2">
-      {/* 상대 메시지 공간 */}
-      <div className="flex gap-2">
-        <UserAvatarImage />
-        <div className="flex w-full flex-col gap-1">
-          <span className="text-xs font-medium text-gray-900">000 매니저</span>
-          <div className="w-fit max-w-[70%] rounded-2xl bg-fuchsia-100 px-3 py-2">
-            메시지메시지메시지 내용내용내용 안녕하세요안녕하세요안녕하세요
-            메시지칸테스트중
+    <div className="chat-scrollbar flex h-full flex-col overflow-y-auto py-2 pe-2">
+      <div className="mt-auto" />
+      {Object.entries(groupedChatData).map(([dKey, dValue]) => (
+        <div key={`D-${dKey}`}>
+          <div className="w-full py-4 text-center text-xs font-medium text-gray-500">
+            {dKey}
           </div>
-          <div className="w-fit max-w-[70%] rounded-2xl bg-fuchsia-100 px-3 py-2">
-            메시지메시지메시지
-          </div>
-          <span className="text-[10px] font-medium text-gray-500">15:00</span>
-        </div>
-      </div>
 
-      {/* 내 메시지 공간 */}
-      <div className="flex w-full flex-col items-end gap-1">
-        <div className="w-fit max-w-[70%] rounded-2xl bg-fuchsia-300 px-3 py-2">
-          메시지메시지메시지 내용내용내용 안녕하세요안녕하세요안녕하세요
-          메시지칸테스트중
+          {Object.entries(dValue).map(([tKey, tValue]) => {
+            const isLastMsgMine = tValue.at(-1)?.sender.id === USER_ID;
+
+            return (
+              <div key={`T-${dKey}-${tKey}`}>
+                {tValue.map(msg => (
+                  <ChatMessageGroup key={msg.id} {...msg} />
+                ))}
+
+                {isLastMsgMine}
+                <div
+                  className={clsx(
+                    ChatTimeStyles({ lastMsgMine: isLastMsgMine }),
+                  )}
+                >
+                  {tKey}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="w-fit max-w-[70%] rounded-2xl bg-fuchsia-300 px-3 py-2">
-          메시지메시지메시지
-        </div>
-        <span className="text-[10px] font-medium text-gray-500">15:02</span>
-      </div>
+      ))}
     </div>
   );
 }
