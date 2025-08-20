@@ -1,25 +1,13 @@
-import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
+import { ChatMessageGroupStyles } from '../../chat.styles';
 import type { GroupedChatTypes } from '../../chat.types';
 import ChatMessageBubble from './ChatMessageBubble';
 
 // *memo - 로그인 시 전역 상태로 저장되는 userId 값이 존재한다고 가정
 const USER_ID = 'idol-01';
-
-const ChatMessageGroupStyles = cva('flex w-full', {
-  variants: {
-    myChat: {
-      true: 'flex-col items-end gap-1',
-      false: ' gap-2',
-    },
-  },
-  defaultVariants: {
-    myChat: false,
-  },
-});
 
 function ChatMessageGroup(data: GroupedChatTypes) {
   const { sender, contents } = data;
