@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import {
@@ -8,7 +9,6 @@ import {
 } from '@/utils/chat.utils';
 
 import type { FlattenChatTypes } from '../../chat.types';
-import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
 
@@ -20,8 +20,28 @@ const renderDataByTime = (_: number, chatData: FlattenChatTypes) => {
 
 function ChatMessageList() {
   const [atBottom, setAtBottom] = useState(true);
+  const [chatData, setChatData] = useState([]);
 
-  const sortedChatData = toSortedChats(CHAT_EXAMPLES);
+  useEffect(() => {
+    const fetchChatData = async () => {
+      try {
+        const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
+          headers: {
+            Authorization: `Bearer qwer-tyui-op`,
+          },
+        });
+        const { data } = res;
+        console.log(res);
+        setChatData(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchChatData();
+  }, []);
+
+  const sortedChatData = toSortedChats(chatData);
 
   const groupedChatData = toGroupedChatMap(sortedChatData);
 
