@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-
 import { Button } from '@/components/common/Button';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
 
 function Hero() {
-  const navigate = useNavigate();
-
-  const handleClick = () => navigate('/auth/login');
+  const { navigateToLogin } = useAuthNavigation();
 
   return (
     <div className="bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat">
@@ -20,7 +17,12 @@ function Hero() {
           <p>딩딩이 최애 아이돌의 공개 스케줄을 미리 알아보고</p>
           <p>놓치지 않도록 알림으로 알려드릴게요.</p>
         </div>
-        <Button variant="primary" size="lg" shape="pill" onClick={handleClick}>
+        <Button
+          variant="primary"
+          size="lg"
+          shape="pill"
+          onClick={navigateToLogin}
+        >
           시작하기
         </Button>
       </div>
