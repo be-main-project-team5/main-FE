@@ -27,3 +27,13 @@ export interface ChatMessageBubbleTypes {
   isMyChat: boolean;
   text: string;
 }
+
+export type FlattenChatTypes =
+  | { type: 'date'; dKey: string; key: string }
+  | {
+      type: 'time';
+      dKey: string;
+      tKey: string;
+      tValue: GroupedChatTypes[];
+      key: string;
+    };
