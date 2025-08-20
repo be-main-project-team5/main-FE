@@ -23,12 +23,12 @@ function ChatMessageList() {
   };
 
   const sortedChatData = [...CHAT_EXAMPLES].sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
   );
 
   const groupedChatData = sortedChatData.reduce(
     (acc: Record<string, Record<string, Chat[]>>, cur) => {
-      const kst = toKstDate(cur.createdAt);
+      const kst = toKstDate(cur.sendAt);
       const dKey = toDateKey(kst);
       const tKey = toFiveMinutesKey(kst);
 
@@ -40,13 +40,13 @@ function ChatMessageList() {
 
       const last = bucket.at?.(-1);
 
-      if (last?.author === cur.author) {
-        last.texts.push(cur.text);
+      if (last?.sender.id === cur.sender.id) {
+        last.texts.push(cur.content);
         last.endAt = kst.toISOString();
       } else {
         bucket.push({
-          author: cur.author,
-          texts: [cur.text],
+          sender: cur.sender,
+          texts: [cur.content],
           startAt: kst.toISOString(),
           endAt: kst.toISOString(),
         });
