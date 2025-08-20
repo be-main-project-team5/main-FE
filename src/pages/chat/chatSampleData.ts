@@ -20,7 +20,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '네 감사합니다! 정리본 받으면 캘린더에 반영할게요.',
     sendAt: '2025-08-01T03:25:10Z',
@@ -42,7 +42,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '네, 리허설 포함해서 점검 목록 업데이트해둘게요.',
     sendAt: '2025-08-18T15:02:30Z',
@@ -64,7 +64,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '네, 지금 확인 중입니다!',
     sendAt: '2025-08-19T06:00:05Z',
@@ -95,7 +95,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: 'B홀 3층 확인했습니다. 리허설 2시간 전 합류할게요.',
     sendAt: '2025-08-19T06:02:48Z',
@@ -115,7 +115,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '2번 찬성! 신발은 화이트로 갈게요.',
     sendAt: '2025-08-19T06:05:45Z',
@@ -136,7 +136,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '확인! 끝나고 바로 이동하겠습니다 🙌',
     sendAt: '2025-08-19T06:09:30Z',
@@ -146,7 +146,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '스태프 분들께도 공지 부탁드려요. 고생 많으십니다!',
     sendAt: '2025-08-19T06:10:05Z',
@@ -158,7 +158,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: '의상 일정표에도 변경사항 표시해둘게요.',
     sendAt: '2025-08-19T06:10:25Z',
@@ -168,7 +168,7 @@ export const CHAT_EXAMPLES: ChatTypes[] = [
     sender: {
       id: 'idol-01',
       nickname: '리즈',
-      profile_image: null,
+      profile_image: undefined,
     },
     content: 'B홀 출입 동선 도면 받으면 바로 공유 부탁드려요.',
     sendAt: '2025-08-19T06:10:40Z',
