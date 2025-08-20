@@ -46,12 +46,12 @@ function ChatMessageList() {
       const last = bucket.at?.(-1);
 
       if (last?.sender.id === cur.sender.id) {
-        last.contents.push(cur.content);
+        last.contents.push({ id: cur.id, text: cur.content });
       } else {
         bucket.push({
           id: cur.id,
           sender: cur.sender,
-          contents: [cur.content],
+          contents: [{ id: cur.id, text: cur.content }],
         });
       }
 
