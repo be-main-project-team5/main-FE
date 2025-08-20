@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
+import type { GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 
 function ChatMessageList() {
@@ -26,8 +27,8 @@ function ChatMessageList() {
     (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
   );
 
-  const groupedChatData = sortedChatData.reduce(
-    (acc: Record<string, Record<string, Chat[]>>, cur) => {
+  const groupedChatData = sortedChatData.reduce<GroupedChatListTypes>(
+    (acc, cur) => {
       const kst = toKstDate(cur.sendAt);
       const dKey = toDateKey(kst);
       const tKey = toFiveMinutesKey(kst);
@@ -41,12 +42,12 @@ function ChatMessageList() {
       const last = bucket.at?.(-1);
 
       if (last?.sender.id === cur.sender.id) {
-        last.texts.push(cur.content);
+        last.contents.push(cur.content);
         last.endAt = kst.toISOString();
       } else {
         bucket.push({
           sender: cur.sender,
-          texts: [cur.content],
+          contents: [cur.content],
           startAt: kst.toISOString(),
           endAt: kst.toISOString(),
         });

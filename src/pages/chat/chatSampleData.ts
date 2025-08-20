@@ -1,13 +1,4 @@
-interface ChatTypes {
-  id: string;
-  sender: {
-    id: string;
-    nickname: string;
-    profile_image: string | null;
-  };
-  content: string;
-  sendAt: string;
-}
+import type { ChatTypes } from './chat.types';
 
 const MANAGER_PROFILE_IMAGE =
   'https://placehold.co/300x300/orange/white?text=❤';
