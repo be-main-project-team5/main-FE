@@ -1,0 +1,34 @@
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import DashboardHeader from './sections/DashboardHeader';
+import AccountActions from './sections/AccountActions';
+import MemberActions from './sections/MemberActions';
+
+export default function AdminDashboard() {
+  const navigate = useNavigate();
+
+  const handleCreateIdol = useCallback(() => {
+    navigate('/admin/accounts/new?role=idol');
+  }, [navigate]);
+
+  const handleCreateManager = useCallback(() => {
+    navigate('/admin/accounts/new?role=manager');
+  }, [navigate]);
+
+  const handleOpenMembers = useCallback(() => {
+    navigate('/admin/users');
+  }, [navigate]);
+
+  return (
+    <div className="py-10 md:py-14">
+      <DashboardHeader />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <AccountActions
+          onCreateIdol={handleCreateIdol}
+          onCreateManager={handleCreateManager}
+        />
+        <MemberActions onOpenMembers={handleOpenMembers} />
+      </div>
+    </div>
+  );
+}

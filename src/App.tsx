@@ -12,6 +12,8 @@ import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
 
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+
 function App() {
   return (
     <Routes>
@@ -31,6 +33,10 @@ function App() {
       <Route path="/mypage" element={<MyPageLayout />}>
         <Route path="myprofile" element={<MyProfile />} />
         <Route path="myschedule" element={<MySchedule />} />
+      </Route>
+
+      <Route path="/admin" element={<Layout />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );
