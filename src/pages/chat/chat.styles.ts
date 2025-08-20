@@ -1,0 +1,43 @@
+import { cva } from 'class-variance-authority';
+
+export const ChatMessageBubbleStyles = cva(
+  'w-fit max-w-[70%] rounded-2xl px-3 py-2 mt-2',
+  {
+    variants: {
+      myChat: {
+        true: 'bg-fuchsia-300',
+        false: 'bg-fuchsia-100',
+      },
+    },
+    defaultVariants: {
+      myChat: false,
+    },
+  },
+);
+
+export const ChatMessageGroupStyles = cva('flex w-full', {
+  variants: {
+    myChat: {
+      true: 'flex-col items-end gap-1',
+      false: ' gap-2',
+    },
+  },
+  defaultVariants: {
+    myChat: false,
+  },
+});
+
+export const ChatTimeStyles = cva(
+  'py-1 text-[10px] font-medium text-gray-500',
+  {
+    variants: {
+      lastMsgMine: {
+        true: 'pl-0 text-right',
+        false: 'pl-12',
+      },
+    },
+    defaultVariants: {
+      lastMsgMine: false,
+    },
+  },
+);
