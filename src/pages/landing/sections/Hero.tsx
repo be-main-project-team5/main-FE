@@ -5,7 +5,7 @@ import { Button } from '@/components/common/Button';
 function Hero() {
   const navigate = useNavigate();
 
-  const handleClick = () => navigate('/login');
+  const handleClick = () => navigate('/auth/login');
 
   return (
     <div className="bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat">
