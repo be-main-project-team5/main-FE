@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/common/Button';
 
 import UserDropdown from './UserDropdown';
+import { useNavigate } from 'react-router-dom';
 
 type DesktopMenuProps = {
   isLoggedIn: boolean;
@@ -15,16 +16,17 @@ function DesktopMenu({
   userName,
   profileImageUrl,
 }: DesktopMenuProps) {
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
 
   const handleLogin = () => {
-    // TODO: 로그인 페이지 라우팅 구현
+    navigate('/auth/login');
   };
 
   const handleSignup = () => {
-    // TODO: 회원가입 페이지 라우팅 구현
+    navigate('/auth/register');
   };
 
   return (
@@ -38,7 +40,6 @@ function DesktopMenu({
           profileImageUrl={profileImageUrl}
         />
       ) : (
-        // 비로그인 상태: 로그인 / 회원가입 버튼
         <>
           <Button
             variant="secondary"
