@@ -1,5 +1,7 @@
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
 
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+
 import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
@@ -20,13 +22,7 @@ function MobileMenu({
   const dropdownButtonClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
-  const handleLogin = () => {
-    // TODO: 로그인 페이지 라우팅 구현
-  };
-
-  const handleSignup = () => {
-    // TODO: 회원가입 페이지 라우팅 구현
-  };
+  const { navigateToLogin, navigateToSignup } = useAuthNavigation();
 
   return (
     <>
@@ -56,11 +52,10 @@ function MobileMenu({
               profileImageUrl={profileImageUrl}
             />
           ) : (
-            // 비로그인 시 로그인/회원가입 버튼 목록
             <div className="w-full py-1">
               <button
                 type="button"
-                onClick={handleLogin}
+                onClick={navigateToLogin}
                 className={dropdownButtonClass}
               >
                 로그인
@@ -68,7 +63,7 @@ function MobileMenu({
               <hr className="mx-1 my-3 border border-gray-200" />
               <button
                 type="button"
-                onClick={handleSignup}
+                onClick={navigateToSignup}
                 className={dropdownButtonClass}
               >
                 회원가입
