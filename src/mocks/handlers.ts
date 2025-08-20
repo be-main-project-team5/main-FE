@@ -1,6 +1,11 @@
 import { http, HttpResponse } from 'msw';
 
 import { ALL_SCHEDULES } from './data';
+import { CHAT_EXAMPLES } from './data/chats';
+
+const CHATS_BY_ROOM = {
+  'chat-001': CHAT_EXAMPLES,
+};
 
 export const handlers = [
   http.get('/bookmark/idol', () => {
@@ -44,5 +49,26 @@ export const handlers = [
       schedule.startTime.startsWith(date),
     );
     return HttpResponse.json(schedulesForDate);
+  }),
+
+  http.get(`*/chats/rooms/:room_pk/messages/`, ({ request, params }) => {
+    const auth =
+      request.headers.get('Authorization') ??
+      request.headers.get('authorization');
+    const token = auth?.startsWith('Bearer ');
+
+    if (!token) {
+      return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
+    }
+
+    const { room_pk } = params;
+
+    const messages = CHATS_BY_ROOM[room_pk] ?? [];
+
+    const sortedData = [...messages].sort(
+      (a, b) => new Date(a.sendAt) - new Date(b.sendAt),
+    );
+
+    return HttpResponse.json(sortedData);
   }),
 ];
