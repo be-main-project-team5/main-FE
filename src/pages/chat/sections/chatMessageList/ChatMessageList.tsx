@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import type { ChatTypes, GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
+import DateDivider from './DateDivider';
 
 function ChatMessageList() {
   const toKstDate = (iso: string | Date): Date =>
@@ -64,9 +65,7 @@ function ChatMessageList() {
       <div className="mt-auto" />
       {Object.entries(groupedChatData).map(([dKey, dValue]) => (
         <div key={`D-${dKey}`}>
-          <div className="w-full py-4 text-center text-xs font-medium text-gray-500">
-            {dKey}
-          </div>
+          <DateDivider dKey={dKey} />
 
           {Object.entries(dValue).map(([tKey, tValue]) => (
             <ChatMessageGroup
