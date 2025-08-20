@@ -18,6 +18,11 @@ export type GroupedChatListTypes = Record<
   Record<string, GroupedChatTypes[]>
 >;
 
+export interface ChatMessageGroupTypes {
+  tKey: string;
+  tValue: GroupedChatTypes[];
+}
+
 export interface ChatMessageBubbleTypes {
   isMyChat: boolean;
   text: string;
