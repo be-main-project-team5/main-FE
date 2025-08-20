@@ -85,8 +85,13 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     () => searchData?.pages.flatMap(page => page.items) ?? [],
     [searchData],
   );
+
   const isSearching = debouncedSearchQuery.trim().length > 0;
   const idolsToDisplay = isSearching ? flatSearchIdols : (favoriteIdols ?? []);
+
+  const hasFavorites = (favoriteIdols?.length ?? 0) > 0;
+  const shouldShowEmptyFavorites =
+    !isSearching && !isFavoritesLoading && (favoriteIdols?.length ?? 0) === 0;
 
   return {
     idolsToDisplay,
@@ -101,5 +106,7 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     hasNextPage,
     isFetchingNextPage,
     isSearching,
+    hasFavorites,
+    shouldShowEmptyFavorites,
   };
 }
