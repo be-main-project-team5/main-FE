@@ -15,7 +15,7 @@ export const ChatMessageBubbleStyles = cva(
   },
 );
 
-export const ChatMessageGroupStyles = cva('flex w-full', {
+export const ChatMessageItemStyles = cva('flex w-full', {
   variants: {
     myChat: {
       true: 'flex-col items-end gap-1',

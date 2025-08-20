@@ -2,14 +2,14 @@ import clsx from 'clsx';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 
-import { ChatMessageGroupStyles } from '../../chat.styles';
+import { ChatMessageItemStyles } from '../../chat.styles';
 import type { GroupedChatTypes } from '../../chat.types';
 import ChatMessageBubble from './ChatMessageBubble';
 
 // *memo - 로그인 시 전역 상태로 저장되는 userId 값이 존재한다고 가정
 const USER_ID = 'idol-01';
 
-function ChatMessageGroup(data: GroupedChatTypes) {
+function ChatMessageItem(data: GroupedChatTypes) {
   const { sender, contents } = data;
   const isMyChat = sender.id === USER_ID;
   const bubbles = contents.map(content => (
@@ -21,7 +21,7 @@ function ChatMessageGroup(data: GroupedChatTypes) {
   ));
 
   return (
-    <div className={clsx(ChatMessageGroupStyles({ myChat: isMyChat }))}>
+    <div className={clsx(ChatMessageItemStyles({ myChat: isMyChat }))}>
       {isMyChat && bubbles}
 
       {!isMyChat && (
@@ -39,4 +39,4 @@ function ChatMessageGroup(data: GroupedChatTypes) {
   );
 }
 
-export default ChatMessageGroup;
+export default ChatMessageItem;
