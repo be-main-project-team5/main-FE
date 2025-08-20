@@ -1,25 +1,13 @@
-import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 
+import { ChatTimeStyles } from '../../chat.styles';
 import type { ChatTypes, GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
 
 // *memo - 로그인 시 전역 상태로 저장되는 userId 값이 존재한다고 가정
 const USER_ID = 'idol-01';
-
-const ChatTimeStyles = cva('py-1 text-[10px] font-medium text-gray-500', {
-  variants: {
-    lastMsgMine: {
-      true: 'pl-0 text-right',
-      false: 'pl-12',
-    },
-  },
-  defaultVariants: {
-    lastMsgMine: false,
-  },
-});
 
 function ChatMessageList() {
   const toKstDate = (iso: string | Date): Date =>
