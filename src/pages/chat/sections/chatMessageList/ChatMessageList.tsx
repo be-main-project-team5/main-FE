@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
 import {
@@ -26,10 +26,6 @@ function ChatMessageList() {
   const groupedChatData = toGroupedChatMap(sortedChatData);
 
   const flattenChatData = toFlattenChats(groupedChatData);
-
-  useEffect(() => {
-    console.log(groupedChatData);
-  }, []);
 
   return (
     <div className="h-full">
