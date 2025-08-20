@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { forwardRef } from 'react';
 
 const buttonVariants = cva(
-  'inline-flex cursor-pointer items-center justify-center font-medium transition-colors',
+  'inline-flex cursor-pointer items-center justify-center transition-colors',
   {
     variants: {
       variant: {
