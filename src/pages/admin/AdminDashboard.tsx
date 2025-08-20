@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   }, [navigate]);
 
   return (
-    <div className="py-14 md:pt-20 md:pb-28">
+    <div className="py-16 md:pt-20 md:pb-28">
       <DashboardHeader />
       <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2 md:gap-16 md:px-12">
         <AccountActions
