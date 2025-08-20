@@ -8,5 +8,5 @@ export const useSortedChats = (rawData: ChatTypes[]) =>
       [...rawData].sort(
         (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
       ),
-    [],
+    [rawData],
   );
