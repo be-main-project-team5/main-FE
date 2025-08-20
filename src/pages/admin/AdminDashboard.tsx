@@ -20,9 +20,9 @@ export default function AdminDashboard() {
   }, [navigate]);
 
   return (
-    <div className="py-10 md:py-14">
+    <div className="py-14 md:pt-20 md:pb-28">
       <DashboardHeader />
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2 md:gap-16 md:px-12">
         <AccountActions
           onCreateIdol={handleCreateIdol}
           onCreateManager={handleCreateManager}
