@@ -8,8 +8,8 @@ import IdolSearchList from './IdolSearchList';
 import {
   EmptySearchResult,
   ErrorMessage,
-  LoadingSpinner,
   FavoriteEmptyState,
+  LoadingSpinner,
 } from './IdolSearchStates';
 import { useIdolSearch } from './useIdolSearch';
 
