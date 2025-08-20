@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
 
 import UserDropdown from './UserDropdown';
-import { useNavigate } from 'react-router-dom';
 
 type DesktopMenuProps = {
   isLoggedIn: boolean;
@@ -16,18 +16,10 @@ function DesktopMenu({
   userName,
   profileImageUrl,
 }: DesktopMenuProps) {
-  const navigate = useNavigate();
+  const { navigateToLogin, navigateToSignup } = useAuthNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
-
-  const handleLogin = () => {
-    navigate('/auth/login');
-  };
-
-  const handleSignup = () => {
-    navigate('/auth/register');
-  };
 
   return (
     <nav className="hidden items-center space-x-3 md:flex">
@@ -45,7 +37,7 @@ function DesktopMenu({
             variant="secondary"
             size="md"
             className="w-[96px]"
-            onClick={handleLogin}
+            onClick={navigateToLogin}
           >
             로그인
           </Button>
@@ -53,7 +45,7 @@ function DesktopMenu({
             variant="primary"
             size="md"
             className="w-[96px]"
-            onClick={handleSignup}
+            onClick={navigateToSignup}
           >
             회원가입
           </Button>
