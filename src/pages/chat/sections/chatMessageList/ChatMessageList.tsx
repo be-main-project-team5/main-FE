@@ -1,13 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import { toDateKey, toFiveMinutesKey, toKstDate } from '@/utils/chat.utils';
+import { useGroupedChatMap } from '@/hooks/useGroupedChatMap';
+import { useSortedChats } from '@/hooks/useSortedChats';
 
-import type {
-  ChatTypes,
-  GroupedChatListTypes,
-  GroupedChatTypes,
-} from '../../chat.types';
+import type { GroupedChatTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
@@ -28,36 +25,9 @@ const renderDataByTime = (
 function ChatMessageList() {
   const [atBottom, setAtBottom] = useState(true);
 
-  const sortedChatData = [...CHAT_EXAMPLES].sort(
-    (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
-  );
+  const sortedChatData = useSortedChats(CHAT_EXAMPLES);
 
-  const groupedChatData = sortedChatData.reduce<GroupedChatListTypes>(
-    (acc: GroupedChatListTypes, cur: ChatTypes): GroupedChatListTypes => {
-      const kst = toKstDate(cur.sendAt);
-      const dKey = toDateKey(kst);
-      const tKey = toFiveMinutesKey(kst);
-
-      acc[dKey] ??= {};
-      acc[dKey][tKey] ??= [];
-      const bucket = acc[dKey][tKey];
-
-      const last = bucket.at?.(-1);
-
-      if (last?.sender.id === cur.sender.id) {
-        last.contents.push({ id: cur.id, text: cur.content });
-      } else {
-        bucket.push({
-          id: cur.id,
-          sender: cur.sender,
-          contents: [{ id: cur.id, text: cur.content }],
-        });
-      }
-
-      return acc;
-    },
-    {},
-  );
+  const groupedChatData = useGroupedChatMap(sortedChatData);
 
   const dataEntries = useMemo(
     () => Object.entries(groupedChatData),
