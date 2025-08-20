@@ -19,13 +19,13 @@ export default function AuthLayout() {
             />
           </Link>
 
-          {isDesktop && (
-            <div className="my-8 w-full border-t-1 border-gray-200" />
-          )}
-
-          <div className="w-full rounded-lg bg-[#fffeff99] p-6 md:p-0">
+          <div className="my-8 w-full rounded-lg border-gray-200 bg-[#fffeff99] px-6 py-8 md:border-y-1 md:px-0">
             <Outlet />
           </div>
+
+          <p className="text-sm text-gray-400">
+            &copy; 2025 OZ 5팀 모여라 딩딩
+          </p>
         </div>
       </div>
 
