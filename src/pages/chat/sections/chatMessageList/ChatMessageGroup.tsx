@@ -14,7 +14,6 @@ function ChatMessageGroup(data: GroupedChatTypes) {
   const isMyChat = sender.id === USER_ID;
 
   return (
-    // <div>ChatMessageGroup</div>
     <div className={clsx(ChatMessageGroupStyles({ myChat: isMyChat }))}>
       {isMyChat ? (
         <>
