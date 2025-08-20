@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { ChatTimeStyles } from '../../chat.styles';
 import type { ChatTypes, GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
-import ChatMessageGroup from './ChatMessageGroup';
+import ChatMessageItem from './ChatMessageItem';
 
 // *memo - 로그인 시 전역 상태로 저장되는 userId 값이 존재한다고 가정
 const USER_ID = 'idol-01';
@@ -79,7 +79,7 @@ function ChatMessageList() {
             return (
               <div key={`T-${dKey}-${tKey}`}>
                 {tValue.map(msg => (
-                  <ChatMessageGroup key={msg.id} {...msg} />
+                  <ChatMessageItem key={msg.id} {...msg} />
                 ))}
 
                 {isLastMsgMine}
