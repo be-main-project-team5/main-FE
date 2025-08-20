@@ -6,8 +6,10 @@ import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
 
 function ChatMessageList() {
-  const toKstDate = (iso: string | Date): Date =>
-    new Date(new Date(iso).getTime() + 9 * 60 * 60 * 1000);
+  const toKstDate = (iso: string | Date) => {
+    const kst = typeof iso === 'string' ? Date.parse(iso) : iso.getTime();
+    return new Date(kst + 9 * 60 * 60 * 1000);
+  };
 
   const toDateKey = (dt: Date) => {
     const year = dt.getUTCFullYear();
@@ -33,11 +35,9 @@ function ChatMessageList() {
       const dKey = toDateKey(kst);
       const tKey = toFiveMinutesKey(kst);
 
-      if (acc[dKey] === undefined) acc[dKey] = {};
-      const day = acc[dKey];
-
-      if (day[tKey] === undefined) day[tKey] = [];
-      const bucket = day[tKey];
+      acc[dKey] ??= {};
+      acc[dKey][tKey] ??= [];
+      const bucket = acc[dKey][tKey];
 
       const last = bucket.at?.(-1);
 
