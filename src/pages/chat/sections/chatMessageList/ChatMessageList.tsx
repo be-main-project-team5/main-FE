@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 
-import type { GroupedChatListTypes } from '../../chat.types';
+import type { ChatTypes, GroupedChatListTypes } from '../../chat.types';
 import { CHAT_EXAMPLES } from '../../chatSampleData';
 import ChatMessageGroup from './ChatMessageGroup';
 
@@ -44,7 +44,7 @@ function ChatMessageList() {
   );
 
   const groupedChatData = sortedChatData.reduce<GroupedChatListTypes>(
-    (acc, cur) => {
+    (acc: GroupedChatListTypes, cur: ChatTypes): GroupedChatListTypes => {
       const kst = toKstDate(cur.sendAt);
       const dKey = toDateKey(kst);
       const tKey = toFiveMinutesKey(kst);
