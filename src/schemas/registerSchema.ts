@@ -6,7 +6,12 @@ export const RegisterSchema = z
     password: z
       .string()
       .min(8, { message: '비밀번호는 8자 이상 20자 이하로 입력해주세요.' })
-      .max(20, { message: '비밀번호는 8자 이상 20자 이하로 입력해주세요.' }),
+      .max(20, { message: '비밀번호는 8자 이상 20자 이하로 입력해주세요.' })
+      .regex(
+        /^(?=.*[A-Za-z])(?=.*\d)/,
+        '비밀번호는 영문과 숫자를 포함해야 합니다.',
+      )
+      .regex(/[!@#$%^&*]/, '비밀번호는 특수문자를 포함해야 합니다.'),
     confirmPassword: z.string(),
     nickname: z
       .string()
