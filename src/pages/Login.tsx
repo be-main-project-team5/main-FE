@@ -40,9 +40,10 @@ export default function Login() {
       closeOnClick: true,
       theme: 'light',
     });
+    // TODO: 사용자 유형별 페이지 네이게이션 분리
     navigateToSearch();
 
-    // api 로직 추가
+    // TODO: api 로직 추가
   };
 
   return (

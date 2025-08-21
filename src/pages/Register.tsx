@@ -40,7 +40,7 @@ export default function Register() {
     });
     navigateToLogin();
 
-    // api 로직 추가
+    // TODO: api 로직 추가
   };
 
   return (
