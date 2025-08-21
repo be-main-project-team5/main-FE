@@ -186,8 +186,10 @@ export default function FanMainPage() {
         </div>
       </header>
 
-      <section className="grid grid-cols-1 gap-10 md:gap-14 lg:mb-10 lg:grid-cols-[3fr_2fr] lg:items-start">
-        <div className="w-full">
+      <section className="grid grid-cols-1 gap-10 md:gap-14 lg:mb-10 lg:grid-cols-[5fr_4fr] lg:items-start">
+        <div className="w-full min-w-0">
+          {' '}
+          {/* 캘린더 */}
           <div className="w-full rounded-2xl bg-white text-sm">
             <Calendar
               selectedDate={selectedDate}
@@ -196,8 +198,10 @@ export default function FanMainPage() {
             />
           </div>
         </div>
-        <div className="w-full">
-          <div className="w-full rounded-2xl bg-white">
+        <div className="w-full min-w-0">
+          {' '}
+          {/* 데일리 스케줄 */}
+          <div className="w-full min-w-[420px] rounded-2xl bg-white">
             <DateScheduleList
               role="fan"
               selectedDate={selectedDate.format('YYYY-MM-DD')}
