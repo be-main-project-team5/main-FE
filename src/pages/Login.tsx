@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, type FieldErrors, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -10,6 +10,7 @@ import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
 import { usePageNav } from '@/hooks/usePageNav';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
+import { toastFormErrors } from '@/utils/toastError';
 
 const USER_TYPE = [
   { id: '일반', label: '일반 회원 (팬)' },
@@ -44,20 +45,6 @@ export default function Login() {
     // api 로직 추가
   };
 
-  const onErrors = (errors: FieldErrors<LoginFormValues>) => {
-    Object.values(errors).forEach((error: any) => {
-      if (error && error.message) {
-        toast.error(error.message, {
-          autoClose: 4000,
-          hideProgressBar: false,
-          position: 'top-right',
-          closeOnClick: true,
-          theme: 'light',
-        });
-      }
-    });
-  };
-
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -66,7 +53,7 @@ export default function Login() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(onSubmit, onErrors)}
+        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Controller
