@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
+import { CHAT_EXAMPLES } from '@/mocks/data/chats';
 import {
   toFlattenChats,
   toGroupedChatMap,
@@ -20,26 +20,27 @@ const renderDataByTime = (_: number, chatData: FlattenChatTypes) => {
 
 function ChatMessageList() {
   const [atBottom, setAtBottom] = useState(true);
-  const [chatData, setChatData] = useState([]);
+  const [chatData] = useState(CHAT_EXAMPLES);
 
-  useEffect(() => {
-    const fetchChatData = async () => {
-      try {
-        const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
-          // headers: {
-          //   Authorization: `Bearer qwer-tyui-op`,
-          // },
-        });
-        const { data } = res;
-        console.log(res);
-        setChatData(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  // *memo - msw 로직 주석 처리
+  // useEffect(() => {
+  //   const fetchChatData = async () => {
+  //     try {
+  //       const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
+  //         headers: {
+  //           Authorization: `Bearer qwer-tyui-op`,
+  //         },
+  //       });
+  //       const { data } = res;
+  //       console.log(res);
+  //       setChatData(data);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-    fetchChatData();
-  }, []);
+  //   fetchChatData();
+  // }, []);
 
   const sortedChatData = toSortedChats(chatData);
 
@@ -52,7 +53,7 @@ function ChatMessageList() {
       <Virtuoso
         className="chat-scrollbar flex flex-col py-2 pe-2"
         data={flattenChatData}
-        computeItemKey={(_, chatData) => `D-${chatData.key}`}
+        computeItemKey={(_, data) => `D-${data.key}`}
         alignToBottom
         initialTopMostItemIndex={{
           index: flattenChatData.length - 1,
