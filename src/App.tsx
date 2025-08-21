@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import AuthLayout from '@/components/layouts/AuthLayout';
 import Layout from '@/components/layouts/Layout';
 import MyPageLayout from '@/components/layouts/MyPageLayout';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
 import IdolSearchPage from '@/pages/idolSearch/IdolSearchPage';
 import LandingPage from '@/pages/landing/LandingPage';
 import Login from '@/pages/Login';
@@ -31,6 +32,10 @@ function App() {
       <Route path="/mypage" element={<MyPageLayout />}>
         <Route path="myprofile" element={<MyProfile />} />
         <Route path="myschedule" element={<MySchedule />} />
+      </Route>
+
+      <Route path="/admin" element={<Layout />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );

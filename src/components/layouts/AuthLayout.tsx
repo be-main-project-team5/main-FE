@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import { Link, Outlet } from 'react-router-dom';
 
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { mediaQuery } from '@/constants/breakpoints';
-import clsx from 'clsx';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 export default function AuthLayout() {
   const isDesktop = useMediaQuery(mediaQuery.tablet);
