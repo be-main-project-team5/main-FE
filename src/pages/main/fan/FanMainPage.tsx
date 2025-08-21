@@ -3,14 +3,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HeartIcon as HeartOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
-
 import Calendar from '@/components/common/calendar/Calendar';
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
-
+import { Button } from '@/components/common/Button';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import type { Schedule } from '@/types/schedule';
-
 import { ALL_SCHEDULES } from '@/mocks/data';
 import { MOCK_IDOLS } from '@/mocks/data/idols';
 import {
@@ -19,29 +17,26 @@ import {
 } from '@/mocks/data/idols';
 
 type Member = { id: number | string; name: string };
-type IdolField = { idol?: { name?: string } };
-type GroupField = { group?: { name?: string } };
-type MembersField = { members?: Member[] };
 
 function scheduleHasIdol(
-  schedule: Schedule,
-): schedule is Schedule & { idol: { name: string } } {
-  const s = schedule as IdolField;
-  return typeof s.idol?.name === 'string' && s.idol.name.length > 0;
+  s: Schedule,
+): s is Schedule & { idol: { name: string } } {
+  return (
+    typeof (s as any).idol?.name === 'string' && (s as any).idol.name.length > 0
+  );
 }
-
 function scheduleHasGroup(
-  schedule: Schedule,
-): schedule is Schedule & { group: { name: string } } {
-  const s = schedule as GroupField;
-  return typeof s.group?.name === 'string' && s.group.name.length > 0;
+  s: Schedule,
+): s is Schedule & { group: { name: string } } {
+  return (
+    typeof (s as any).group?.name === 'string' &&
+    (s as any).group.name.length > 0
+  );
 }
-
 function scheduleHasMembers(
-  schedule: Schedule,
-): schedule is Schedule & { members: Member[] } {
-  const s = schedule as MembersField;
-  return Array.isArray(s.members);
+  s: Schedule,
+): s is Schedule & { members: Member[] } {
+  return Array.isArray((s as any).members);
 }
 
 export default function FanMainPage() {
@@ -56,10 +51,9 @@ export default function FanMainPage() {
   const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
 
   const currentIdol = useMemo(
-    () => MOCK_IDOLS.find(idol => idol.id === idolId) ?? null,
+    () => MOCK_IDOLS.find(i => i.id === idolId) ?? null,
     [idolId],
   );
-
   const isFavorite = useMemo(
     () => (idolId ? favoriteIds.includes(idolId) : false),
     [idolId, favoriteIds],
@@ -68,10 +62,10 @@ export default function FanMainPage() {
   useEffect(() => {
     (async () => {
       try {
-        const favoritesFromServer = await fetchFavoriteIdols();
-        setServerFavoriteIds(favoritesFromServer.map(item => item.id));
-      } catch (err) {
-        console.error('즐겨찾기 초기 로드 실패:', err);
+        const list = await fetchFavoriteIdols();
+        setServerFavoriteIds(list.map(v => v.id));
+      } catch (e) {
+        console.error('즐겨찾기 초기 로드 실패:', e);
       }
     })();
   }, []);
@@ -82,52 +76,36 @@ export default function FanMainPage() {
     applyFn: toggleFavorite,
     onSync: async (added, removed) => {
       try {
-        const requests = [
-          ...added.map(id => serverToggleFavorite(id)),
-          ...removed.map(id => serverToggleFavorite(id)),
-        ];
-        await Promise.all(requests);
-
-        const refreshed = await fetchFavoriteIdols();
-        setServerFavoriteIds(refreshed.map(item => item.id));
-      } catch (err) {
-        console.error('서버 동기화 실패:', err);
+        await Promise.all([
+          ...added.map(serverToggleFavorite),
+          ...removed.map(serverToggleFavorite),
+        ]);
+        const list = await fetchFavoriteIdols();
+        setServerFavoriteIds(list.map(v => v.id));
+      } catch (e) {
+        console.error('서버 동기화 실패:', e);
       }
     },
   });
 
   useEffect(() => {
-    if (!currentIdol) {
-      setFilteredSchedules([]);
-      return;
-    }
-
+    if (!currentIdol) return setFilteredSchedules([]);
     const { name: idolName, groupName } = currentIdol;
-
-    const next = ALL_SCHEDULES.filter(schedule => {
-      if (scheduleHasIdol(schedule) && schedule.idol.name === idolName)
-        return true;
-      if (scheduleHasGroup(schedule) && schedule.group.name === groupName)
-        return true;
-      if (scheduleHasMembers(schedule)) {
-        return schedule.members.some(
-          (member: Member) => member.name === idolName,
-        );
-      }
+    const next = ALL_SCHEDULES.filter(s => {
+      if (scheduleHasIdol(s) && s.idol.name === idolName) return true;
+      if (scheduleHasGroup(s) && s.group.name === groupName) return true;
+      if (scheduleHasMembers(s))
+        return s.members.some((m: Member) => m.name === idolName);
       return false;
     });
-
     setFilteredSchedules(next);
   }, [currentIdol]);
 
   const handleFavoriteToggle = useCallback(() => {
-    if (!idolId) return;
-    toggleFavorite(idolId);
+    if (idolId) toggleFavorite(idolId);
   }, [idolId, toggleFavorite]);
 
-  const handleSearchClick = useCallback(() => {
-    navigate('/search');
-  }, [navigate]);
+  const handleSearchClick = useCallback(() => navigate('/search'), [navigate]);
 
   if (!currentIdol) {
     return (
@@ -138,86 +116,95 @@ export default function FanMainPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="mx-auto mb-16 max-w-screen-xl px-3 pt-12 md:px-8 lg:mb-24 lg:px-2 lg:pt-6">
       <header className="mb-8">
-        {/* 데스크톱 */}
-        <div className="hidden items-center justify-between md:flex">
-          <div className="flex items-center gap-3">
+        {/* Desktop (lg↑) */}
+        <div className="hidden items-center justify-between gap-6 lg:flex">
+          <div className="flex min-w-0 flex-1 items-center gap-3 pt-11 pb-16">
             <button
               type="button"
               onClick={handleFavoriteToggle}
               aria-pressed={isFavorite}
-              aria-label={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
+              aria-label={isFavorite ? '찜 해제' : '찜 추가'}
               className="transition-transform hover:scale-110"
             >
               {isFavorite ? (
-                <HeartSolid className="h-6 w-6 fill-fuchsia-600 text-fuchsia-600" />
+                <HeartSolid className="h-12 w-12 fill-fuchsia-500 text-fuchsia-500" />
               ) : (
-                <HeartOutline className="h-6 w-6 text-fuchsia-600" />
+                <HeartOutline className="h-12 w-12 text-fuchsia-500" />
               )}
             </button>
-            <h1 className="text-2xl font-bold">
+            <h1 className="truncate text-4xl font-bold whitespace-nowrap">
               {currentIdol.name}의 일정을 확인해보세요
             </h1>
           </div>
-
-          <button
-            type="button"
+          <Button
             onClick={handleSearchClick}
-            className="rounded-full bg-fuchsia-500 px-6 py-2 text-white transition-colors hover:bg-fuchsia-600"
+            variant="primary"
+            shape="pill"
+            size="lg"
+            className="mt-6 shrink-0 px-6 whitespace-nowrap lg:ml-6"
           >
-            아이돌 검색
-          </button>
+            아이돌 검색하기
+          </Button>
         </div>
 
-        {/* 모바일 */}
-        <div className="md:hidden">
+        {/* Mobile + Tablet (lg↓) */}
+        <div className="lg:hidden">
           <div className="mb-4 text-center">
-            <div className="mb-2 flex items-center justify-center gap-2">
+            <div className="mb-1 flex items-center justify-center gap-1">
               <button
                 type="button"
                 onClick={handleFavoriteToggle}
                 aria-pressed={isFavorite}
-                aria-label={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
+                aria-label={isFavorite ? '찜 해제' : '찜 추가'}
                 className="transition-transform hover:scale-110"
               >
                 {isFavorite ? (
-                  <HeartSolid className="h-6 w-6 fill-fuchsia-600 text-fuchsia-600" />
+                  <HeartSolid className="h-8 w-8 fill-fuchsia-500 text-fuchsia-500" />
                 ) : (
-                  <HeartOutline className="h-6 w-6 text-fuchsia-600" />
+                  <HeartOutline className="h-8 w-8 text-fuchsia-500" />
                 )}
               </button>
-              <h1 className="text-xl font-bold">{currentIdol.name}의 일정을</h1>
+              <h1 className="text-3xl font-bold">
+                {currentIdol.name}의 일정을
+              </h1>
             </div>
-            <p className="text-lg font-medium">확인해보세요</p>
+            <h1 className="ml-2 text-3xl font-bold">확인해보세요</h1>
           </div>
-
           <div className="flex justify-center">
-            <button
-              type="button"
+            <Button
               onClick={handleSearchClick}
-              className="rounded-full bg-fuchsia-500 px-8 py-3 text-white transition-colors hover:bg-fuchsia-600"
+              variant="primary"
+              shape="pill"
+              size="lg"
+              className="my-2 px-8 whitespace-nowrap"
             >
               아이돌 검색하기
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr,1.3fr]">
-        <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-          <Calendar
-            selectedDate={selectedDate}
-            onDateChange={setSelectedDate}
-            schedules={filteredSchedules}
-          />
+      <section className="grid grid-cols-1 gap-10 md:gap-14 lg:mb-10 lg:grid-cols-[3fr_2fr] lg:items-start">
+        <div className="w-full">
+          <div className="w-full rounded-2xl bg-white text-sm">
+            <Calendar
+              selectedDate={selectedDate}
+              onDateChange={setSelectedDate}
+              schedules={filteredSchedules}
+            />
+          </div>
         </div>
-
-        <DateScheduleList
-          role="fan"
-          selectedDate={selectedDate.format('YYYY-MM-DD')}
-          schedules={filteredSchedules}
-        />
+        <div className="w-full">
+          <div className="w-full rounded-2xl bg-white">
+            <DateScheduleList
+              role="fan"
+              selectedDate={selectedDate.format('YYYY-MM-DD')}
+              schedules={filteredSchedules}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );
