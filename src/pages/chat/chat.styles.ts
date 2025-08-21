@@ -41,3 +41,6 @@ export const ChatTimeStyles = cva(
     },
   },
 );
+
+export const ChatComposerButtonStyles =
+  'group aspect-square h-full w-fit cursor-pointer rounded-full p-1.5';
