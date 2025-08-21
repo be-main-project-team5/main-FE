@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
@@ -15,7 +14,11 @@ import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
-import { toastFormErrors } from '@/utils/toastError';
+import {
+  showErrorToast,
+  showSuccessToast,
+  toastFormErrors,
+} from '@/utils/toastUtils';
 
 export default function Register() {
   const { navigateToLogin } = usePageNav();
@@ -48,32 +51,14 @@ export default function Register() {
 
       const response = await axios.post('/users/signup', requestBody);
 
-      toast.success(response.data.message || '회원가입 성공!', {
-        autoClose: 2000,
-        hideProgressBar: false,
-        position: 'top-right',
-        closeOnClick: true,
-        theme: 'light',
-      });
+      showSuccessToast(response.data.message || '회원가입 성공!');
+
       navigateToLogin();
     } catch (error) {
-      // console.error('회원가입 중 오류 발생:', error);
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(error.response.data.message || '회원가입 실패', {
-          autoClose: 4000,
-          hideProgressBar: false,
-          position: 'top-right',
-          closeOnClick: true,
-          theme: 'light',
-        });
+        showErrorToast(error.response.data.message || '회원가입 실패');
       } else {
-        toast.error('회원가입 중 네트워크 오류가 발생했습니다.', {
-          autoClose: 4000,
-          hideProgressBar: false,
-          position: 'top-right',
-          closeOnClick: true,
-          theme: 'light',
-        });
+        showErrorToast('회원가입 중 네트워크 오류가 발생했습니다.');
       }
     } finally {
       setIsLoading(false);
