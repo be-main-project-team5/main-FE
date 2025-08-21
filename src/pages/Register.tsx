@@ -1,16 +1,22 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
-import {
-  RegisterSchema,
-  type RegisterFormValues,
-} from '@/schemas/registerSchema';
-import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type FieldErrors, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
+import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import {
+  type RegisterFormValues,
+  RegisterSchema,
+} from '@/schemas/registerSchema';
 
 export default function Register() {
+  const { navigateToLogin } = useAuthNavigation();
+
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -22,10 +28,34 @@ export default function Register() {
     mode: 'onBlur',
   });
 
-  const {
-    register,
-    formState: { errors },
-  } = form;
+  const { register } = form;
+
+  const onSubmit = () => {
+    toast.success('회원가입 성공!', {
+      autoClose: 2000,
+      hideProgressBar: false,
+      position: 'top-right',
+      closeOnClick: true,
+      theme: 'light',
+    });
+    navigateToLogin();
+
+    // api 로직 추가
+  };
+
+  const onErrors = (errors: FieldErrors<RegisterFormValues>) => {
+    Object.values(errors).forEach((error: any) => {
+      if (error && error.message) {
+        toast.error(error.message, {
+          autoClose: 4000,
+          hideProgressBar: false,
+          position: 'top-right',
+          closeOnClick: true,
+          theme: 'light',
+        });
+      }
+    });
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -42,38 +72,24 @@ export default function Register() {
         </p>
       </div>
 
-      <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onErrors)}
+        className="flex flex-col gap-2"
+      >
         <Input type="email" label="이메일" {...register('email')} />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-        )}
-
         <Input type="password" label="비밀번호" {...register('password')} />
-        {errors.password && (
-          <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-        )}
-
         <Input
           type="password"
           label="비밀번호 확인"
           {...register('confirmPassword')}
         />
-        {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-
         <Input type="text" label="닉네임" {...register('nickname')} />
-        {errors.nickname && (
-          <p className="mt-1 text-sm text-red-600">{errors.nickname.message}</p>
-        )}
 
-        <Button size="lg" className="my-8 w-full font-semibold">
+        <Button type="submit" size="lg" className="my-8 w-full font-semibold">
           회원가입
           <ChevronRightIcon className="ml-2 w-5 md:block" />
         </Button>
-      </FormProvider>
+      </form>
 
       <p>
         이미 DingDing 회원이신가요?
