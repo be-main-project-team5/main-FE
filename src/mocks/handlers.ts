@@ -1,11 +1,11 @@
 import { http, HttpResponse } from 'msw';
 
 import { ALL_SCHEDULES } from './data';
-import { CHAT_EXAMPLES } from './data/chats';
+// import { CHAT_EXAMPLES } from './data/chats';
 
-const CHATS_BY_ROOM = {
-  'chat-001': CHAT_EXAMPLES,
-};
+// const CHATS_BY_ROOM = {
+//   'chat-001': CHAT_EXAMPLES,
+// };
 
 export const handlers = [
   http.get('/bookmark/idol', () => {
@@ -51,24 +51,24 @@ export const handlers = [
     return HttpResponse.json(schedulesForDate);
   }),
 
-  http.get(`*/chats/rooms/:room_pk/messages/`, ({ request, params }) => {
-    const auth =
-      request.headers.get('Authorization') ??
-      request.headers.get('authorization');
-    // const token = auth?.slice(7);
+  // http.get(`*/chats/rooms/:room_pk/messages/`, ({ request, params }) => {
+  //   const auth =
+  //     request.headers.get('Authorization') ??
+  //     request.headers.get('authorization');
+  //   const token = auth?.slice(7);
 
-    // if (!token) {
-    //   return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
-    // }
+  //   if (!token) {
+  //     return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
+  //   }
 
-    const roomPk = params.room_pk;
+  //   const roomPk = params.room_pk;
 
-    const messages = CHATS_BY_ROOM[roomPk] ?? [];
+  //   const messages = CHATS_BY_ROOM[roomPk] ?? [];
 
-    const sortedData = [...messages].sort(
-      (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
-    );
+  //   const sortedData = [...messages].sort(
+  //     (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
+  //   );
 
-    return HttpResponse.json(sortedData);
-  }),
+  //   return HttpResponse.json(sortedData);
+  // }),
 ];
