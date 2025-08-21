@@ -9,6 +9,7 @@ import AdminDashboard from '@/pages/admin/AdminDashboard';
 import IdolSearchPage from '@/pages/idolSearch/IdolSearchPage';
 import LandingPage from '@/pages/landing/LandingPage';
 import Login from '@/pages/Login';
+import FanMainPage from '@/pages/main/fan/FanMainPage';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
@@ -28,6 +29,10 @@ function App() {
 
       <Route path="/search" element={<Layout />}>
         <Route index element={<IdolSearchPage />} />
+      </Route>
+
+      <Route path="/idols" element={<Layout />}>
+        <Route path=":idolId" element={<FanMainPage />} />
       </Route>
 
       <Route path="/mypage" element={<MyPageLayout />}>
