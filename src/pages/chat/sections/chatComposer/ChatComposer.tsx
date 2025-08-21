@@ -1,6 +1,7 @@
 import { PaperAirplaneIcon, UsersIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useState } from 'react';
+
 import { ChatComposerButtonStyles } from '../../chat.styles';
 
 interface ChatComposerProps {
