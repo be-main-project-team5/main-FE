@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import ChatComposer from './sections/ChatComposer';
+import ChatComposer from './sections/chatComposer/ChatComposer';
 import ChatConversationList from './sections/ChatConversationList';
 import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 
