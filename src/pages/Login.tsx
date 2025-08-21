@@ -18,9 +18,9 @@ import {
 } from '@/utils/toastUtils';
 
 const USER_TYPE = [
-  { id: '일반', label: '일반 회원 (팬)' },
-  { id: '매니저', label: '매니저' },
-  { id: '아이돌', label: '아이돌' },
+  { id: 'NORMAL', label: '일반 회원 (팬)' },
+  { id: 'MANAGER', label: '매니저' },
+  { id: 'IDOL', label: '아이돌' },
 ];
 
 export default function Login() {
