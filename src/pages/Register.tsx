@@ -1,31 +1,14 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
-import { z } from 'zod';
+import {
+  RegisterSchema,
+  type RegisterFormValues,
+} from '@/schemas/registerSchema';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
-
-const RegisterSchema = z
-  .object({
-    email: z.string().email({ message: '올바른 이메일 형식이 아닙니다.' }),
-    password: z
-      .string()
-      .min(8, { message: '비밀번호는 8자 이상 20자 이하로 입력해주세요.' })
-      .max(20, { message: '비밀번호는 8자 이상 20자 이하로 입력해주세요.' }),
-    confirmPassword: z.string(),
-    nickname: z
-      .string()
-      .min(2, { message: '닉네임은 2자 이상 10자 이하로 입력해주세요.' })
-      .max(10, { message: '닉네임은 2자 이상 10자 이하로 입력해주세요.' }),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: '비밀번호가 일치하지 않습니다.',
-  });
-
-type RegisterFormValues = z.infer<typeof RegisterSchema>;
 
 export default function Register() {
   const form = useForm<RegisterFormValues>({
