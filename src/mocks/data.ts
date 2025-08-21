@@ -93,4 +93,13 @@ export const ALL_SCHEDULES = [
     isPublic: true,
     idol: { id: 110, name: '아이유' },
   },
+  {
+    id: 11,
+    title: '카리나 솔로 콘서트',
+    startTime: '2025-08-21T18:00:00',
+    endTime: '2025-08-21T20:00:00',
+    description: '카리나 첫 솔로 콘서트',
+    isPublic: true,
+    idol: { id: 2, name: '카리나' },
+  },
 ];
