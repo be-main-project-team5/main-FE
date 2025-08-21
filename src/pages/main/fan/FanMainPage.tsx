@@ -3,33 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
 import { todayYmd } from '@/utils/date';
-import type { Schedule, IdolSchedule } from '@/types/schedule';
+import type { Schedule } from '@/types/schedule';
 
-async function mockFetchDailySchedules(
-  idolId: string,
-  dateISO: string,
-): Promise<Schedule[]> {
-  const idolName = idolId || '알수없음';
-  const items: IdolSchedule[] = [
-    {
-      id: 1,
-      title: '뮤직뱅크 리허설',
-      startTime: `${dateISO} 14:00`,
-      endTime: `${dateISO} 15:00`,
-      isPublic: true,
-      idol: { id: 1, name: idolName },
-    },
-    {
-      id: 2,
-      title: '팬사인회',
-      startTime: `${dateISO} 18:00`,
-      endTime: `${dateISO} 19:00`,
-      isPublic: true,
-      idol: { id: 1, name: idolName },
-    },
-  ];
-  return items;
-}
+import { ALL_SCHEDULES } from '@/mocks/data';
+import { MOCK_IDOLS } from '@/mocks/data/idols';
 
 export default function FanMainPage() {
   const { idolId = '' } = useParams<{ idolId: string }>();
@@ -37,15 +14,21 @@ export default function FanMainPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const data = await mockFetchDailySchedules(idolId, selectedDate);
-      if (mounted) setSchedules(data);
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, [idolId, selectedDate]);
+    const idol = MOCK_IDOLS.find(i => i.id === idolId) ?? null;
+    const idolName = idol?.name ?? '';
+    const idolGroupName = idol?.groupName ?? '';
+
+    const filtered = ALL_SCHEDULES.filter(s => {
+      const isSolo = 'idol' in s && s.idol?.name === idolName;
+      const isGroup = 'group' in s && s.group?.name === idolGroupName;
+      const isMemberListed =
+        Array.isArray((s as any).members) &&
+        (s as any).members.some((m: { name: string }) => m.name === idolName);
+      return isSolo || isGroup || isMemberListed;
+    });
+
+    setSchedules(filtered);
+  }, [idolId]);
 
   return (
     <section className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr,1.3fr]">
