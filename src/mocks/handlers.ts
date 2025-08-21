@@ -16,12 +16,12 @@ interface SignInRequestBody {
 }
 
 const users: {
-  id: string;
+  user_id: string;
   username: string;
   fullname: string;
   password: string;
   userType: string;
-  image: string;
+  profile_image_url: string;
 }[] = [];
 
 export const handlers = [
@@ -97,12 +97,12 @@ export const handlers = [
     }
 
     const user = {
-      id: Math.random().toString(36).substring(2, 10),
+      user_id: Math.random().toString(36).substring(2, 10),
       username: email,
       fullname: nickname,
       password,
       userType: '일반',
-      image: 'default-profile.jpg',
+      profile_image_url: 'default-profile.jpg',
     };
 
     users.push(user);
@@ -145,11 +145,11 @@ export const handlers = [
         message_code: 200,
         message: '성공적으로 로그인되었습니다.',
         data: {
-          id: user.id,
+          user_id: user.user_id,
           username: user.username,
           fullname: user.fullname,
           userType: user.userType,
-          image: user.image,
+          profile_image_url: user.profile_image_url,
         },
       },
       { status: 200 },
