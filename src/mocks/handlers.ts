@@ -55,18 +55,18 @@ export const handlers = [
     const auth =
       request.headers.get('Authorization') ??
       request.headers.get('authorization');
-    const token = auth?.slice(7);
+    // const token = auth?.slice(7);
 
-    if (!token) {
-      return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
-    }
+    // if (!token) {
+    //   return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
+    // }
 
-    const { room_pk } = params;
+    const roomPk = params.room_pk;
 
-    const messages = CHATS_BY_ROOM[room_pk] ?? [];
+    const messages = CHATS_BY_ROOM[roomPk] ?? [];
 
     const sortedData = [...messages].sort(
-      (a, b) => new Date(a.sendAt) - new Date(b.sendAt),
+      (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
     );
 
     return HttpResponse.json(sortedData);
