@@ -2,6 +2,28 @@ import { http, HttpResponse } from 'msw';
 
 import { ALL_SCHEDULES } from './data';
 
+interface SignUpRequestBody {
+  email: string;
+  nickname: string;
+  password: string;
+  userType: string;
+}
+
+interface SignInRequestBody {
+  email: string;
+  password: string;
+  userType: string;
+}
+
+const users: {
+  user_id: string;
+  username: string;
+  fullname: string;
+  password: string;
+  userType: string;
+  profile_image_url: string;
+}[] = [];
+
 export const handlers = [
   http.get('/bookmark/idol', () => {
     return HttpResponse.json([
@@ -44,5 +66,93 @@ export const handlers = [
       schedule.startTime.startsWith(date),
     );
     return HttpResponse.json(schedulesForDate);
+  }),
+
+  http.post('/users/signup', async ({ request }) => {
+    // console.log('MSW: Received sign-up request');
+    let requestBody: SignUpRequestBody;
+    try {
+      requestBody = (await request.json()) as SignUpRequestBody;
+      // console.log('MSW: Request body parsed:', requestBody);
+    } catch (e) {
+      // console.error('MSW: Error parsing request body:', e);
+      return HttpResponse.json(
+        { message: '잘못된 요청 바디입니다.' },
+        { status: 400 },
+      );
+    }
+
+    const { email, nickname, password } = requestBody;
+
+    if (users.find(user => user.username === email)) {
+      // console.log('MSW: Email already exists:', email);
+      return HttpResponse.json(
+        {
+          message_code: 400,
+          message: '이미 가입한 이메일 주소입니다.',
+          data: null,
+        },
+        { status: 400 },
+      );
+    }
+
+    const user = {
+      user_id: Math.random().toString(36).substring(2, 10),
+      username: email,
+      fullname: nickname,
+      password,
+      userType: '일반',
+      profile_image_url: 'default-profile.jpg',
+    };
+
+    users.push(user);
+    // console.log('MSW: User registered:', user);
+    // console.log('MSW: Current users array:', users);
+
+    return HttpResponse.json(
+      {
+        message_code: 201,
+        message: '회원가입이 성공적으로 완료되었습니다.',
+        data: user,
+      },
+      { status: 201 },
+    );
+  }),
+
+  http.post('/users/login', async ({ request }) => {
+    const { email, password, userType } =
+      (await request.json()) as SignInRequestBody;
+    const user = users.find(
+      u =>
+        u.username === email &&
+        u.password === password &&
+        u.userType === userType,
+    );
+
+    if (!user) {
+      return HttpResponse.json(
+        {
+          message_code: 401,
+          message: '이메일 또는 비밀번호가 일치하지 않습니다.',
+          data: null,
+        },
+        { status: 401 },
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        message_code: 200,
+        message: '성공적으로 로그인되었습니다.',
+        data: {
+          user_id: user.user_id,
+          username: user.username,
+          fullname: user.fullname,
+          userType: user.userType,
+          profile_image_url: user.profile_image_url,
+        },
+      },
+      { status: 200 },
+    );
   }),
 ];

@@ -2,9 +2,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
@@ -13,10 +14,16 @@ import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
-import { toastFormErrors } from '@/utils/toastError';
+import {
+  showErrorToast,
+  showSuccessToast,
+  toastFormErrors,
+} from '@/utils/toastUtils';
 
 export default function Register() {
   const { navigateToLogin } = usePageNav();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
@@ -30,17 +37,32 @@ export default function Register() {
 
   const { register } = form;
 
-  const onSubmit = () => {
-    toast.success('회원가입 성공!', {
-      autoClose: 2000,
-      hideProgressBar: false,
-      position: 'top-right',
-      closeOnClick: true,
-      theme: 'light',
-    });
-    navigateToLogin();
+  const onSubmit = async (data: RegisterFormValues) => {
+    setIsLoading(true);
+    try {
+      const { confirmPassword, ...formData } = data;
 
-    // TODO: api 로직 추가
+      const requestBody = {
+        email: formData.email,
+        password: formData.password,
+        nickname: formData.nickname,
+        userType: '일반',
+      };
+
+      const response = await axios.post('/users/signup', requestBody);
+
+      showSuccessToast(response.data.message || '회원가입 성공!');
+
+      navigateToLogin();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        showErrorToast(error.response.data.message || '회원가입 실패');
+      } else {
+        showErrorToast('회원가입 중 네트워크 오류가 발생했습니다.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,7 +93,12 @@ export default function Register() {
         />
         <Input type="text" label="닉네임" {...register('nickname')} />
 
-        <Button type="submit" size="lg" className="my-8 w-full font-semibold">
+        <Button
+          type="submit"
+          size="lg"
+          className="my-8 w-full font-semibold"
+          disabled={isLoading}
+        >
           회원가입
           <ChevronRightIcon className="ml-2 w-5 md:block" />
         </Button>

@@ -1,8 +1,9 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
@@ -10,7 +11,11 @@ import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
 import { usePageNav } from '@/hooks/usePageNav';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
-import { toastFormErrors } from '@/utils/toastError';
+import {
+  showErrorToast,
+  showSuccessToast,
+  toastFormErrors,
+} from '@/utils/toastUtils';
 
 const USER_TYPE = [
   { id: '일반', label: '일반 회원 (팬)' },
@@ -20,6 +25,8 @@ const USER_TYPE = [
 
 export default function Login() {
   const { navigateToSearch } = usePageNav();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
@@ -32,18 +39,27 @@ export default function Login() {
 
   const { register } = form;
 
-  const onSubmit = () => {
-    toast.success('로그인 성공!', {
-      autoClose: 2000,
-      hideProgressBar: false,
-      position: 'top-right',
-      closeOnClick: true,
-      theme: 'light',
-    });
-    // TODO: 사용자 유형별 페이지 네이게이션 분리
-    navigateToSearch();
+  const onSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post('/users/login', {
+        email: data.email,
+        password: data.password,
+        userType: data.userType,
+      });
 
-    // TODO: api 로직 추가
+      showSuccessToast(response.data.message || '로그인 성공!');
+
+      navigateToSearch();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        showErrorToast(error.response.data.message || '로그인 실패');
+      } else {
+        showErrorToast('로그인 중 네트워크 오류가 발생했습니다.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -76,7 +92,12 @@ export default function Login() {
         <Input type="password" label="비밀번호" {...register('password')} />
 
         <div className="my-8 flex flex-col gap-4">
-          <Button type="submit" size="lg" className="w-full font-semibold">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full font-semibold"
+            disabled={isLoading}
+          >
             로그인
             <ChevronRightIcon className="ml-2 w-5 md:block" />
           </Button>
