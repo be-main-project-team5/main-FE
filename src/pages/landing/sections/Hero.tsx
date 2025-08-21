@@ -1,8 +1,8 @@
 import { Button } from '@/components/common/Button';
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { usePageNav } from '@/hooks/usePageNav';
 
 function Hero() {
-  const { navigateToLogin } = useAuthNavigation();
+  const { navigateToLogin } = usePageNav();
 
   return (
     <div className="bg-[url(@/assets/images/placeholder-lg.jpg)] bg-cover bg-center bg-no-repeat">

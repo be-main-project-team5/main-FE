@@ -8,6 +8,8 @@ interface SelectProps {
   placeholder?: string;
   size?: 'primary' | 'small';
   className?: string;
+  value: string | number | undefined;
+  onChange: (value: string | number) => void;
 }
 
 export default function Select({
@@ -15,18 +17,22 @@ export default function Select({
   placeholder = '옵션을 선택하세요',
   size = 'primary',
   className,
+  value,
+  onChange,
 }: SelectProps) {
-  const [currentValue, setCurrentValue] = useState<string>(placeholder);
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<(HTMLLIElement | null)[]>([]);
 
+  const displayedValue =
+    list.find(item => item.id === value)?.label || placeholder;
+
   const handleOnChangeSelectValue = (
     e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>,
   ) => {
-    const { value } = e.currentTarget.dataset;
-    if (value) {
-      setCurrentValue(value);
+    const { id } = e.currentTarget.dataset;
+    if (id) {
+      onChange(id);
       setShowOptions(false);
     }
     e.stopPropagation();
@@ -34,14 +40,14 @@ export default function Select({
 
   useEffect(() => {
     if (showOptions) {
-      const focusIndex = list.findIndex(item => item.label === currentValue);
+      const focusIndex = list.findIndex(item => item.id === value);
       if (focusIndex !== -1 && optionRefs.current[focusIndex]) {
         optionRefs.current[focusIndex]?.focus();
       } else if (optionRefs.current[0]) {
         optionRefs.current[0]?.focus();
       }
     }
-  }, [showOptions, currentValue, list]);
+  }, [showOptions, value, list]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -90,7 +96,7 @@ export default function Select({
       onKeyDown={e => handleToggleOnKeyDown(e, setShowOptions)}
       ref={selectRef}
     >
-      <label htmlFor="custom-select">{currentValue}</label>
+      <label htmlFor="custom-select">{displayedValue}</label>
       {showOptions && (
         <ul
           id="custom-select"
@@ -108,16 +114,16 @@ export default function Select({
               ref={el => {
                 optionRefs.current[index] = el;
               }}
-              aria-selected={data.label === currentValue}
+              aria-selected={data.id === value}
               className={clsx(
                 'text-black hover:bg-gray-50 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-300',
-                data.label === currentValue && 'font-semibold',
+                data.id === value && 'font-semibold',
                 size === 'primary' && 'px-8 py-3',
                 size === 'small' && 'px-2 py-2',
                 index === 0 && 'rounded-t-md',
                 index === list.length - 1 && 'rounded-b-md',
               )}
-              data-value={data.label}
+              data-id={data.id}
               onClick={handleOnChangeSelectValue}
               onKeyDown={e => handleOptionKeyDown(e, index)}
             >

@@ -2,20 +2,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type FieldErrors, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { usePageNav } from '@/hooks/usePageNav';
 import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
+import { toastFormErrors } from '@/utils/toastError';
 
 export default function Register() {
-  const { navigateToLogin } = useAuthNavigation();
+  const { navigateToLogin } = usePageNav();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
@@ -25,7 +26,6 @@ export default function Register() {
       confirmPassword: '',
       nickname: '',
     },
-    mode: 'onBlur',
   });
 
   const { register } = form;
@@ -40,21 +40,7 @@ export default function Register() {
     });
     navigateToLogin();
 
-    // api 로직 추가
-  };
-
-  const onErrors = (errors: FieldErrors<RegisterFormValues>) => {
-    Object.values(errors).forEach((error: any) => {
-      if (error && error.message) {
-        toast.error(error.message, {
-          autoClose: 4000,
-          hideProgressBar: false,
-          position: 'top-right',
-          closeOnClick: true,
-          theme: 'light',
-        });
-      }
-    });
+    // TODO: api 로직 추가
   };
 
   return (
@@ -73,7 +59,7 @@ export default function Register() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(onSubmit, onErrors)}
+        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Input type="email" label="이메일" {...register('email')} />

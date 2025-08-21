@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { usePageNav } from '@/hooks/usePageNav';
 
 import UserDropdown from './UserDropdown';
 
@@ -16,7 +16,7 @@ function DesktopMenu({
   userName,
   profileImageUrl,
 }: DesktopMenuProps) {
-  const { navigateToLogin, navigateToSignup } = useAuthNavigation();
+  const { navigateToLogin, navigateToSignup } = usePageNav();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleToggleDropdown = () => setIsDropdownOpen(prev => !prev);
