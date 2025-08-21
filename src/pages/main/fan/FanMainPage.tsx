@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import dayjs, { Dayjs } from 'dayjs';
 
+import Calendar from '@/components/common/calendar/Calendar';
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
-import { todayYmd } from '@/utils/date';
 import type { Schedule } from '@/types/schedule';
 
 import { ALL_SCHEDULES } from '@/mocks/data';
@@ -10,7 +11,7 @@ import { MOCK_IDOLS } from '@/mocks/data/idols';
 
 export default function FanMainPage() {
   const { idolId = '' } = useParams<{ idolId: string }>();
-  const [selectedDate, _setSelectedDate] = useState<string>(todayYmd());
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   useEffect(() => {
@@ -34,14 +35,18 @@ export default function FanMainPage() {
     <section className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr,1.3fr]">
       <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
         <div className="mb-3 text-sm text-gray-500">
-          선택 날짜: {selectedDate}
+          선택 날짜: {selectedDate.format('YYYY-MM-DD')}
         </div>
-        {/* TODO: 공용 캘린더 컴포넌트를 연결하고 onChange에서 setSelectedDate 호출 */}
+        <Calendar
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+          schedules={schedules}
+        />
       </div>
 
       <DateScheduleList
         role="fan"
-        selectedDate={selectedDate}
+        selectedDate={selectedDate.format('YYYY-MM-DD')}
         schedules={schedules}
       />
     </section>
