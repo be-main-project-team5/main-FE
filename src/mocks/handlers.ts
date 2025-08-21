@@ -17,12 +17,21 @@ interface SignInRequestBody {
 
 const users: {
   user_id: string;
-  username: string;
-  fullname: string;
+  email: string;
+  nickname: string;
   password: string;
   userType: string;
   profile_image_url: string;
-}[] = [];
+}[] = [
+  {
+    user_id: 'aownotn3f',
+    email: 'test@test.com',
+    nickname: 'test',
+    password: 'test123!',
+    userType: 'NORMAL',
+    profile_image_url: 'default-profile.jpg',
+  },
+];
 
 export const handlers = [
   http.get('/bookmark/idol', () => {
@@ -84,7 +93,7 @@ export const handlers = [
 
     const { email, nickname, password } = requestBody;
 
-    if (users.find(user => user.username === email)) {
+    if (users.find(user => user.email === email)) {
       // console.log('MSW: Email already exists:', email);
       return HttpResponse.json(
         {
@@ -98,10 +107,10 @@ export const handlers = [
 
     const user = {
       user_id: Math.random().toString(36).substring(2, 10),
-      username: email,
-      fullname: nickname,
+      email,
+      nickname,
       password,
-      userType: '일반',
+      userType: 'NORMAL',
       profile_image_url: 'default-profile.jpg',
     };
 
@@ -124,9 +133,7 @@ export const handlers = [
       (await request.json()) as SignInRequestBody;
     const user = users.find(
       u =>
-        u.username === email &&
-        u.password === password &&
-        u.userType === userType,
+        u.email === email && u.password === password && u.userType === userType,
     );
 
     if (!user) {
@@ -146,8 +153,8 @@ export const handlers = [
         message: '성공적으로 로그인되었습니다.',
         data: {
           user_id: user.user_id,
-          username: user.username,
-          fullname: user.fullname,
+          email: user.email,
+          username: user.nickname,
           userType: user.userType,
           profile_image_url: user.profile_image_url,
         },

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const LoginSchema = z.object({
-  userType: z.enum(['일반', '매니저', '아이돌'], {
+  userType: z.enum(['NORMAL', 'MANAGER', 'IDOL'], {
     message: '사용자 유형을 선택해주세요.',
   }),
   email: z.string().email({ message: '올바른 이메일 형식이 아닙니다.' }),
