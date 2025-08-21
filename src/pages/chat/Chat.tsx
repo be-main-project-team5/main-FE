@@ -22,7 +22,7 @@ function Chat() {
       >
         <ChatConversationList onToggleList={handleToggleConversationList} />
       </aside>
-      <article className="relative flex min-h-0 flex-3 flex-col gap-4 px-4">
+      <article className="relative flex min-h-0 flex-3 flex-col px-4">
         <section className="min-h-0 flex-1 pt-4">
           <ChatMessageList />
         </section>
