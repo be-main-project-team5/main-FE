@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { forwardRef } from 'react';
 
 const buttonVariants = cva(
-  'inline-flex cursor-pointer items-center justify-center transition-colors',
+  'relative inline-flex cursor-pointer items-center justify-center transition-colors',
   {
     variants: {
       variant: {
@@ -12,6 +12,7 @@ const buttonVariants = cva(
         secondary: 'border-2 border-transparent bg-gray-100 hover:bg-gray-200',
         outline:
           'border-2 border-fuchsia-400 text-fuchsia-400 hover:bg-fuchsia-400 hover:text-white hover:border-fuchsia-400',
+        white: 'hover:bg-gray-50',
       },
       shape: {
         default: 'rounded-md',
