@@ -26,9 +26,9 @@ function ChatMessageList() {
     const fetchChatData = async () => {
       try {
         const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
-          headers: {
-            Authorization: `Bearer qwer-tyui-op`,
-          },
+          // headers: {
+          //   Authorization: `Bearer qwer-tyui-op`,
+          // },
         });
         const { data } = res;
         console.log(res);
