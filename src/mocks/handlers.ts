@@ -55,7 +55,7 @@ export const handlers = [
     const auth =
       request.headers.get('Authorization') ??
       request.headers.get('authorization');
-    const token = auth?.startsWith('Bearer ');
+    const token = auth?.slice(7);
 
     if (!token) {
       return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
