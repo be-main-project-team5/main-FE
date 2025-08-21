@@ -5,7 +5,7 @@ export const ChatMessageBubbleStyles = cva(
   {
     variants: {
       myChat: {
-        true: 'bg-fuchsia-300',
+        true: 'bg-fuchsia-300 mr-2',
         false: 'bg-fuchsia-100',
       },
     },
@@ -32,7 +32,7 @@ export const ChatTimeStyles = cva(
   {
     variants: {
       lastMsgMine: {
-        true: 'pl-0 text-right',
+        true: 'pl-0 text-right mr-2',
         false: 'pl-12',
       },
     },
