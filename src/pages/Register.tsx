@@ -8,14 +8,14 @@ import { toast } from 'react-toastify';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { usePageNav } from '@/hooks/usePageNav';
 import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
 
 export default function Register() {
-  const { navigateToLogin } = useAuthNavigation();
+  const { navigateToLogin } = usePageNav();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
@@ -25,7 +25,6 @@ export default function Register() {
       confirmPassword: '',
       nickname: '',
     },
-    mode: 'onBlur',
   });
 
   const { register } = form;

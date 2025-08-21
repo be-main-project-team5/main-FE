@@ -1,6 +1,6 @@
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
 
-import { useAuthNavigation } from '@/hooks/useAuthNavigation';
+import { usePageNav } from '@/hooks/usePageNav';
 
 import UserDropdown from './UserDropdown';
 
@@ -22,7 +22,7 @@ function MobileMenu({
   const dropdownButtonClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
-  const { navigateToLogin, navigateToSignup } = useAuthNavigation();
+  const { navigateToLogin, navigateToSignup } = usePageNav();
 
   return (
     <>

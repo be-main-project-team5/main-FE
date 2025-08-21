@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-export const useAuthNavigation = () => {
+export const usePageNav = () => {
   const navigate = useNavigate();
 
   const navigateToLogin = () => {
@@ -11,5 +11,9 @@ export const useAuthNavigation = () => {
     navigate('/auth/register');
   };
 
-  return { navigateToLogin, navigateToSignup };
+  const navigateToSearch = () => {
+    navigate('/search');
+  };
+
+  return { navigateToLogin, navigateToSignup, navigateToSearch };
 };
