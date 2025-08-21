@@ -21,6 +21,7 @@ const users: {
   fullname: string;
   password: string;
   userType: string;
+  image: string;
 }[] = [];
 
 export const handlers = [
@@ -101,11 +102,7 @@ export const handlers = [
       fullname: nickname,
       password,
       userType: '일반',
-      image: {
-        id: Date.now(),
-        image: 'default-profile.jpg',
-        created_at: new Date().toISOString(),
-      },
+      image: 'default-profile.jpg',
     };
 
     users.push(user);
@@ -147,7 +144,13 @@ export const handlers = [
       {
         message_code: 200,
         message: '성공적으로 로그인되었습니다.',
-        data: user,
+        data: {
+          id: user.id,
+          username: user.username,
+          fullname: user.fullname,
+          userType: user.userType,
+          image: user.image,
+        },
       },
       { status: 200 },
     );
