@@ -68,13 +68,13 @@ export const handlers = [
   }),
 
   http.post('/users/signup', async ({ request }) => {
-    console.log('MSW: Received sign-up request');
+    // console.log('MSW: Received sign-up request');
     let requestBody: SignUpRequestBody;
     try {
       requestBody = (await request.json()) as SignUpRequestBody;
-      console.log('MSW: Request body parsed:', requestBody);
+      // console.log('MSW: Request body parsed:', requestBody);
     } catch (e) {
-      console.error('MSW: Error parsing request body:', e);
+      // console.error('MSW: Error parsing request body:', e);
       return HttpResponse.json(
         { message: '잘못된 요청 바디입니다.' },
         { status: 400 },
@@ -84,7 +84,7 @@ export const handlers = [
     const { email, nickname, password } = requestBody;
 
     if (users.find(user => user.username === email)) {
-      console.log('MSW: Email already exists:', email);
+      // console.log('MSW: Email already exists:', email);
       return HttpResponse.json(
         {
           message_code: 400,
@@ -99,7 +99,7 @@ export const handlers = [
       id: Math.random().toString(36).substring(2, 10),
       username: email,
       fullname: nickname,
-      password: password,
+      password,
       userType: '일반',
       image: {
         id: Date.now(),
@@ -109,8 +109,8 @@ export const handlers = [
     };
 
     users.push(user);
-    console.log('MSW: User registered:', user);
-    console.log('MSW: Current users array:', users);
+    // console.log('MSW: User registered:', user);
+    // console.log('MSW: Current users array:', users);
 
     return HttpResponse.json(
       {
