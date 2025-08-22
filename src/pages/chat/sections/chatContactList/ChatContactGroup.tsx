@@ -38,6 +38,7 @@ function ChatContactGroup({ isVisible }: { isVisible: boolean }) {
         <div className="flex flex-col gap-4">
           {CHAT_CONTACT_EXAMPLES.map(example => (
             <ChatContactItem
+              key={example.id}
               isSelected={example.id === '001'}
               contactData={example}
             />
