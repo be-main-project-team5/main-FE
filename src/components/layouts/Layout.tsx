@@ -25,7 +25,7 @@ interface LayoutProps {
 export default function Layout({ component = 'default' }: LayoutProps) {
   return (
     <>
-      <Header isLoggedIn={false} />
+      <Header />
       <main className={clsx(layoutStyle({ component }))}>
         <Outlet />
       </main>

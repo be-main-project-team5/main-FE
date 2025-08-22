@@ -12,7 +12,7 @@ export default function MyPageLayout() {
 
   return (
     <>
-      <Header isLoggedIn={false} />
+      <Header />
       <div className="m-auto mt-16 flex max-w-[1360px] flex-col items-center px-6 md:flex-row md:items-stretch md:px-10">
         {isDesktop ? (
           <aside className="flex w-55 flex-shrink-0 flex-col justify-between pr-4">
