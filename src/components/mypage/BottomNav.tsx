@@ -1,5 +1,6 @@
-import { useLogout } from '@/hooks/useLogout';
 import clsx from 'clsx';
+
+import { useLogout } from '@/hooks/useLogout';
 
 export default function BottomNav({ className }: { className?: string }) {
   const { handleLogout } = useLogout();
