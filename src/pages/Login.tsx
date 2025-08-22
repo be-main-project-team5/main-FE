@@ -11,12 +11,12 @@ import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
 import { usePageNav } from '@/hooks/usePageNav';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
+import { useUserStore } from '@/stores/userStore';
 import {
   showErrorToast,
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
-import { useUserStore } from '@/stores/userStore';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -50,28 +50,26 @@ export default function Login() {
         userType: data.userType,
       });
 
-      // 실제 API 응답 구조에 맞춰 데이터 파싱
       const {
-        user_id,
-        access_token,
-        refresh_token,
-        profile_image_url,
+        user_id: userId,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        profile_image_url: profileImageUrl,
         role,
         email: userEmail,
         username: userNickname,
       } = response.data.data;
 
-      // userStore의 login 액션 호출
       login(
         {
-          user_id: user_id,
+          user_id: userId,
           email: userEmail,
           nickname: userNickname,
-          profile_image_url: profile_image_url,
-          role: role,
+          profile_image_url: profileImageUrl,
+          role,
         },
-        access_token,
-        refresh_token,
+        accessToken,
+        refreshToken,
       );
 
       showSuccessToast(response.data.message || '로그인 성공!');
