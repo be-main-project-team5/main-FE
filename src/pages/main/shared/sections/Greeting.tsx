@@ -19,10 +19,12 @@ function Greeting({ title, subtitle, leftIcon, rightAction }: GreetingProps) {
 
       {/* Mobile + Tablet */}
       <div className="lg:hidden">
-        <div className="mb-4 text-center">
-          <div className="mb-1 flex items-center justify-center gap-1">
+        <div className="mb-1 text-center">
+          <div className="mb-2 flex flex-col items-center justify-center gap-2">
             {leftIcon}
-            <h1 className="text-3xl font-bold">{title}</h1>
+            <h1 className="text-3xl leading-snug font-bold whitespace-pre-line">
+              {title}
+            </h1>
           </div>
           {subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
         </div>
