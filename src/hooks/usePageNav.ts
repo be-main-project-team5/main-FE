@@ -15,5 +15,14 @@ export const usePageNav = () => {
     navigate('/search');
   };
 
-  return { navigateToLogin, navigateToSignup, navigateToSearch };
+  const navigateToMypage = () => {
+    navigate('/mypage/myprofile');
+  };
+
+  return {
+    navigateToLogin,
+    navigateToSignup,
+    navigateToSearch,
+    navigateToMypage,
+  };
 };
