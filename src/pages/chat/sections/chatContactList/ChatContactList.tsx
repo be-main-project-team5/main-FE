@@ -1,5 +1,6 @@
 import {
   ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
   ChevronLeftIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
@@ -31,7 +32,11 @@ function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
           className="hidden cursor-pointer lg:ml-auto lg:block"
           onClick={onToggleList}
         >
-          <ChevronDoubleLeftIcon className="size-6" />
+          {isVisible ? (
+            <ChevronDoubleLeftIcon className="size-6" />
+          ) : (
+            <ChevronDoubleRightIcon className="size-6" />
+          )}
         </button>
       </div>
       <ChatContactGroup isVisible={isVisible} />
