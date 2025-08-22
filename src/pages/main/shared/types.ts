@@ -1,0 +1,15 @@
+export type MainRole = 'fan' | 'idol' | 'manager';
+
+export type GreetingProps = {
+  userRole: MainRole;
+  title: string;
+  subtitle?: string;
+  leftIcon?: React.ReactNode;
+  rightAction?: React.ReactNode;
+};
+
+export type CalendarScheduleLayoutProps = {
+  calendar: React.ReactNode;
+  daily: React.ReactNode;
+  dailyMinWidth?: number;
+};

@@ -10,15 +10,20 @@ export type Idol = {
 };
 
 // ==============================
-// 상수/유틸
+// 상수/유틸 (서버 목업 키는 하나만!)
 // ==============================
-const SERVER_FAVORITES_KEY = 'mock-server-favorites'; // 서버(목업) 측 즐겨찾기 상태
+const SERVER_FAVORITES_KEY = 'mock-server-favorites';
 const POSITIONS: Idol['position'][] = ['보컬', '댄서', '랩'];
 
-const sleep = (ms: number) =>
-  new Promise<void>(resolve => {
+// 무한스크롤 볼륨 조절용 (필요 시 숫자만 바꾸면 됨)
+const EXTRA_GROUPS_LENGTH = 40; // 추가 생성할 가상 그룹 개수
+const MEMBERS_PER_EXTRA_GROUP = 8; // 각 가상 그룹의 멤버 수
+
+const sleep = (ms: number) => {
+  return new Promise<void>(resolve => {
     setTimeout(resolve, ms);
   });
+};
 
 function loadServerFavorites(): string[] {
   try {
@@ -37,13 +42,12 @@ function saveServerFavorites(ids: string[]) {
   }
 }
 
-// DiceBear(무료·상업가능) 아바타 PNG
-// ref: https://www.dicebear.com/styles/thumbs/
+// DiceBear(상업 가능) 아바타 PNG
 const avatar = (seed: string, size = 256) =>
   `https://api.dicebear.com/7.x/thumbs/png?seed=${encodeURIComponent(seed)}&size=${size}`;
 
 // ==============================
-// 한글 그룹 데이터 (200+명 보장)
+// 기본(실존 느낌) 그룹 데이터
 // ==============================
 type GroupDef = { group: string; members: string[] };
 
@@ -80,7 +84,6 @@ const GROUPS: GroupDef[] = [
   },
   { group: '(여자)아이들', members: ['미연', '민니', '소연', '우기', '슈화'] },
   { group: '레드벨벳', members: ['아이린', '슬기', '웬디', '조이', '예리'] },
-
   {
     group: '방탄소년단',
     members: ['RM', '진', '슈가', '제이홉', '지민', '뷔', '정국'],
@@ -165,7 +168,7 @@ const GROUPS: GroupDef[] = [
   },
   { group: '하이라이트', members: ['윤두준', '양요섭', '이기광', '손동운'] },
 
-  // 혼성/추가
+  // 혼성/추가 (테스트용)
   {
     group: 'K-STAR',
     members: ['은하수', '별빛', '태양', '달빛', '새벽', '노을'],
@@ -177,33 +180,41 @@ const GROUPS: GroupDef[] = [
   { group: '딩딩', members: ['디노', '딩딩', '딩구', '땡땡', '딩고'] },
 ];
 
+// ==============================
 // 무한스크롤용 대량 생성
-const EXTRA_GROUPS: GroupDef[] = Array.from({ length: 30 }).map((_, gi) => ({
-  group: `연습생유닛-${gi + 1}`,
-  members: Array.from({ length: 7 }).map(
-    (__, mi) => `연습생${gi + 1}-${mi + 1}`,
-  ),
-}));
+// ==============================
+const EXTRA_GROUPS: GroupDef[] = Array.from({
+  length: EXTRA_GROUPS_LENGTH,
+}).map((_, groupIndex) => {
+  // _ → groupIndex
+  const members = Array.from({ length: MEMBERS_PER_EXTRA_GROUP }).map(
+    (__, memberIndex) => `연습생${groupIndex + 1}-${memberIndex + 1}`, // _ → __
+  );
+  return { group: `연습생유닛-${groupIndex + 1}`, members };
+});
 
+// ==============================
+// 아이돌 풀 빌드(안정적 ID, 정렬 보장)
+// ==============================
 function buildMockIdols(): Idol[] {
-  let idCounter = 1;
+  let nextId = 0;
   const idols: Idol[] = [];
-
   const allGroups = [...GROUPS, ...EXTRA_GROUPS];
 
   allGroups.forEach(({ group, members }) => {
-    members.forEach((name, idx) => {
+    members.forEach((name, index) => {
+      nextId += 1;
       idols.push({
-        id: String((idCounter += 1)),
+        id: String(nextId), // 문자열 ID (zustand와 호환)
         name,
         groupName: group,
-        avatarUrl: avatar(`${group}-${name}`), // DiceBear로 안정된(재현가능한) 이미지 생성
-        position: POSITIONS[idx % POSITIONS.length],
+        avatarUrl: avatar(`${group}-${name}`), // 시드 고정 → 이미지 안정
+        position: POSITIONS[index % POSITIONS.length],
       });
     });
   });
 
-  // 이름/그룹 기준 안정 정렬(목업 고정성)
+  // 이름 → 그룹 기준 안정 정렬(검색/스크롤 재현성 ↑)
   idols.sort((a, b) => {
     if (a.name === b.name) return a.groupName.localeCompare(b.groupName);
     return a.name.localeCompare(b.name);
@@ -212,22 +223,20 @@ function buildMockIdols(): Idol[] {
   return idols;
 }
 
-export const MOCK_IDOLS: Idol[] = buildMockIdols(); // 200명 이상
+export const MOCK_IDOLS: Idol[] = buildMockIdols(); // 200명+ 보장
 
 // ==============================
 // 목업 API
 // ==============================
 
+/** 서버(목업)의 즐겨찾기 목록을 아이돌 객체 배열로 반환 */
 export async function fetchFavoriteIdols(): Promise<Idol[]> {
   await sleep(200);
-  const favIds = new Set(loadServerFavorites());
-  return MOCK_IDOLS.filter(i => favIds.has(i.id));
+  const favoriteIdSet = new Set(loadServerFavorites());
+  return MOCK_IDOLS.filter(idol => favoriteIdSet.has(idol.id));
 }
 
-/**
- * 검색 + 페이지네이션(무한스크롤)
- * @returns { items, nextPage }
- */
+/** 검색 + 페이지네이션(무한스크롤) */
 export async function searchIdols(
   query: string,
   page: number,
@@ -238,9 +247,9 @@ export async function searchIdols(
   const q = query.trim().toLowerCase();
   if (!q) return { items: [], nextPage: null };
 
-  const filtered = MOCK_IDOLS.filter(i => {
-    const name = i.name.toLowerCase();
-    const group = i.groupName.toLowerCase();
+  const filtered = MOCK_IDOLS.filter(idol => {
+    const name = idol.name.toLowerCase();
+    const group = idol.groupName.toLowerCase();
     return name.includes(q) || group.includes(q);
   });
 
@@ -253,8 +262,8 @@ export async function searchIdols(
 }
 
 /**
- * 즐겨찾기 토글 (서버 상태를 뒤집음)
- * - 🚀 실제 API 연결 시 add/remove 엔드포인트로 교체
+ * 즐겨찾기 토글 (서버 목업 상태 반영)
+ * - 실제 API 연결 시 add/remove 엔드포인트로 대체
  */
 export async function toggleFavorite(
   id: string,
@@ -262,8 +271,11 @@ export async function toggleFavorite(
   await sleep(150);
 
   const current = new Set(loadServerFavorites());
-  if (current.has(id)) current.delete(id);
-  else current.add(id);
+  if (current.has(id)) {
+    current.delete(id);
+  } else {
+    current.add(id);
+  }
 
   const updated = Array.from(current);
   saveServerFavorites(updated);
@@ -272,10 +284,10 @@ export async function toggleFavorite(
 }
 
 // ==============================
-// 개발 편의 유틸(로컬 상태 초기화)
+// 개발 편의(로컬 초기화)
 // ==============================
 
-/** 목업 "서버" 즐겨찾기(localStorage) 초기화 */
+/** 서버(목업) 즐겨찾기(localStorage)만 초기화 */
 export function resetMockServerFavorites() {
   try {
     localStorage.removeItem(SERVER_FAVORITES_KEY);
@@ -284,15 +296,11 @@ export function resetMockServerFavorites() {
   }
 }
 
-/**
- * 목업 전체 초기화(권장)
- * - 서버(목업) 즐겨찾기 + 클라이언트(zustand persist) 모두 초기화
- * - 사용: 콘솔에서 resetAllMockData()
- */
+/** 서버(목업) + zustand persist 모두 초기화 */
 export function resetAllMockData() {
   try {
     localStorage.removeItem(SERVER_FAVORITES_KEY); // 서버 목업 상태
-    localStorage.removeItem('favorites-storage'); // zustand persist 기본키
+    localStorage.removeItem('favorites-storage'); // zustand persist 기본키 (스토어 파일에서 설정한 키)
   } catch {
     // ignore
   }
