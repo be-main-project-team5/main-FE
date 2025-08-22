@@ -76,7 +76,7 @@ export default function FanMainPage() {
         }
         daily={
           <DateScheduleList
-            role="fan"
+            userRole="fan"
             selectedDate={selectedDate.format('YYYY-MM-DD')}
             schedules={filteredSchedules}
           />

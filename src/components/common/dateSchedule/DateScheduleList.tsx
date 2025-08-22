@@ -10,7 +10,7 @@ import {
 import DateScheduleItem from './DateScheduleItem';
 
 function DateScheduleList({
-  role,
+  userRole,
   selectedDate,
   schedules,
   onNotifyToggle,
@@ -29,7 +29,7 @@ function DateScheduleList({
         'flex flex-col',
         className,
       )}
-      aria-label={role === 'favorites' ? '즐겨찾기한 일정' : '날짜별 일정'}
+      aria-label={userRole === 'favorites' ? '즐겨찾기한 일정' : '날짜별 일정'}
     >
       <div className="mt-2 mb-5 flex items-center gap-2 pl-1">
         <CalendarIcon className="h-7 w-7 text-fuchsia-600 sm:h-8 sm:w-8" />
@@ -48,7 +48,7 @@ function DateScheduleList({
             <DateScheduleItem
               key={item.id}
               item={item}
-              role={role}
+              userRole={userRole}
               onNotifyToggle={onNotifyToggle}
               onEditClick={onEditClick}
               onDeleteClick={onDeleteClick}

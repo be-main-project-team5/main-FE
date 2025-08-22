@@ -44,7 +44,7 @@ function renderIcon(icon: ActionIcon): React.ReactNode {
 
 export default function DateScheduleItem({
   item,
-  role,
+  userRole,
   onNotifyToggle,
   onEditClick,
   onDeleteClick,
@@ -55,7 +55,7 @@ export default function DateScheduleItem({
   const { toggleFavoriteSchedule, isFavoriteSchedule } =
     useFavoriteSchedulesStore();
 
-  const actionsInfo = getScheduleActions(role, item, {
+  const actionsInfo = getScheduleActions(userRole, item, {
     toggleFavoriteSchedule,
     isFavoriteSchedule,
     onNotifyToggle,
