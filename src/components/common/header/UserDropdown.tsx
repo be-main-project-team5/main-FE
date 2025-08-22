@@ -1,8 +1,9 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
-import { useUserStore } from '@/stores/userStore';
+import { useLogout } from '@/hooks/useLogout';
 import { usePageNav } from '@/hooks/usePageNav';
+import { useUserStore } from '@/stores/userStore';
 
 type UserDropdownProps = {
   isOpen: boolean;
@@ -12,15 +13,12 @@ type UserDropdownProps = {
 
 function UserDropdown({ isOpen, onToggle, isMobile }: UserDropdownProps) {
   const { user } = useUserStore();
+  const { navigateToMypage } = usePageNav();
+  const { handleLogout } = useLogout();
+
   const userGreetingClass = 'text-base font-medium text-gray-600 my-4';
   const dropdownItemClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
-
-  const { navigateToMypage } = usePageNav();
-
-  const handleLogout = () => {
-    // TODO: 로그아웃 처리 구현
-  };
 
   const dropdownContent = (
     <div className="w-full py-1">
