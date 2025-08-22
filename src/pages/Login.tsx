@@ -16,6 +16,7 @@ import {
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
+import { useUserStore } from '@/stores/userStore';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -25,6 +26,7 @@ const USER_TYPE = [
 
 export default function Login() {
   const { navigateToSearch } = usePageNav();
+  const { login } = useUserStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,6 +49,30 @@ export default function Login() {
         password: data.password,
         userType: data.userType,
       });
+
+      // 실제 API 응답 구조에 맞춰 데이터 파싱
+      const {
+        user_id,
+        access_token,
+        refresh_token,
+        profile_image_url,
+        role,
+        email: userEmail,
+        username: userNickname,
+      } = response.data.data;
+
+      // userStore의 login 액션 호출
+      login(
+        {
+          user_id: user_id,
+          email: userEmail,
+          nickname: userNickname,
+          profile_image_url: profile_image_url,
+          role: role,
+        },
+        access_token,
+        refresh_token,
+      );
 
       showSuccessToast(response.data.message || '로그인 성공!');
 
