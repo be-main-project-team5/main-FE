@@ -2,6 +2,7 @@ import { UserIcon } from '@heroicons/react/24/outline';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 import { useUserStore } from '@/stores/userStore';
+import { usePageNav } from '@/hooks/usePageNav';
 
 type UserDropdownProps = {
   isOpen: boolean;
@@ -15,9 +16,7 @@ function UserDropdown({ isOpen, onToggle, isMobile }: UserDropdownProps) {
   const dropdownItemClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
-  const handleMyPage = () => {
-    // TODO: 마이페이지 라우팅 구현
-  };
+  const { navigateToMypage } = usePageNav();
 
   const handleLogout = () => {
     // TODO: 로그아웃 처리 구현
@@ -37,7 +36,7 @@ function UserDropdown({ isOpen, onToggle, isMobile }: UserDropdownProps) {
 
       <button
         type="button"
-        onClick={handleMyPage}
+        onClick={navigateToMypage}
         className={dropdownItemClass}
       >
         마이페이지
