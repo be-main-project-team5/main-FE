@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 
-import ChatComposer from './sections/ChatComposer';
+import ChatComposer from './sections/chatComposer/ChatComposer';
 import ChatConversationList from './sections/ChatConversationList';
 import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 
@@ -22,7 +22,7 @@ function Chat() {
       >
         <ChatConversationList onToggleList={handleToggleConversationList} />
       </aside>
-      <article className="relative flex min-h-0 flex-3 flex-col gap-4 px-4">
+      <article className="relative flex min-h-0 flex-3 flex-col px-4">
         <section className="min-h-0 flex-1 pt-4">
           <ChatMessageList />
         </section>
