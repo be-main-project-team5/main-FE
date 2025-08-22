@@ -39,9 +39,9 @@ export default function FanMainPage() {
       className="transition-transform hover:scale-110"
     >
       {isFavorite ? (
-        <HeartSolid className="h-12 w-12 fill-fuchsia-500 text-fuchsia-500" />
+        <HeartSolid className="h-10 w-10 fill-fuchsia-500 lg:h-12 lg:w-12" />
       ) : (
-        <HeartOutline className="h-12 w-12 text-fuchsia-500" />
+        <HeartOutline className="h-10 w-10 text-fuchsia-500 lg:h-12 lg:w-12" />
       )}
     </button>
   );
@@ -62,7 +62,7 @@ export default function FanMainPage() {
     <div className="mx-auto mb-16 max-w-screen-xl px-3 pt-12 md:px-8 lg:mb-24 lg:px-2 lg:pt-6">
       <Greeting
         role="fan"
-        title={`${currentIdol.name}의 일정을 확인해보세요`}
+        title={`${currentIdol.name}의 일정을\n확인해보세요`}
         leftIcon={leftIcon}
         rightAction={rightAction}
       />
