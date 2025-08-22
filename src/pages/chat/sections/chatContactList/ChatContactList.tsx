@@ -43,7 +43,7 @@ function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
       <div className={clsx('mx-auto p-5', isVisible ? 'block' : 'hidden')}>
         <button
           type="button"
-          className="cursor-pointer"
+          className="cursor-pointer text-sm text-gray-500 hover:text-gray-800"
           onClick={handleRemoveAllMessages}
         >
           채팅 기록 초기화
