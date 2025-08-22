@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import { CHAT_EXAMPLES } from '@/mocks/data/chats';
 import {
   toFlattenChats,
   toGroupedChatMap,
@@ -20,33 +20,37 @@ const renderDataByTime = (_: number, chatData: FlattenChatTypes) => {
 
 function ChatMessageList() {
   const [atBottom, setAtBottom] = useState(true);
-  const [chatData] = useState(CHAT_EXAMPLES);
+  const [chatData, setChatData] = useState([]);
 
-  // *memo - msw 로직 주석 처리
-  // useEffect(() => {
-  //   const fetchChatData = async () => {
-  //     try {
-  //       const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
-  //         headers: {
-  //           Authorization: `Bearer qwer-tyui-op`,
-  //         },
-  //       });
-  //       const { data } = res;
-  //       console.log(res);
-  //       setChatData(data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  const roomId = 'chat-001';
+  const currentPage = 1;
 
-  //   fetchChatData();
-  // }, []);
+  useEffect(() => {
+    const fetchChatData = async () => {
+      try {
+        const res = await axios.get(`/chats/rooms/${roomId}/messages/`, {
+          headers: {
+            authorization: `Bearer token-test-ok`,
+          },
+          params: { page: currentPage },
+        });
+        const data = res.data.results;
+        setChatData(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchChatData();
+  }, []);
 
   const sortedChatData = toSortedChats(chatData);
 
   const groupedChatData = toGroupedChatMap(sortedChatData);
 
   const flattenChatData = toFlattenChats(groupedChatData);
+
+  if (!chatData) return <div>대화 상대를 선택해주세요</div>;
 
   return (
     <div className="h-full">
