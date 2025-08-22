@@ -11,6 +11,5 @@ export type GreetingProps = {
 export type CalendarScheduleLayoutProps = {
   calendar: React.ReactNode;
   daily: React.ReactNode;
-  gridRatio?: string;
   dailyMinWidth?: number;
 };
