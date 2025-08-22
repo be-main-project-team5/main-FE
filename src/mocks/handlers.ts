@@ -1,11 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import { ALL_SCHEDULES } from './data';
-// import { CHAT_EXAMPLES } from './data/chats';
-
-// const CHATS_BY_ROOM = {
-//   'chat-001': CHAT_EXAMPLES,
-// };
+import { CHAT_MESSAGES_DATA_0 } from './data/chats';
 
 interface SignUpRequestBody {
   email: string;
@@ -168,24 +164,24 @@ export const handlers = [
     );
   }),
 
-  // http.get(`*/chats/rooms/:room_pk/messages/`, ({ request, params }) => {
-  //   const auth =
-  //     request.headers.get('Authorization') ??
-  //     request.headers.get('authorization');
-  // const token = auth?.slice(7);
+  http.get(`/chats/rooms/:id/messages/`, ({ request, params }) => {
+    const auth = request.headers.get('authorization');
+    const token = auth?.slice(7);
+    const roomId = params.id;
+    // const url = new URL(request.url);
+    // const page = url.searchParams.get('page') ?? 1;
 
-  //   if (!token) {
-  //     return HttpResponse.json({ message: '인증 실패' }, { status: 401 });
-  //   }
+    if (token !== 'token-test-ok') {
+      return HttpResponse.json(
+        {
+          detail: '이메일 또는 비밀번호가 일치하지 않습니다.',
+        },
+        { status: 401 },
+      );
+    }
 
-  //   const roomPk = params.room_pk;
-
-  //   const messages = CHATS_BY_ROOM[roomPk] ?? [];
-
-  //   const sortedData = [...messages].sort(
-  //     (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
-  //   );
-
-  //   return HttpResponse.json(sortedData);
-  // }),
+    if (roomId === 'chat-001') {
+      return HttpResponse.json(CHAT_MESSAGES_DATA_0);
+    }
+  }),
 ];
