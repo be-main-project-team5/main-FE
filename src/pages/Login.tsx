@@ -11,6 +11,7 @@ import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
 import { usePageNav } from '@/hooks/usePageNav';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
+import { useUserStore } from '@/stores/userStore';
 import {
   showErrorToast,
   showSuccessToast,
@@ -25,6 +26,7 @@ const USER_TYPE = [
 
 export default function Login() {
   const { navigateToSearch } = usePageNav();
+  const { login } = useUserStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,6 +49,28 @@ export default function Login() {
         password: data.password,
         userType: data.userType,
       });
+
+      const {
+        user_id: userId,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        profile_image_url: profileImageUrl,
+        role,
+        email: userEmail,
+        username: userNickname,
+      } = response.data.data;
+
+      login(
+        {
+          user_id: userId,
+          email: userEmail,
+          nickname: userNickname,
+          profile_image_url: profileImageUrl,
+          role,
+        },
+        accessToken,
+        refreshToken,
+      );
 
       showSuccessToast(response.data.message || '로그인 성공!');
 

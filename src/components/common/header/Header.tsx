@@ -4,20 +4,12 @@ import { Link } from 'react-router-dom';
 import DesktopMenu from './DesktopMenu';
 import MobileMenu from './MobileMenu';
 
-export type HeaderProps = {
-  isLoggedIn: boolean;
-  userName?: string;
-  profileImageUrl?: string;
-};
-
-function Header({ isLoggedIn, userName, profileImageUrl }: HeaderProps) {
+function Header() {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   const handleToggleMobileMenu = () => {
     setIsMobileDropdownOpen(prev => !prev);
   };
-
-  const displayUserName = userName?.trim() || '회원';
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 h-16 border-b border-gray-300 bg-white px-6 md:px-10">
@@ -26,18 +18,11 @@ function Header({ isLoggedIn, userName, profileImageUrl }: HeaderProps) {
           DingDing
         </Link>
 
-        <DesktopMenu
-          isLoggedIn={isLoggedIn}
-          userName={displayUserName}
-          profileImageUrl={profileImageUrl}
-        />
+        <DesktopMenu />
 
         <MobileMenu
-          isLoggedIn={isLoggedIn}
-          userName={displayUserName}
           isDropdownOpen={isMobileDropdownOpen}
           onToggleDropdown={handleToggleMobileMenu}
-          profileImageUrl={profileImageUrl}
         />
       </div>
     </header>

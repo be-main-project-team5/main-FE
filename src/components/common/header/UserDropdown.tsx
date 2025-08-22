@@ -1,51 +1,40 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+import { useLogout } from '@/hooks/useLogout';
+import { usePageNav } from '@/hooks/usePageNav';
+import { useUserStore } from '@/stores/userStore';
 
 type UserDropdownProps = {
-  userName?: string;
   isOpen: boolean;
   onToggle: () => void;
   isMobile: boolean;
-  profileImageUrl?: string;
 };
 
-function UserDropdown({
-  userName,
-  isOpen,
-  onToggle,
-  isMobile,
-  profileImageUrl,
-}: UserDropdownProps) {
+function UserDropdown({ isOpen, onToggle, isMobile }: UserDropdownProps) {
+  const { user } = useUserStore();
+  const { navigateToMypage } = usePageNav();
+  const { handleLogout } = useLogout();
+
   const userGreetingClass = 'text-base font-medium text-gray-600 my-4';
   const dropdownItemClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
-
-  const handleMyPage = () => {
-    // TODO: 마이페이지 라우팅 구현
-  };
-
-  const handleLogout = () => {
-    // TODO: 로그아웃 처리 구현
-  };
 
   const dropdownContent = (
     <div className="w-full py-1">
       <div className="mb-7 flex flex-col items-center">
         <UserAvatarImage
-          profileImageUrl={profileImageUrl}
+          profileImageUrl={user?.profile_image_url}
           altText="사용자 프로필 이미지"
           avatarSize="xl"
           className="shadow-sm"
         />
-        <div className={userGreetingClass}>
-          {userName?.trim() || '회원'}님, 환영합니다
-        </div>
+        <div className={userGreetingClass}>{user?.nickname}님, 환영합니다</div>
       </div>
 
       <button
         type="button"
-        onClick={handleMyPage}
+        onClick={navigateToMypage}
         className={dropdownItemClass}
       >
         마이페이지

@@ -1,8 +1,9 @@
+import { useLogout } from '@/hooks/useLogout';
 import clsx from 'clsx';
 
-const MYPAGE_BOTTOM_NAV = ['로그아웃', '회원 탈퇴'];
-
 export default function BottomNav({ className }: { className?: string }) {
+  const { handleLogout } = useLogout();
+
   return (
     <div
       className={clsx(
@@ -10,11 +11,12 @@ export default function BottomNav({ className }: { className?: string }) {
         className,
       )}
     >
-      {MYPAGE_BOTTOM_NAV.map(el => (
-        <button key={el} type="button" className="mx-4">
-          <p className="hover:underline">{el}</p>
-        </button>
-      ))}
+      <button type="button" className="mx-4" onClick={handleLogout}>
+        <p className="hover:underline">로그아웃</p>
+      </button>
+      <button type="button" className="mx-4">
+        <p className="hover:underline">회원 탈퇴</p>
+      </button>
     </div>
   );
 }
