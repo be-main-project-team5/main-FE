@@ -67,7 +67,6 @@ export default function FanMainPage() {
         rightAction={rightAction}
       />
       <CalendarScheduleLayout
-        gridRatio="5fr_4fr"
         dailyMinWidth={420}
         calendar={
           <Calendar
