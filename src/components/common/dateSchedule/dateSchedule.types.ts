@@ -13,7 +13,7 @@ interface ScheduleActionProps {
 
 // 컴포넌트에 전달하는 Props 타입
 export interface DateScheduleListProps extends ScheduleActionProps {
-  role: UserRole;
+  userRole: UserRole;
   selectedDate: string;
   schedules: Schedule[];
   className?: string;
@@ -21,7 +21,7 @@ export interface DateScheduleListProps extends ScheduleActionProps {
 
 export interface DateScheduleItemProps extends ScheduleActionProps {
   item: Schedule;
-  role: UserRole;
+  userRole: UserRole;
 }
 
 // 아이콘 버튼 컴포넌트 Props 타입

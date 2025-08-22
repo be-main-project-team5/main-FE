@@ -60,7 +60,7 @@ export default function MySchedule() {
         schedules={monthlySchedules}
       />
       <DateScheduleList
-        role="favorites"
+        userRole="favorites"
         selectedDate={selectedDate.format('YYYY-MM-DD')}
         schedules={dailySchedules}
       />

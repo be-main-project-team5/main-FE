@@ -32,7 +32,7 @@ type Handlers = {
 };
 
 export function getScheduleActions(
-  role: UserRole,
+  userRole: UserRole,
   item: Schedule,
   {
     toggleFavoriteSchedule,
@@ -42,7 +42,7 @@ export function getScheduleActions(
     onDeleteClick,
   }: Handlers,
 ): ScheduleActionInfo[] {
-  switch (role) {
+  switch (userRole) {
     case 'fan':
       return [
         {
