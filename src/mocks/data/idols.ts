@@ -19,8 +19,11 @@ const POSITIONS: Idol['position'][] = ['보컬', '댄서', '랩'];
 const EXTRA_GROUPS_LENGTH = 40; // 추가 생성할 가상 그룹 개수
 const MEMBERS_PER_EXTRA_GROUP = 8; // 각 가상 그룹의 멤버 수
 
-const sleep = (ms: number) =>
-  new Promise<void>(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => {
+  return new Promise<void>(resolve => {
+    setTimeout(resolve, ms);
+  });
+};
 
 function loadServerFavorites(): string[] {
   try {
@@ -182,11 +185,12 @@ const GROUPS: GroupDef[] = [
 // ==============================
 const EXTRA_GROUPS: GroupDef[] = Array.from({
   length: EXTRA_GROUPS_LENGTH,
-}).map((_, groupIdx) => {
+}).map((_, groupIndex) => {
+  // _ → groupIndex
   const members = Array.from({ length: MEMBERS_PER_EXTRA_GROUP }).map(
-    (_, memberIdx) => `연습생${groupIdx + 1}-${memberIdx + 1}`,
+    (__, memberIndex) => `연습생${groupIndex + 1}-${memberIndex + 1}`, // _ → __
   );
-  return { group: `연습생유닛-${groupIdx + 1}`, members };
+  return { group: `연습생유닛-${groupIndex + 1}`, members };
 });
 
 // ==============================

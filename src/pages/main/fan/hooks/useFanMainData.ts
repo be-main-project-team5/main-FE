@@ -3,14 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
-import { useFavoritesStore } from '@/stores/favoritesStore';
-import type { Schedule } from '@/types/schedule';
 import { ALL_SCHEDULES } from '@/mocks/data';
 import {
-  MOCK_IDOLS,
   fetchFavoriteIdols,
+  MOCK_IDOLS,
   toggleFavorite as serverToggleFavorite,
 } from '@/mocks/data/idols';
+import { useFavoritesStore } from '@/stores/favoritesStore';
+import type { Schedule } from '@/types/schedule';
 import { isGroupSchedule, isIdolSchedule } from '@/types/schedule';
 
 export function useFanMainData() {
@@ -39,7 +39,7 @@ export function useFanMainData() {
         const idols = await fetchFavoriteIdols();
         setServerFavoriteIds(idols.map(idol => idol.id));
       } catch (error) {
-        console.error('즐겨찾기 초기 로드 실패:', error);
+        /* 에러 무시 */
       }
     })();
   }, []);
@@ -57,7 +57,7 @@ export function useFanMainData() {
         const idols = await fetchFavoriteIdols();
         setServerFavoriteIds(idols.map(idol => idol.id));
       } catch (error) {
-        console.error('서버 동기화 실패:', error);
+        /* 에러 무시 */
       }
     },
   });

@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import { HeartIcon as HeartOutline } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/common/Button';
 import Calendar from '@/components/common/calendar/Calendar';
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
-import { Button } from '@/components/common/Button';
 
 import { CalendarScheduleLayout, Greeting } from '../shared';
 import { useFanMainData } from './hooks/useFanMainData';
@@ -34,7 +34,6 @@ export default function FanMainPage() {
     <button
       type="button"
       onClick={handleFavoriteToggle}
-      aria-pressed={isFavorite}
       aria-label={isFavorite ? '찜 해제' : '찜 추가'}
       className="transition-transform hover:scale-110"
     >
@@ -61,7 +60,7 @@ export default function FanMainPage() {
   return (
     <div className="mx-auto mb-16 max-w-screen-xl px-3 pt-12 md:px-8 lg:mb-24 lg:px-2 lg:pt-6">
       <Greeting
-        role="fan"
+        userRole="fan"
         title={`${currentIdol.name}의 일정을\n확인해보세요`}
         leftIcon={leftIcon}
         rightAction={rightAction}

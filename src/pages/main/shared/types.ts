@@ -1,7 +1,7 @@
 export type MainRole = 'fan' | 'idol' | 'manager';
 
 export type GreetingProps = {
-  role: MainRole;
+  userRole: MainRole;
   title: string;
   subtitle?: string;
   leftIcon?: React.ReactNode;
