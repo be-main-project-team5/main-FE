@@ -1,24 +1,17 @@
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/outline';
 
 import { usePageNav } from '@/hooks/usePageNav';
+import { useUserStore } from '@/stores/userStore';
 
 import UserDropdown from './UserDropdown';
 
 type MobileMenuProps = {
-  isLoggedIn: boolean;
-  userName?: string;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
-  profileImageUrl?: string;
 };
 
-function MobileMenu({
-  isLoggedIn,
-  userName,
-  isDropdownOpen,
-  onToggleDropdown,
-  profileImageUrl,
-}: MobileMenuProps) {
+function MobileMenu({ isDropdownOpen, onToggleDropdown }: MobileMenuProps) {
+  const { isLoggedIn } = useUserStore();
   const dropdownButtonClass =
     'w-full pl-2 py-2 text-base text-left font-semibold text-gray-700 hover:font-bold hover:text-fuchsia-500';
 
@@ -44,13 +37,7 @@ function MobileMenu({
       {isDropdownOpen && (
         <div className="absolute top-16 right-0 z-50 w-52 border border-gray-200 bg-white p-4 shadow md:hidden">
           {isLoggedIn ? (
-            <UserDropdown
-              userName={userName || '회원'}
-              isOpen
-              onToggle={() => {}}
-              isMobile
-              profileImageUrl={profileImageUrl}
-            />
+            <UserDropdown isOpen onToggle={() => {}} isMobile />
           ) : (
             <div className="w-full py-1">
               <button

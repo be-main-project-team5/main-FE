@@ -2,20 +2,12 @@ import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
 import { usePageNav } from '@/hooks/usePageNav';
+import { useUserStore } from '@/stores/userStore';
 
 import UserDropdown from './UserDropdown';
 
-type DesktopMenuProps = {
-  isLoggedIn: boolean;
-  userName?: string;
-  profileImageUrl?: string;
-};
-
-function DesktopMenu({
-  isLoggedIn,
-  userName,
-  profileImageUrl,
-}: DesktopMenuProps) {
+function DesktopMenu() {
+  const { isLoggedIn } = useUserStore();
   const { navigateToLogin, navigateToSignup } = usePageNav();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -25,11 +17,9 @@ function DesktopMenu({
     <nav className="hidden items-center space-x-3 md:flex">
       {isLoggedIn ? (
         <UserDropdown
-          userName={userName || '회원'}
           isOpen={isDropdownOpen}
           onToggle={handleToggleDropdown}
           isMobile={false}
-          profileImageUrl={profileImageUrl}
         />
       ) : (
         <>
