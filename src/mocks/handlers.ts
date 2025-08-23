@@ -17,7 +17,6 @@ interface SignUpRequestBody {
 interface SignInRequestBody {
   email: string;
   password: string;
-  userType: string;
 }
 
 const users: {
@@ -82,7 +81,7 @@ export const handlers = [
     return HttpResponse.json(schedulesForDate);
   }),
 
-  http.post('/users/signup', async ({ request }) => {
+  http.post('/api/v1/users/signup/', async ({ request }) => {
     // console.log('MSW: Received sign-up request');
     let requestBody: SignUpRequestBody;
     try {
@@ -134,12 +133,8 @@ export const handlers = [
   }),
 
   http.post('/users/login', async ({ request }) => {
-    const { email, password, userType } =
-      (await request.json()) as SignInRequestBody;
-    const user = users.find(
-      u =>
-        u.email === email && u.password === password && u.userType === userType,
-    );
+    const { email, password } = (await request.json()) as SignInRequestBody;
+    const user = users.find(u => u.email === email && u.password === password);
 
     if (!user) {
       return HttpResponse.json(
@@ -152,17 +147,17 @@ export const handlers = [
       );
     }
 
+    // Generate mock tokens
+    const mockAccessToken = `mock_access_token_for_${user.user_id}`;
+    const mockRefreshToken = `mock_refresh_token_for_${user.user_id}`;
+
     return HttpResponse.json(
       {
-        message_code: 200,
-        message: '성공적으로 로그인되었습니다.',
-        data: {
-          user_id: user.user_id,
-          email: user.email,
-          username: user.nickname,
-          userType: user.userType,
-          profile_image_url: user.profile_image_url,
-        },
+        user_id: user.user_id,
+        access_token: mockAccessToken,
+        refresh_token: mockRefreshToken,
+        profile_image_url: user.profile_image_url,
+        role: user.userType,
       },
       { status: 200 },
     );
@@ -188,4 +183,64 @@ export const handlers = [
 
   //   return HttpResponse.json(sortedData);
   // }),
+
+  http.get('/users/mypage', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const userId = token.replace('mock_access_token_for_', '');
+
+    const user = users.find(u => u.user_id === userId);
+
+    if (!user) {
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    return HttpResponse.json({
+      id: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profile_image_url: user.profile_image_url,
+      role: user.userType,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+  }),
+
+  http.patch('/users/mypage', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const userId = token.replace('mock_access_token_for_', '');
+
+    const userIndex = users.findIndex(u => u.user_id === userId);
+
+    if (userIndex === -1) {
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    const { nickname } = (await request.json()) as { nickname: string };
+
+    // Update user's nickname
+    users[userIndex].nickname = nickname;
+
+    const updatedUser = users[userIndex];
+
+    return HttpResponse.json(
+      {
+        message: '프로필이 성공적으로 업데이트되었습니다!',
+        data: {
+          nickname: updatedUser.nickname,
+          profile_image_url: updatedUser.profile_image_url,
+        },
+      },
+      { status: 200 },
+    );
+  }),
 ];

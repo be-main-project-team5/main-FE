@@ -2,8 +2,15 @@ import { Button } from '@/components/common/Button';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 import { mediaQuery } from '@/constants/breakpoints';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import { useUserStore } from '@/stores/userStore';
 
-export default function Profile() {
+interface ProfileProp {
+  onEditClick: () => void;
+}
+
+export default function Profile({ onEditClick }: ProfileProp) {
+  const { user } = useUserStore();
+
   const isDesktop = useMediaQuery(mediaQuery.tablet);
   const isMobile = useMediaQuery(mediaQuery.mobile);
 
@@ -17,16 +24,19 @@ export default function Profile() {
 
         <div>
           <p className="text-xs text-gray-500 sm:text-sm md:text-3xl md:text-black">
-            안녕하세요, ooo님!
+            안녕하세요, {user?.nickname}님!
           </p>
-          <p className="text-xl font-semibold md:hidden">(닉네임)</p>
+          <p className="text-xl font-semibold md:hidden">{user?.nickname}</p>
         </div>
-        <p className="hidden text-xs text-gray-500 md:block">
-          가입일자: yyyy/mm/dd
-        </p>
+        <p className="hidden text-gray-500 md:block">{user?.email}</p>
       </div>
 
-      <Button shape="pill" variant="secondary" size={buttonSize}>
+      <Button
+        shape="pill"
+        variant="secondary"
+        size={buttonSize}
+        onClick={onEditClick}
+      >
         프로필 수정
       </Button>
     </section>
