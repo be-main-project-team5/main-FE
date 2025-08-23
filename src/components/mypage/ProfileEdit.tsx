@@ -6,16 +6,16 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+import {
+  type ProfileEditFormValues,
+  ProfileEditSchema,
+} from '@/schemas/profileEditSchema';
 import { useUserStore } from '@/stores/userStore';
 import {
   showErrorToast,
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
-import {
-  ProfileEditSchema,
-  type ProfileEditFormValues,
-} from '@/schemas/profileEditSchema';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;

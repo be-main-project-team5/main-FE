@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 import { signupUser } from '@/api/authApi';
 import type { RegisterFormValues } from '@/schemas/registerSchema';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
-import axios from 'axios';
 
 import { usePageNav } from './usePageNav';
 

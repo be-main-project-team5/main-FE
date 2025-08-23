@@ -1,6 +1,7 @@
 import type { LoginFormValues } from '@/schemas/loginSchema';
-import axiosInstance from './axiosInstance';
 import { useUserStore } from '@/stores/userStore';
+
+import axiosInstance from './axiosInstance';
 
 // 회원가입 API
 export const signupUser = async (signupData: FormData) => {

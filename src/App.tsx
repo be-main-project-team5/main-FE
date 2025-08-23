@@ -13,6 +13,7 @@ import FanMainPage from '@/pages/main/fan/FanMainPage';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
+
 import Chat from './pages/chat/Chat';
 
 function App() {

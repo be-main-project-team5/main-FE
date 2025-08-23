@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 import { loginUser } from '@/api/authApi';
 import type { LoginFormValues } from '@/schemas/loginSchema';
 import { useUserStore } from '@/stores/userStore';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
-import axios from 'axios';
 
 import { usePageNav } from './usePageNav';
 
