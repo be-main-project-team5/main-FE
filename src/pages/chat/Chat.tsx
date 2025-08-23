@@ -1,86 +1,63 @@
-import { useQueries } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 import {
   createNewChatRoomAPI,
-  deleteChatRoomAPI,
   getChatMessageAPI,
   getChatRoomParticipantsAPI,
-  getMyChatRoomDetailAPI,
   getMyChatRoomListAPI,
-  joinChatRoomAPI,
-  leaveChatRoomAPI,
-  patchChatRoomDetailAPI,
-  putChatRoomDetailAPI,
 } from '@/api/chatApi';
 
+import type {
+  ChatMessage,
+  ChatParticipant,
+  PaginatedResponse,
+} from './chat.types';
 import ChatComposer from './sections/chatComposer/ChatComposer';
 import ChatContactList from './sections/chatContactList/ChatContactList';
 import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 
-const GROUP_NAME_TEST = '테스트 채팅방';
+const GROUP_NAME_TEST = '테스트';
 
 function Chat() {
   const [isVisible, setIsVisible] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleToggleConversationList = () => {
     setIsVisible(prev => !prev);
   };
 
-  // api cors 에러 해결 확인을 위해 일괄 테스트
-  const apiTests = useQueries({
-    queries: [
-      { queryKey: ['getMyChatRoomList'], queryFn: getMyChatRoomListAPI },
-      {
-        queryKey: ['createNewChatRoomA'],
-        queryFn: () => createNewChatRoomAPI(GROUP_NAME_TEST),
-      },
-      {
-        queryKey: ['getMyChatRoomDetail'],
-        queryFn: () => getMyChatRoomDetailAPI(0),
-      },
-      {
-        queryKey: ['putChatRoomDetail'],
-        queryFn: () => putChatRoomDetailAPI(0, '이름 put 수정된 채팅방'),
-      },
-      {
-        queryKey: ['patchChatRoomDetail'],
-        queryFn: () => patchChatRoomDetailAPI(0, '이름 patch 수정된 채팅방'),
-      },
-      {
-        queryKey: ['deleteChatRoom'],
-        queryFn: () => deleteChatRoomAPI(0),
-      },
-      {
-        queryKey: ['joinChatRoom'],
-        queryFn: () => joinChatRoomAPI(0, '채팅방'),
-      },
-      {
-        queryKey: ['leaveChatRoom'],
-        queryFn: () => leaveChatRoomAPI(0, '채팅방'),
-      },
-      {
-        queryKey: ['getChatMessage'],
-        queryFn: () => getChatMessageAPI(0),
-      },
-      {
-        queryKey: ['getChatRoomParticipants'],
-        queryFn: () => getChatRoomParticipantsAPI(0),
-      },
-    ],
+  const { data: roomList } = useQuery({
+    queryKey: ['getMyChatRoomList'],
+    queryFn: getMyChatRoomListAPI,
+  });
+
+  const { mutate: createRoom } = useMutation({
+    mutationFn: () => createNewChatRoomAPI(GROUP_NAME_TEST),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['getMyChatRoomList'] }),
+  });
+
+  const roomId = roomList?.results?.[0].id;
+
+  const { data: messages } = useQuery<PaginatedResponse<ChatMessage>>({
+    queryKey: ['getChatMessage', roomId],
+    queryFn: () => getChatMessageAPI(roomId),
+    enabled: !!roomId,
+  });
+
+  const { data: participants } = useQuery<PaginatedResponse<ChatParticipant>>({
+    queryKey: ['getChatRoomParticipants', roomId],
+    queryFn: () => getChatRoomParticipantsAPI(roomId),
+    enabled: !!roomId,
   });
 
   useEffect(() => {
-    apiTests.forEach((q, i) => {
-      if (q.isSuccess) {
-        console.log(`Query ${i} 성공`, q.data);
-      }
-      if (q.isError) {
-        console.error(`Error ${i} 실패`, q.error);
-      }
-    });
-  }, [apiTests]);
+    if (roomList && roomList.count === 0) {
+      createRoom();
+    }
+  }, [roomList, createRoom]);
 
   return (
     <div className="relative flex h-[calc(100dvh-64px)]">
@@ -95,11 +72,12 @@ function Chat() {
         <ChatContactList
           isVisible={isVisible}
           onToggleList={handleToggleConversationList}
+          participants={participants}
         />
       </aside>
       <article className="relative flex min-h-0 flex-3 flex-col px-4">
         <section className="min-h-0 flex-1 pt-4">
-          <ChatMessageList />
+          <ChatMessageList messages={messages} />
         </section>
         <section className="shrink-0">
           <ChatComposer onToggleList={handleToggleConversationList} />

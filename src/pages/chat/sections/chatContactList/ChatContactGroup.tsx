@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 
+import type { ChatParticipant, PaginatedResponse } from '../../chat.types';
 import ChatContactItem from './ChatContactItem';
 
 const CHAT_CONTACT_EXAMPLES = [
@@ -25,7 +26,12 @@ const CHAT_CONTACT_EXAMPLES = [
   },
 ];
 
-function ChatContactGroup({ isVisible }: { isVisible: boolean }) {
+interface ChatContactGroupProps {
+  isVisible: boolean;
+  participants?: PaginatedResponse<ChatParticipant>;
+}
+
+function ChatContactGroup({ isVisible, participants }: ChatContactGroupProps) {
   return (
     <div
       className={clsx(
@@ -36,12 +42,8 @@ function ChatContactGroup({ isVisible }: { isVisible: boolean }) {
       <div className="flex flex-col gap-5 rounded-2xl bg-gray-50 p-6 shadow-[0_0_15px_3px_#00000015] lg:shadow-none">
         <h4 className="text-lg font-semibold">대화 상대</h4>
         <div className="flex flex-col gap-4">
-          {CHAT_CONTACT_EXAMPLES.map(example => (
-            <ChatContactItem
-              key={example.id}
-              isSelected={example.id === '001'}
-              contactData={example}
-            />
+          {participants?.results.map((participant: ChatParticipant) => (
+            <ChatContactItem key={participant.id} contactData={participant} />
           ))}
         </div>
       </div>
