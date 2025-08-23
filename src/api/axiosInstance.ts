@@ -57,7 +57,7 @@ axiosInstance.interceptors.response.use(
 
           const newAccessToken = response.data.access;
 
-          const user = useUserStore.getState().user;
+          const { user } = useUserStore.getState();
           if (user) {
             login(user, newAccessToken, refreshToken);
             axiosInstance.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
