@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axiosInstance from '@/api/axiosInstance';
+import { signupUser } from '@/api/authApi';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -42,20 +42,14 @@ export default function Register() {
     setIsLoading(true);
     try {
       const formData = new FormData();
-
       formData.append('email', data.email);
       formData.append('nickname', data.nickname);
       formData.append('password', data.password);
       formData.append('password_confirm', data.confirmPassword);
 
-      const response = await axiosInstance.post('/users/signup/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await signupUser(formData);
 
-      showSuccessToast(response.data.message || '회원가입 성공!');
-
+      showSuccessToast(response.message || '회원가입 성공!');
       navigateToLogin();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

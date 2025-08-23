@@ -17,7 +17,7 @@ import {
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
-import axiosInstance from '@/api/axiosInstance';
+import { loginUser } from '@/api/authApi';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -44,44 +44,15 @@ export default function Login() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      // 1. 로그인 요청으로 토큰 받아오기
-      const loginResponse = await axiosInstance.post('/users/login/', {
-        email: data.email,
-        password: data.password,
-      });
+      const { user, accessToken, refreshToken } = await loginUser(data);
 
-      const { access_token: accessToken, refresh_token: refreshToken } =
-        loginResponse.data;
-
-      if (!accessToken) {
-        showErrorToast('로그인에 실패했습니다. 토큰이 없습니다.');
-        setIsLoading(false);
-        return;
-      }
-
-      // 2. 받아온 토큰으로 마이페이지 정보 요청
-      const profileResponse = await axiosInstance.get('/users/mypage/', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const {
-        id: userId,
-        email: userEmail,
-        nickname,
-        profile_image_url: profileImageUrl,
-        role,
-      } = profileResponse.data;
-
-      // 3. 스토어에 사용자 정보와 토큰 저장
       login(
         {
-          user_id: userId,
-          email: userEmail,
-          nickname: nickname,
-          profile_image_url: profileImageUrl,
-          role: role,
+          user_id: user.id,
+          email: user.email,
+          nickname: user.nickname,
+          profile_image_url: user.profile_image_url,
+          role: user.role,
         },
         accessToken,
         refreshToken,
