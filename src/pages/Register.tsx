@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import axiosInstance from '@/api/axiosInstance';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,7 @@ import {
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
+import axios from 'axios';
 
 export default function Register() {
   const { navigateToLogin } = usePageNav();
@@ -40,23 +41,37 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     try {
-      const { confirmPassword, ...formData } = data;
+      const formData = new FormData();
 
-      const requestBody = {
-        email: formData.email,
-        password: formData.password,
-        nickname: formData.nickname,
-        userType: '일반',
-      };
+      formData.append('email', data.email);
+      formData.append('nickname', data.nickname);
+      formData.append('password', data.password);
+      formData.append('password_confirm', data.confirmPassword);
 
-      const response = await axios.post('/users/signup', requestBody);
+      const response = await axiosInstance.post('/users/signup/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       showSuccessToast(response.data.message || '회원가입 성공!');
 
       navigateToLogin();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message || '회원가입 실패');
+        const errorData = error.response.data;
+        let errorMessage = '회원가입 실패';
+
+        if (errorData) {
+          const errorKey = Object.keys(errorData)[0];
+          if (errorKey && Array.isArray(errorData[errorKey])) {
+            [errorMessage] = errorData[errorKey];
+          } else if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        }
+
+        showErrorToast(errorMessage);
       } else {
         showErrorToast('회원가입 중 네트워크 오류가 발생했습니다.');
       }
