@@ -1,7 +1,5 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -9,15 +7,9 @@ import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
-import { usePageNav } from '@/hooks/usePageNav';
+import { useLogin } from '@/hooks/useLogin';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
-import { useUserStore } from '@/stores/userStore';
-import {
-  showErrorToast,
-  showSuccessToast,
-  toastFormErrors,
-} from '@/utils/toastUtils';
-import { loginUser } from '@/api/authApi';
+import { toastFormErrors } from '@/utils/toastUtils';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -26,10 +18,7 @@ const USER_TYPE = [
 ];
 
 export default function Login() {
-  const { navigateToSearch } = usePageNav();
-  const { login } = useUserStore();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { submit, isLoading } = useLogin();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
@@ -41,39 +30,6 @@ export default function Login() {
 
   const { register } = form;
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    try {
-      const { user, accessToken, refreshToken } = await loginUser(data);
-
-      login(
-        {
-          user_id: user.id,
-          email: user.email,
-          nickname: user.nickname,
-          profile_image_url: user.profile_image_url,
-          role: user.role,
-        },
-        accessToken,
-        refreshToken,
-      );
-
-      showSuccessToast('로그인 성공!');
-      navigateToSearch();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(
-          error.response.data.message ||
-            '로그인 또는 프로필 조회에 실패했습니다.',
-        );
-      } else {
-        showErrorToast('로그인 중 네트워크 오류가 발생했습니다.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -82,7 +38,7 @@ export default function Login() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
+        onSubmit={form.handleSubmit(submit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Controller
