@@ -5,7 +5,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   type ChevronProps,
   DayPicker,
@@ -26,6 +26,13 @@ function CustomChevron({ orientation, ...rest }: ChevronProps) {
   );
 }
 
+function formatYYYYMMDD(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function DateInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
@@ -34,11 +41,36 @@ function DateInput({ label, className, ...rest }: InputProps) {
 
   useClickOutside(ref, setIsFocus);
 
+  useEffect(() => {
+    if (typeof rest.value === 'string' && rest.value) {
+      const [yy, mm, dd] = rest.value.split('-').map(Number);
+      if (yy && mm && dd) setSelectedDate(new Date(yy, mm - 1, dd));
+    } else if (!rest.value) {
+      setSelectedDate(undefined);
+    }
+  }, [rest.value]);
+
+  const displayValue = useMemo(() => {
+    if (typeof rest.value === 'string') return rest.value;
+    return selectedDate ? formatYYYYMMDD(selectedDate) : '';
+  }, [rest.value, selectedDate]);
+
+  const handleSelect = (d?: Date) => {
+    setSelectedDate(d);
+    if (d && rest.onChange) {
+      const formatted = formatYYYYMMDD(d);
+      rest.onChange({
+        target: { value: formatted } as any,
+      } as React.ChangeEvent<HTMLInputElement>);
+      setIsFocus(false);
+    }
+  };
+
   return (
     <div ref={ref} className="relative" {...rest}>
       <DefaultInput
         onClick={() => setIsFocus(true)}
-        value={selectedDate?.toLocaleDateString()}
+        value={displayValue}
         readOnly
         type="text"
         label={label}
@@ -53,7 +85,7 @@ function DateInput({ label, className, ...rest }: InputProps) {
               animate
               mode="single"
               selected={selectedDate}
-              onSelect={setSelectedDate}
+              onSelect={handleSelect}
               disabled={{ before: new Date() }}
               classNames={{
                 today: `text-fuchsia-500`,

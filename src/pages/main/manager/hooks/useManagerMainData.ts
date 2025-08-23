@@ -7,7 +7,6 @@ type SelectOption = { id: number; label: string };
 export function useManagerMainData() {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(() => dayjs());
 
-  // TODO: 이후 /api/idols/?page=1 로 교체. 지금은 하드코어 모킹
   const idols: SelectOption[] = [
     { id: 201, label: '카리나' },
     { id: 202, label: '윈터' },
@@ -20,7 +19,6 @@ export function useManagerMainData() {
   useEffect(() => {
     const iso = selectedDate.format('YYYY-MM-DD');
 
-    // TODO: API 연동: GET /schedules/manager/mainboard/?date=iso&idolId=currentIdolId
     const mock: IdolSchedule[] = [
       {
         id: 1,
@@ -28,7 +26,9 @@ export function useManagerMainData() {
         startTime: `${iso}T14:00:00`,
         endTime: `${iso}T15:00:00`,
         isPublic: true,
-        idol: { id: currentIdolId, name: '선택 아이돌' },
+        idol: { id: currentIdolId, name: '에스파' },
+        place: 'KBS 공개홀',
+        description: '리허설',
       },
       {
         id: 2,
@@ -36,43 +36,73 @@ export function useManagerMainData() {
         startTime: `${iso}T16:00:00`,
         endTime: `${iso}T17:00:00`,
         isPublic: true,
-        idol: { id: currentIdolId, name: '선택 아이돌' },
-      },
-      {
-        id: 3,
-        title: '뮤직뱅크 본방',
-        startTime: `${iso}T18:00:00`,
-        endTime: `${iso}T19:00:00`,
-        isPublic: true,
-        idol: { id: currentIdolId, name: '선택 아이돌' },
-      },
-      {
-        id: 4,
-        title: '팬사인회',
-        startTime: `${iso}T20:00:00`,
-        endTime: `${iso}T21:00:00`,
-        isPublic: true,
-        idol: { id: currentIdolId, name: '선택 아이돌' },
+        idol: { id: currentIdolId, name: '카리나' },
+        place: 'KBS 스튜디오',
+        description: '사녹',
       },
     ];
 
     setAllSchedules(mock as Schedule[]);
   }, [selectedDate, currentIdolId]);
 
-  const handleAddClick = useCallback(() => {
-    alert('일정 등록 모달 오픈'); // TODO: setOpenCreateModal(true)
-  }, []);
+  const filteredSchedules = useMemo(() => allSchedules, [allSchedules]);
 
-  const handleEditClick = useCallback((id: number) => {
-    alert(`수정 모달 오픈: ${id}`); // TODO: setEditTarget(id); setOpenEditModal(true)
-  }, []);
+  const createSchedule = useCallback(
+    (draft: {
+      title: string;
+      start: string; // 'YYYY-MM-DDTHH:mm'
+      place?: string;
+      description?: string;
+      isPublic: boolean;
+    }) => {
+      const newItem: IdolSchedule = {
+        id: Date.now(),
+        title: draft.title,
+        startTime: draft.start,
+        endTime: draft.start, // TODO: 종료시간 정책 반영
+        place: draft.place ?? '',
+        description: draft.description ?? '',
+        isPublic: draft.isPublic,
+        idol: { id: currentIdolId, name: '선택 아이돌' },
+      };
+      setAllSchedules(prev => [newItem as Schedule, ...prev]);
+    },
+    [currentIdolId],
+  );
 
-  const handleDeleteClick = useCallback((id: number) => {
-    // TODO: 실제 삭제 API 연결 전까지 낙관적 업데이트
+  const updateSchedule = useCallback(
+    (
+      id: number,
+      patch: {
+        title?: string;
+        start?: string;
+        place?: string;
+        description?: string;
+        isPublic?: boolean;
+      },
+    ) => {
+      setAllSchedules(prev =>
+        prev.map(s =>
+          s.id === id
+            ? {
+                ...s,
+                title: patch.title ?? s.title,
+                startTime: patch.start ?? s.startTime,
+                endTime: patch.start ?? s.endTime,
+                place: patch.place ?? s.place,
+                description: patch.description ?? s.description,
+                isPublic: patch.isPublic ?? s.isPublic,
+              }
+            : s,
+        ),
+      );
+    },
+    [],
+  );
+
+  const deleteSchedule = useCallback((id: number) => {
     setAllSchedules(prev => prev.filter(s => s.id !== id));
   }, []);
-
-  const filteredSchedules = useMemo(() => allSchedules, [allSchedules]);
 
   return {
     selectedDate,
@@ -81,8 +111,8 @@ export function useManagerMainData() {
     currentIdolId,
     setCurrentIdolId,
     filteredSchedules,
-    handleAddClick,
-    handleEditClick,
-    handleDeleteClick,
+    createSchedule,
+    updateSchedule,
+    deleteSchedule,
   };
 }

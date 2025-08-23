@@ -7,6 +7,7 @@ interface BaseSchedule {
   isPublic: boolean;
   isBookmarked?: boolean;
   isNotified?: boolean;
+  place?: string;
 }
 
 interface GroupInfo {
