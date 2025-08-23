@@ -25,19 +25,20 @@ export default function ManagerMainPage() {
         onClick={handleAddClick}
         shape="pill"
         size="lg"
-        className="flex items-center gap-2 bg-fuchsia-100 px-5 font-semibold text-fuchsia-700 hover:bg-fuchsia-200"
+        className="inline-flex min-w-[185px] items-center justify-center gap-2 bg-fuchsia-100 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
       >
-        <PlusIcon className="h-5 w-5" />
+        <PlusIcon className="h-6 w-6" />
         일정 등록
       </Button>
+
       <Button
         onClick={() => alert('아이돌과 채팅으로 이동')}
         variant="outline"
         shape="pill"
         size="lg"
-        className="group flex items-center gap-2 border-fuchsia-400 px-5 font-semibold text-fuchsia-600 hover:bg-fuchsia-400 hover:text-white"
+        className="group inline-flex min-w-[185px] items-center justify-center gap-2 border-fuchsia-400 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
       >
-        <ChatBubbleLeftRightIcon className="h-5 w-5 text-fuchsia-400 transition-colors group-hover:text-white" />
+        <ChatBubbleLeftRightIcon className="h-6 w-6 text-fuchsia-400 transition-colors group-hover:text-white" />
         아이돌과 채팅
       </Button>
     </div>
@@ -48,21 +49,22 @@ export default function ManagerMainPage() {
       <Greeting
         userRole="manager"
         title="안녕하세요, 매니저 A님!"
-        subtitle="오늘 담당 아티스트의 일정을 관리하세요."
+        subtitle={
+          <span className="inline-flex items-center gap-2">
+            현재 담당 아이돌은
+            <Select
+              list={idols}
+              value={currentIdolId}
+              onChange={v => setCurrentIdolId(Number(v))}
+              size="small"
+              className="inline-block min-w-[100px] py-2 pr-7 pl-2 text-base leading-tight before:right-2"
+            />
+            입니다.
+          </span>
+        }
         rightAction={rightAction}
+        subtitleClassName="mt-3 lg:mt-4"
       />
-
-      <div className="mb-4 lg:mb-2">
-        <span className="mr-2 text-gray-600">현재 담당 아이돌은</span>
-        <Select
-          list={idols}
-          value={currentIdolId}
-          onChange={v => setCurrentIdolId(Number(v))}
-          size="small"
-          className="inline-block min-w-[120px]"
-        />
-        <span className="ml-2 text-gray-600">입니다.</span>
-      </div>
 
       <CalendarScheduleLayout
         dailyMinWidth={420}

@@ -14,7 +14,7 @@ function Greeting({
     <header className="mb-8">
       {/* Desktop */}
       <div className="hidden items-center justify-between gap-6 lg:flex">
-        <div className="flex min-w-0 flex-1 items-center gap-3 pt-11 pb-16">
+        <div className="flex min-w-0 flex-1 items-center gap-3 pt-11 pb-10">
           {leftIcon && (
             <div className={clsx('self-center', leftIconClassName)}>
               {leftIcon}
@@ -32,7 +32,7 @@ function Greeting({
             {subtitle && (
               <p
                 className={clsx(
-                  'mt-1 text-lg text-gray-500',
+                  'mt-2 text-lg text-gray-500',
                   subtitleClassName,
                 )}
               >
@@ -48,12 +48,23 @@ function Greeting({
       <div className="lg:hidden">
         <div className="mb-1 text-center">
           <div className="mb-2 flex flex-col items-center justify-center gap-2">
-            {leftIcon}
-            <h1 className="text-3xl leading-snug font-bold whitespace-pre-line">
+            {leftIcon && (
+              <div className={clsx(leftIconClassName)}>{leftIcon}</div>
+            )}
+            <h1
+              className={clsx(
+                'text-3xl leading-snug font-bold whitespace-pre-line',
+                titleClassName,
+              )}
+            >
               {title}
             </h1>
           </div>
-          {subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
+          {subtitle && (
+            <p className={clsx('text-lg text-gray-600', subtitleClassName)}>
+              {subtitle}
+            </p>
+          )}
         </div>
         {rightAction && (
           <div className="flex justify-center">{rightAction}</div>
