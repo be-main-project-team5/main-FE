@@ -17,6 +17,7 @@ import {
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
+import axiosInstance from '@/api/axiosInstance';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -44,7 +45,7 @@ export default function Login() {
     setIsLoading(true);
     try {
       // 1. 로그인 요청으로 토큰 받아오기
-      const loginResponse = await axios.post('/users/login', {
+      const loginResponse = await axiosInstance.post('/users/login/', {
         email: data.email,
         password: data.password,
       });
@@ -59,7 +60,7 @@ export default function Login() {
       }
 
       // 2. 받아온 토큰으로 마이페이지 정보 요청
-      const profileResponse = await axios.get('/users/mypage', {
+      const profileResponse = await axiosInstance.get('/users/mypage/', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -91,7 +92,8 @@ export default function Login() {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         showErrorToast(
-          error.response.data.message || '로그인 또는 프로필 조회에 실패했습니다.',
+          error.response.data.message ||
+            '로그인 또는 프로필 조회에 실패했습니다.',
         );
       } else {
         showErrorToast('로그인 중 네트워크 오류가 발생했습니다.');
