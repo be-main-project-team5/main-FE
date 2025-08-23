@@ -6,16 +6,16 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+import {
+  type ProfileEditFormValues,
+  ProfileEditSchema,
+} from '@/schemas/profileEditSchema';
 import { useUserStore } from '@/stores/userStore';
 import {
   showErrorToast,
   showSuccessToast,
   toastFormErrors,
 } from '@/utils/toastUtils';
-import {
-  ProfileEditSchema,
-  type ProfileEditFormValues,
-} from '@/schemas/profileEditSchema';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;
@@ -63,7 +63,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
       );
       onCancelEdit();
     } catch (error) {
-      console.error('프로필 업데이트 중 오류 발생:', error);
+      // console.error('프로필 업데이트 중 오류 발생:', error);
       if (axios.isAxiosError(error) && error.response) {
         showErrorToast(error.response.data.message || '프로필 업데이트 실패');
       } else {

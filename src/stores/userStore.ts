@@ -16,7 +16,7 @@ interface UserState {
   refreshToken: string | null;
   login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  updateUser: (updatedFields: Partial<User>) => void; // 추가
+  updateUser: (updatedFields: Partial<User>) => void;
 }
 
 export const useUserStore = create<UserState>()(

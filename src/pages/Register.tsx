@@ -2,28 +2,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
-import { usePageNav } from '@/hooks/usePageNav';
+import { useSignup } from '@/hooks/useSignup';
 import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
-import {
-  showErrorToast,
-  showSuccessToast,
-  toastFormErrors,
-} from '@/utils/toastUtils';
+import { toastFormErrors } from '@/utils/toastUtils';
 
 export default function Register() {
-  const { navigateToLogin } = usePageNav();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { submit, isLoading } = useSignup();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
@@ -36,34 +28,6 @@ export default function Register() {
   });
 
   const { register } = form;
-
-  const onSubmit = async (data: RegisterFormValues) => {
-    setIsLoading(true);
-    try {
-      const { confirmPassword, ...formData } = data;
-
-      const requestBody = {
-        email: formData.email,
-        password: formData.password,
-        nickname: formData.nickname,
-        userType: '일반',
-      };
-
-      const response = await axios.post('/users/signup', requestBody);
-
-      showSuccessToast(response.data.message || '회원가입 성공!');
-
-      navigateToLogin();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message || '회원가입 실패');
-      } else {
-        showErrorToast('회원가입 중 네트워크 오류가 발생했습니다.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -81,7 +45,7 @@ export default function Register() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
+        onSubmit={form.handleSubmit(submit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Input type="email" label="이메일" {...register('email')} />

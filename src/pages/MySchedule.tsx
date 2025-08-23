@@ -20,7 +20,7 @@ export default function MySchedule() {
         const data: Schedule[] = await response.json();
         setAllSchedules(data);
       } catch (error) {
-        console.error('Failed to fetch all schedules:', error);
+        // console.error('Failed to fetch all schedules:', error);
         setAllSchedules([]);
       }
     };
