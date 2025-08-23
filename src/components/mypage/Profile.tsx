@@ -4,7 +4,11 @@ import { mediaQuery } from '@/constants/breakpoints';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { useUserStore } from '@/stores/userStore';
 
-export default function Profile() {
+interface ProfileProp {
+  onEditClick: () => void;
+}
+
+export default function Profile({ onEditClick }: ProfileProp) {
   const { user } = useUserStore();
 
   const isDesktop = useMediaQuery(mediaQuery.tablet);
@@ -27,7 +31,12 @@ export default function Profile() {
         <p className="hidden text-gray-500 md:block">{user?.email}</p>
       </div>
 
-      <Button shape="pill" variant="secondary" size={buttonSize}>
+      <Button
+        shape="pill"
+        variant="secondary"
+        size={buttonSize}
+        onClick={onEditClick}
+      >
         프로필 수정
       </Button>
     </section>
