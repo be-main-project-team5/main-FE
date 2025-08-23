@@ -183,4 +183,30 @@ export const handlers = [
 
   //   return HttpResponse.json(sortedData);
   // }),
+
+  http.get('/users/mypage', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const userId = token.replace('mock_access_token_for_', '');
+
+    const user = users.find(u => u.user_id === userId);
+
+    if (!user) {
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    return HttpResponse.json({
+      id: user.user_id,
+      email: user.email,
+      nickname: user.nickname,
+      profile_image_url: user.profile_image_url,
+      role: user.userType,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+  }),
 ];
