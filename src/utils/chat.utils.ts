@@ -1,0 +1,71 @@
+import type {
+  ChatTypes,
+  FlattenChatTypes,
+  GroupedChatListTypes,
+} from '@/pages/chat/chat.types';
+
+export const toKstDate = (iso: string | Date) => {
+  const kst = typeof iso === 'string' ? Date.parse(iso) : iso.getTime();
+  return new Date(kst + 9 * 60 * 60 * 1000);
+};
+
+export const toDateKey = (dt: Date) => {
+  const year = dt.getUTCFullYear();
+  const month = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(dt.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const toFiveMinutesKey = (dt: Date) => {
+  const hour = String(dt.getUTCHours()).padStart(2, '0');
+  const minute = dt.getUTCMinutes();
+  const flooredMinute = String(Math.floor(minute / 5) * 5).padStart(2, '0');
+  return `${hour}:${flooredMinute}`;
+};
+
+export const toSortedChats = (rawData: ChatTypes[]) =>
+  [...rawData].sort(
+    (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
+  );
+
+export const toGroupedChatMap = (sortedData: ChatTypes[]) =>
+  sortedData.reduce<GroupedChatListTypes>(
+    (acc: GroupedChatListTypes, cur: ChatTypes): GroupedChatListTypes => {
+      const kst = toKstDate(cur.sendAt);
+      const dKey = toDateKey(kst);
+      const tKey = toFiveMinutesKey(kst);
+
+      acc[dKey] ??= {};
+      acc[dKey][tKey] ??= [];
+      const bucket = acc[dKey][tKey];
+
+      const last = bucket.at?.(-1);
+
+      if (last?.sender.id === cur.sender.id) {
+        last.contents.push({ id: cur.id, text: cur.content });
+      } else {
+        bucket.push({
+          id: cur.id,
+          sender: cur.sender,
+          contents: [{ id: cur.id, text: cur.content }],
+        });
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+export const toFlattenChats = (
+  groupedChatMap: GroupedChatListTypes,
+): FlattenChatTypes[] =>
+  Object.entries(groupedChatMap).flatMap(([dKey, timeMap]) => {
+    const timeEntries = Object.entries(timeMap).map(([tKey, tValue]) => ({
+      type: 'time' as const,
+      dKey,
+      tKey,
+      tValue,
+      key: `T-${dKey}-${tKey}`,
+    }));
+    return [{ type: 'date' as const, dKey, key: `D-${dKey}` }, ...timeEntries];
+  });
