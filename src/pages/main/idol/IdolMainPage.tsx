@@ -1,7 +1,10 @@
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
+import { useCallback } from 'react';
+
 import { Button } from '@/components/common/Button';
 import Calendar from '@/components/common/calendar/Calendar';
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
+
 import { CalendarScheduleLayout, Greeting } from '../shared';
 import { useIdolMainData } from './hooks/useIdolMainData';
 
@@ -9,9 +12,9 @@ export default function IdolMainPage() {
   const { selectedDate, setSelectedDate, filteredSchedules } =
     useIdolMainData();
 
-  function handleChatClick() {
-    alert('매니저와 채팅하기로 이동');
-  }
+  const handleChatClick = useCallback(() => {
+    // TODO: 실제 라우팅 연결 (예: navigate('/chat'))
+  }, []);
 
   const rightAction = (
     <Button

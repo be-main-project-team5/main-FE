@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Button } from '../Button';
 import Input from '../input';
@@ -34,38 +34,83 @@ export default function ScheduleFormModal({
   initialValues,
   onSubmit,
 }: ScheduleFormModalProps) {
-  const EMPTY = {
-    title: '',
-    date: '',
-    time: '',
-    place: '',
-    description: '',
-    isPublic: false,
-  };
+  const EMPTY = useMemo(
+    () => ({
+      title: '',
+      date: '',
+      time: '',
+      place: '',
+      description: '',
+      isPublic: false,
+    }),
+    [],
+  );
 
   const [values, setValues] = useState(EMPTY);
 
   useEffect(() => {
     if (!isOpen) return;
     setValues({ ...EMPTY, ...initialValues });
-  }, [isOpen, initialValues]);
+  }, [isOpen, initialValues, EMPTY]);
 
-  async function handleSave() {
+  const handleSave = useCallback(async () => {
     if (!values.title.trim()) {
-      alert('제목을 입력해 주세요.');
+      // eslint-disable-next-line no-console
+      console.warn('제목을 입력해 주세요.');
       return;
     }
     if (!values.date || !values.time) {
-      alert('날짜와 시간을 입력해 주세요.');
+      // eslint-disable-next-line no-console
+      console.warn('날짜와 시간을 입력해 주세요.');
       return;
     }
     try {
       await onSubmit?.(values);
       onClose();
     } catch (err) {
-      alert('저장 중 오류가 발생했습니다.');
+      // eslint-disable-next-line no-console
+      console.error('저장 중 오류가 발생했습니다.', err);
     }
-  }
+  }, [values, onSubmit, onClose]);
+
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues(s => ({ ...s, title: e.target.value }));
+    },
+    [],
+  );
+
+  const handleDateChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues(s => ({ ...s, date: e.target.value }));
+    },
+    [],
+  );
+
+  const handleTimeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues(s => ({ ...s, time: e.target.value }));
+    },
+    [],
+  );
+
+  const handlePlaceChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues(s => ({ ...s, place: e.target.value }));
+    },
+    [],
+  );
+
+  const handleDescriptionChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setValues(s => ({ ...s, description: e.target.value }));
+    },
+    [],
+  );
+
+  const handleToggleChange = useCallback((next: boolean) => {
+    setValues(s => ({ ...s, isPublic: next }));
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
@@ -74,50 +119,38 @@ export default function ScheduleFormModal({
           type="text"
           label="제목"
           value={values.title}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValues(s => ({ ...s, title: e.target.value }))
-          }
+          onChange={handleTitleChange}
         />
         <Input
           type="date"
           label="날짜"
           value={values.date}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValues(s => ({ ...s, date: e.target.value }))
-          }
+          onChange={handleDateChange}
         />
         <Input
           type="time"
           label="시간"
           value={values.time}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValues(s => ({ ...s, time: e.target.value }))
-          }
+          onChange={handleTimeChange}
         />
         <Input
           type="text"
           label="장소"
           value={values.place}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValues(s => ({ ...s, place: e.target.value }))
-          }
+          onChange={handlePlaceChange}
         />
         <Input
           type="textarea"
           label="설명"
           value={values.description}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setValues(s => ({ ...s, description: e.target.value }))
-          }
+          onChange={handleDescriptionChange}
         />
 
         <div className="mt-1 mr-[2px] flex items-center justify-between">
           <p>공개 여부</p>
           <ToggleButton
             checked={values.isPublic}
-            onChange={(next: boolean) =>
-              setValues(s => ({ ...s, isPublic: next }))
-            }
+            onChange={handleToggleChange}
           />
         </div>
       </div>

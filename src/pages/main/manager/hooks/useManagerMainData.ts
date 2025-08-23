@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import type { Schedule, IdolSchedule } from '@/types/schedule';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import type { IdolSchedule, Schedule } from '@/types/schedule';
 
 type SelectOption = { id: number; label: string };
 

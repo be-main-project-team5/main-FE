@@ -24,16 +24,19 @@ export default function UpsertScheduleModal({
   onClose,
   onSubmit,
   initialValues,
+  scheduleId,
 }: Props) {
   const title = mode === 'create' ? '일정 등록' : '일정 수정';
 
   return (
-    <ScheduleFormModal
-      isOpen={open}
-      onClose={onClose}
-      title={title}
-      onSubmit={onSubmit}
-      initialValues={initialValues}
-    />
+    <div data-schedule-id={scheduleId ?? undefined}>
+      <ScheduleFormModal
+        isOpen={open}
+        onClose={onClose}
+        title={title}
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+      />
+    </div>
   );
 }

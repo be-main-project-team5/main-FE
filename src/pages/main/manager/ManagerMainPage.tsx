@@ -1,14 +1,17 @@
-import { PlusIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
+import { ChatBubbleLeftRightIcon, PlusIcon } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
+import { useCallback, useMemo } from 'react';
+
 import { Button } from '@/components/common/Button';
 import Calendar from '@/components/common/calendar/Calendar';
 import DateScheduleList from '@/components/common/dateSchedule/DateScheduleList';
 import Select from '@/components/common/Select';
+
 import { CalendarScheduleLayout, Greeting } from '../shared';
 import { useManagerMainData } from './hooks/useManagerMainData';
-import UpsertScheduleModal from './modals/UpsertScheduleModal';
-import DeleteScheduleModal from './modals/DeleteScheduleModal';
 import { useManagerScheduleModals } from './hooks/useManagerScheduleModals';
+import DeleteScheduleModal from './modals/DeleteScheduleModal';
+import UpsertScheduleModal from './modals/UpsertScheduleModal';
 
 type FormValues = {
   title: string;
@@ -47,59 +50,105 @@ export default function ManagerMainPage() {
     resetTarget,
   } = useManagerScheduleModals();
 
-  const handleOpenDelete = (id: number, title?: string) => {
-    const safeTitle =
-      title ?? filteredSchedules.find(s => s.id === id)?.title ?? '';
-    openDelete(id, safeTitle);
-  };
+  const handleCreateOpen = useCallback(() => {
+    openCreate();
+  }, [openCreate]);
 
-  // 수정 모달 기본값
-  const editDefaults: Partial<FormValues> | undefined = targetId
-    ? (() => {
-        const s = filteredSchedules.find(x => x.id === targetId);
-        if (!s) return undefined;
-        return {
-          title: s.title ?? '',
-          date: dayjs(s.startTime).format('YYYY-MM-DD'),
-          time: dayjs(s.startTime).format('HH:mm'),
-          place: s.place ?? '',
-          description: s.description ?? '',
-          isPublic: s.isPublic,
-        };
-      })()
-    : undefined;
-
-  function handleCreateSubmit(v: FormValues) {
-    const start = `${v.date}T${v.time}`;
-    createSchedule({
-      title: v.title,
-      start,
-      place: v.place,
-      description: v.description,
-      isPublic: v.isPublic,
-    });
+  const handleCreateClose = useCallback(() => {
     closeCreate();
     resetTarget();
-  }
+  }, [closeCreate, resetTarget]);
 
-  function handleEditSubmit(v: FormValues) {
-    if (targetId == null) return;
-    const start = `${v.date}T${v.time}`;
-    updateSchedule(targetId, {
-      title: v.title,
-      start,
-      place: v.place,
-      description: v.description,
-      isPublic: v.isPublic,
-    });
+  const handleEditOpen = useCallback(
+    (id: number) => {
+      openEdit(id);
+    },
+    [openEdit],
+  );
+
+  const handleEditClose = useCallback(() => {
     closeEdit();
     resetTarget();
-  }
+  }, [closeEdit, resetTarget]);
+
+  const handleOpenDelete = useCallback(
+    (id: number, title?: string) => {
+      const safeTitle =
+        title ?? filteredSchedules.find(s => s.id === id)?.title ?? '';
+      openDelete(id, safeTitle);
+    },
+    [filteredSchedules, openDelete],
+  );
+
+  const handleDeleteClose = useCallback(() => {
+    closeDelete();
+    resetTarget();
+  }, [closeDelete, resetTarget]);
+
+  const handleDeleteConfirm = useCallback(() => {
+    if (targetId == null) return;
+    deleteSchedule(targetId);
+    closeDelete();
+    resetTarget();
+  }, [closeDelete, deleteSchedule, resetTarget, targetId]);
+
+  const handleCreateSubmit = useCallback(
+    (v: FormValues) => {
+      const start = `${v.date}T${v.time}`;
+      createSchedule({
+        title: v.title,
+        start,
+        place: v.place,
+        description: v.description,
+        isPublic: v.isPublic,
+      });
+      closeCreate();
+      resetTarget();
+    },
+    [closeCreate, createSchedule, resetTarget],
+  );
+
+  const handleEditSubmit = useCallback(
+    (v: FormValues) => {
+      if (targetId == null) return;
+      const start = `${v.date}T${v.time}`;
+      updateSchedule(targetId, {
+        title: v.title,
+        start,
+        place: v.place,
+        description: v.description,
+        isPublic: v.isPublic,
+      });
+      closeEdit();
+      resetTarget();
+    },
+    [closeEdit, resetTarget, targetId, updateSchedule],
+  );
+
+  const handleChatClick = useCallback(() => {
+    // TODO: 채팅 페이지로 라우팅 구현 예정
+    // eslint-disable-next-line no-console
+    console.log('아이돌과 채팅으로 이동');
+  }, []);
+
+  const editDefaults: Partial<FormValues> | undefined = useMemo(() => {
+    if (targetId == null) return undefined;
+    const s = filteredSchedules.find(x => x.id === targetId);
+    if (!s) return undefined;
+    return {
+      title: s.title ?? '',
+      date: dayjs(s.startTime).format('YYYY-MM-DD'),
+      time: dayjs(s.startTime).format('HH:mm'),
+      place: s.place ?? '',
+      description: s.description ?? '',
+      isPublic: s.isPublic,
+    };
+  }, [filteredSchedules, targetId]);
 
   const rightAction = (
     <div className="mt-6 flex gap-3 lg:ml-6">
       <Button
-        onClick={openCreate}
+        onClick={handleCreateOpen}
         shape="pill"
         size="lg"
         className="inline-flex min-w-[185px] items-center justify-center gap-2 bg-fuchsia-100 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
@@ -108,7 +157,7 @@ export default function ManagerMainPage() {
         일정 등록
       </Button>
       <Button
-        onClick={() => alert('아이돌과 채팅으로 이동')}
+        onClick={handleChatClick}
         variant="outline"
         shape="pill"
         size="lg"
@@ -156,7 +205,7 @@ export default function ManagerMainPage() {
             userRole="manager"
             selectedDate={selectedDate.format('YYYY-MM-DD')}
             schedules={filteredSchedules}
-            onEditClick={id => openEdit(id)}
+            onEditClick={handleEditOpen}
             onDeleteClick={handleOpenDelete}
           />
         }
@@ -166,10 +215,7 @@ export default function ManagerMainPage() {
       <UpsertScheduleModal
         open={createOpen}
         mode="create"
-        onClose={() => {
-          closeCreate();
-          resetTarget();
-        }}
+        onClose={handleCreateClose}
         initialValues={{ isPublic: false }}
         onSubmit={handleCreateSubmit}
       />
@@ -179,10 +225,7 @@ export default function ManagerMainPage() {
         open={editOpen}
         mode="edit"
         scheduleId={targetId}
-        onClose={() => {
-          closeEdit();
-          resetTarget();
-        }}
+        onClose={handleEditClose}
         initialValues={editDefaults}
         onSubmit={handleEditSubmit}
       />
@@ -191,16 +234,8 @@ export default function ManagerMainPage() {
       <DeleteScheduleModal
         open={deleteOpen}
         titleName={targetTitle}
-        onClose={() => {
-          closeDelete();
-          resetTarget();
-        }}
-        onConfirm={() => {
-          if (targetId == null) return;
-          deleteSchedule(targetId);
-          closeDelete();
-          resetTarget();
-        }}
+        onClose={handleDeleteClose}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   );

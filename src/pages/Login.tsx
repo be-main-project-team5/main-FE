@@ -1,5 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -7,9 +9,14 @@ import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import Select from '@/components/common/Select';
 import { GoogleIcon, KakaoIcon } from '@/components/SocialIcons';
-import { useLogin } from '@/hooks/useLogin';
+import { usePageNav } from '@/hooks/usePageNav';
 import { type LoginFormValues, LoginSchema } from '@/schemas/loginSchema';
-import { toastFormErrors } from '@/utils/toastUtils';
+import { useUserStore } from '@/stores/userStore';
+import {
+  showErrorToast,
+  showSuccessToast,
+  toastFormErrors,
+} from '@/utils/toastUtils';
 
 const USER_TYPE = [
   { id: 'NORMAL', label: '일반 회원 (팬)' },
@@ -18,7 +25,10 @@ const USER_TYPE = [
 ];
 
 export default function Login() {
-  const { submit, isLoading } = useLogin();
+  const { navigateToSearch } = usePageNav();
+  const { login } = useUserStore();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
@@ -30,6 +40,68 @@ export default function Login() {
 
   const { register } = form;
 
+  const onSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
+    try {
+      // 1. 로그인 요청으로 토큰 받아오기
+      const loginResponse = await axios.post('/users/login', {
+        email: data.email,
+        password: data.password,
+      });
+
+      const { access_token: accessToken, refresh_token: refreshToken } =
+        loginResponse.data;
+
+      if (!accessToken) {
+        showErrorToast('로그인에 실패했습니다. 토큰이 없습니다.');
+        setIsLoading(false);
+        return;
+      }
+
+      // 2. 받아온 토큰으로 마이페이지 정보 요청
+      const profileResponse = await axios.get('/users/mypage', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const {
+        id: userId,
+        email: userEmail,
+        nickname,
+        profile_image_url: profileImageUrl,
+        role,
+      } = profileResponse.data;
+
+      // 3. 스토어에 사용자 정보와 토큰 저장
+      login(
+        {
+          user_id: userId,
+          email: userEmail,
+          nickname,
+          profile_image_url: profileImageUrl,
+          role,
+        },
+        accessToken,
+        refreshToken,
+      );
+
+      showSuccessToast('로그인 성공!');
+      navigateToSearch();
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        showErrorToast(
+          error.response.data.message ||
+            '로그인 또는 프로필 조회에 실패했습니다.',
+        );
+      } else {
+        showErrorToast('로그인 중 네트워크 오류가 발생했습니다.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -38,7 +110,7 @@ export default function Login() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(submit, toastFormErrors)}
+        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Controller

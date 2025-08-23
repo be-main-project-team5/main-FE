@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import type { Schedule, IdolSchedule } from '@/types/schedule';
+import { useEffect, useMemo, useState } from 'react';
+
+import type { IdolSchedule, Schedule } from '@/types/schedule';
 
 export function useIdolMainData() {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(() => dayjs());
