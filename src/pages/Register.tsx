@@ -2,29 +2,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signupUser } from '@/api/authApi';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
-import { usePageNav } from '@/hooks/usePageNav';
+import { useSignup } from '@/hooks/useSignup';
 import {
   type RegisterFormValues,
   RegisterSchema,
 } from '@/schemas/registerSchema';
-import {
-  showErrorToast,
-  showSuccessToast,
-  toastFormErrors,
-} from '@/utils/toastUtils';
-import axios from 'axios';
+import { toastFormErrors } from '@/utils/toastUtils';
 
 export default function Register() {
-  const { navigateToLogin } = usePageNav();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { submit, isLoading } = useSignup();
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
@@ -37,42 +28,6 @@ export default function Register() {
   });
 
   const { register } = form;
-
-  const onSubmit = async (data: RegisterFormValues) => {
-    setIsLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('nickname', data.nickname);
-      formData.append('password', data.password);
-      formData.append('password_confirm', data.confirmPassword);
-
-      const response = await signupUser(formData);
-
-      showSuccessToast(response.message || '회원가입 성공!');
-      navigateToLogin();
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const errorData = error.response.data;
-        let errorMessage = '회원가입 실패';
-
-        if (errorData) {
-          const errorKey = Object.keys(errorData)[0];
-          if (errorKey && Array.isArray(errorData[errorKey])) {
-            [errorMessage] = errorData[errorKey];
-          } else if (errorData.message) {
-            errorMessage = errorData.message;
-          }
-        }
-
-        showErrorToast(errorMessage);
-      } else {
-        showErrorToast('회원가입 중 네트워크 오류가 발생했습니다.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -90,7 +45,7 @@ export default function Register() {
       </div>
 
       <form
-        onSubmit={form.handleSubmit(onSubmit, toastFormErrors)}
+        onSubmit={form.handleSubmit(submit, toastFormErrors)}
         className="flex flex-col gap-2"
       >
         <Input type="email" label="이메일" {...register('email')} />
