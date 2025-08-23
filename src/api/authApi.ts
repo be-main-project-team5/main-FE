@@ -22,7 +22,11 @@ export const loginUser = async (loginData: LoginFormValues) => {
     throw new Error('로그인에 실패했습니다. 토큰이 없습니다.');
   }
 
-  const profileResponse = await axiosInstance.get('/users/mypage/');
+  const profileResponse = await axiosInstance.get('/users/mypage/', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   return {
     user: profileResponse.data,
