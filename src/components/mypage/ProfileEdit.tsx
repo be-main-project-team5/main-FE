@@ -1,25 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
 import { useUserStore } from '@/stores/userStore';
+import {
+  ProfileEditSchema,
+  type ProfileEditFormValues,
+} from '@/schemas/profileEditSchema';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;
 }
-
-const profileEditSchema = z.object({
-  nickname: z
-    .string()
-    .min(2, { message: '닉네임은 최소 2자 이상이어야 합니다.' })
-    .max(10, { message: '닉네임은 최대 10자까지 가능합니다.' }),
-});
-
-type ProfileEditFormValues = z.infer<typeof profileEditSchema>;
 
 export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
   const { user, accessToken, refreshToken } = useUserStore();
@@ -30,7 +24,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
   console.log('ProfileEdit: refreshToken', refreshToken);
 
   const form = useForm<ProfileEditFormValues>({
-    resolver: zodResolver(profileEditSchema),
+    resolver: zodResolver(ProfileEditSchema),
     defaultValues: {
       nickname: user?.nickname || '',
     },
