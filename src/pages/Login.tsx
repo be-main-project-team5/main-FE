@@ -33,7 +33,6 @@ export default function Login() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      userType: undefined,
       email: '',
       password: '',
     },
@@ -47,7 +46,6 @@ export default function Login() {
       const response = await axios.post('/users/login', {
         email: data.email,
         password: data.password,
-        userType: data.userType,
       });
 
       const {
@@ -57,8 +55,8 @@ export default function Login() {
         profile_image_url: profileImageUrl,
         role,
         email: userEmail,
-        username: userNickname,
-      } = response.data.data;
+        nickname: userNickname,
+      } = response.data;
 
       login(
         {
@@ -72,7 +70,7 @@ export default function Login() {
         refreshToken,
       );
 
-      showSuccessToast(response.data.message || '로그인 성공!');
+      showSuccessToast('로그인 성공!');
 
       navigateToSearch();
     } catch (error) {
@@ -150,7 +148,7 @@ export default function Login() {
           to="/auth/register"
           className="block cursor-pointer font-semibold hover:underline md:ml-2 md:inline"
         >
-          지금 가입하세요.
+          지금 가입하세요。
         </Link>
       </p>
     </div>
