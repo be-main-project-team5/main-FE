@@ -1,16 +1,5 @@
-export interface ChatTypes {
-  id: string;
-  sender: {
-    id: string;
-    nickname: string;
-    profile_image: string | undefined;
-  };
-  content: string;
-  sendAt: string;
-}
-
-export type GroupedChatTypes = Omit<ChatTypes, 'content' | 'sendAt'> & {
-  contents: Array<{ id: string; text: string }>;
+export type GroupedChatTypes = Omit<ChatMessage, 'content' | 'sent_at'> & {
+  contents: Array<{ id: number; text: string }>;
 };
 
 export type GroupedChatListTypes = Record<
@@ -37,3 +26,27 @@ export type FlattenChatTypes =
       tValue: GroupedChatTypes[];
       key: string;
     };
+
+export type PaginatedResponse<T> = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+};
+
+export type ChatParticipant = {
+  id: number;
+  nickname: string;
+  profile_image: number;
+};
+
+export type ChatMessage = {
+  id: number;
+  sender: {
+    id: number;
+    nickname: string;
+    profile_image: number;
+  };
+  content: string;
+  sent_at: string;
+};
