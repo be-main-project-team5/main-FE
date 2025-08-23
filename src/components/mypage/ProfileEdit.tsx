@@ -63,7 +63,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
       );
       onCancelEdit();
     } catch (error) {
-      console.error('프로필 업데이트 중 오류 발생:', error);
+      // console.error('프로필 업데이트 중 오류 발생:', error);
       if (axios.isAxiosError(error) && error.response) {
         showErrorToast(error.response.data.message || '프로필 업데이트 실패');
       } else {

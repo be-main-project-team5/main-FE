@@ -13,7 +13,7 @@ export const useLogout = () => {
         await logoutUser();
       } catch (error) {
         showErrorToast('서버 로그아웃 처리 중 오류가 발생했습니다.');
-        console.error('Logout API failed:', error);
+        // console.error('Logout API failed:', error);
       } finally {
         logout();
         navigateToLanding();
