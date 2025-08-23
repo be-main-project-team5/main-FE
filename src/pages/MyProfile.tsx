@@ -11,16 +11,12 @@ export default function MyProfile() {
     setIsEditingProfile(prev => !prev);
   };
 
-  return (
+  return isEditingProfile ? (
+    <ProfileEdit onCancelEdit={toggleEditMode} />
+  ) : (
     <>
-      {isEditingProfile ? (
-        <ProfileEdit onCancelEdit={toggleEditMode} />
-      ) : (
-        <>
-          <Profile onEditClick={toggleEditMode} />
-          <FavoriteIdols />
-        </>
-      )}
+      <Profile onEditClick={toggleEditMode} />
+      <FavoriteIdols />
     </>
   );
 }
