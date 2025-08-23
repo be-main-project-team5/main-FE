@@ -50,7 +50,15 @@ function Greeting({
         <div className="mb-1 text-center">
           <div className="mb-2 flex flex-col items-center justify-center gap-2">
             {leftIcon && (
-              <div className={clsx(leftIconClassName)}>{leftIcon}</div>
+              <div
+                className={clsx(
+                  'mx-auto flex h-10 w-10 items-center justify-center',
+                  'leading-none',
+                  leftIconClassName,
+                )}
+              >
+                <div className="block">{leftIcon}</div>
+              </div>
             )}
             <h1
               className={clsx(
