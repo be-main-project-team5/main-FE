@@ -11,6 +11,7 @@ import LandingPage from '@/pages/landing/LandingPage';
 import Login from '@/pages/Login';
 import FanMainPage from '@/pages/main/fan/FanMainPage';
 import IdolMainPage from '@/pages/main/idol/IdolMainPage';
+import ManagerMainPage from '@/pages/main/manager/ManagerMainPage';
 import MyProfile from '@/pages/MyProfile';
 import MySchedule from '@/pages/MySchedule';
 import Register from '@/pages/Register';
@@ -39,6 +40,7 @@ function App() {
 
       <Route path="/main" element={<Layout />}>
         <Route path="idol" element={<IdolMainPage />} />
+        <Route path="manager" element={<ManagerMainPage />} />
       </Route>
 
       <Route path="/mypage" element={<MyPageLayout />}>
