@@ -1,17 +1,44 @@
+import clsx from 'clsx';
 import type { GreetingProps } from '../types';
 
-function Greeting({ title, subtitle, leftIcon, rightAction }: GreetingProps) {
+function Greeting({
+  title,
+  subtitle,
+  leftIcon,
+  rightAction,
+  titleClassName,
+  subtitleClassName,
+  leftIconClassName,
+}: GreetingProps) {
   return (
     <header className="mb-8">
-      {/* Desktop (lg 이상) */}
+      {/* Desktop */}
       <div className="hidden items-center justify-between gap-6 lg:flex">
         <div className="flex min-w-0 flex-1 items-center gap-3 pt-11 pb-16">
-          {leftIcon}
+          {leftIcon && (
+            <div className={clsx('self-center', leftIconClassName)}>
+              {leftIcon}
+            </div>
+          )}
           <div className="min-w-0">
-            <h1 className="truncate text-4xl font-bold whitespace-nowrap text-gray-900">
+            <h1
+              className={clsx(
+                'truncate text-4xl font-bold whitespace-nowrap text-gray-900',
+                titleClassName,
+              )}
+            >
               {title}
             </h1>
-            {subtitle && <p className="mt-1 text-gray-500">{subtitle}</p>}
+            {subtitle && (
+              <p
+                className={clsx(
+                  'mt-1 text-lg text-gray-500',
+                  subtitleClassName,
+                )}
+              >
+                {subtitle}
+              </p>
+            )}
           </div>
         </div>
         {rightAction}

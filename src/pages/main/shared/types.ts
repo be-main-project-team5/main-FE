@@ -6,6 +6,9 @@ export type GreetingProps = {
   subtitle?: string;
   leftIcon?: React.ReactNode;
   rightAction?: React.ReactNode;
+  titleClassName?: string;
+  subtitleClassName?: string;
+  leftIconClassName?: string;
 };
 
 export type CalendarScheduleLayoutProps = {
