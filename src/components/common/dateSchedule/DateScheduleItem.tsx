@@ -119,7 +119,11 @@ export default function DateScheduleItem({
           id={`schedule-detail-${item.id}`}
           className="rounded-xl bg-fuchsia-50 p-3 pl-[72px] text-sm text-gray-800 sm:p-4 sm:pl-[84px] sm:text-base md:pl-[96px]"
         >
-          <p className="font-medium">{item.title}</p>
+          {item.place || item.location ? (
+            <p>장소: {item.place || item.location}</p>
+          ) : (
+            <p className="font-medium">{item.title}</p>
+          )}
           <p>날짜: {formatDateSlash(displayDate)}</p>
 
           {isGroupSchedule(item) && (

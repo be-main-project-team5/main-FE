@@ -31,14 +31,14 @@ function Greeting({
               {title}
             </h1>
             {subtitle && (
-              <p
+              <div
                 className={clsx(
                   'mt-2 text-lg text-gray-500',
                   subtitleClassName,
                 )}
               >
                 {subtitle}
-              </p>
+              </div>
             )}
           </div>
         </div>
@@ -62,9 +62,9 @@ function Greeting({
             </h1>
           </div>
           {subtitle && (
-            <p className={clsx('text-lg text-gray-600', subtitleClassName)}>
+            <div className={clsx('text-lg text-gray-600', subtitleClassName)}>
               {subtitle}
-            </p>
+            </div>
           )}
         </div>
         {rightAction && (

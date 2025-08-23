@@ -8,6 +8,7 @@ interface BaseSchedule {
   isBookmarked?: boolean;
   isNotified?: boolean;
   place?: string;
+  location?: string;
 }
 
 interface GroupInfo {
