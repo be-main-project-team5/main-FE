@@ -151,9 +151,9 @@ export default function ManagerMainPage() {
         onClick={handleCreateOpen}
         shape="pill"
         size="lg"
-        className="inline-flex min-w-[185px] items-center justify-center gap-2 bg-fuchsia-100 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
+        className="inline-flex h-12 w-[185px] items-center justify-center gap-2 bg-fuchsia-100 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
       >
-        <PlusIcon className="h-6 w-6" />
+        <PlusIcon className="h-6 w-6 flex-shrink-0" />
         일정 등록
       </Button>
       <Button
@@ -161,9 +161,9 @@ export default function ManagerMainPage() {
         variant="outline"
         shape="pill"
         size="lg"
-        className="group inline-flex min-w-[185px] items-center justify-center gap-2 border-fuchsia-400 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
+        className="group inline-flex h-12 w-[185px] items-center justify-center gap-2 border-fuchsia-400 px-6 font-semibold whitespace-nowrap hover:bg-fuchsia-500 hover:text-white"
       >
-        <ChatBubbleLeftRightIcon className="h-6 w-6 transition-colors group-hover:text-white" />
+        <ChatBubbleLeftRightIcon className="h-6 w-6 flex-shrink-0 transition-colors group-hover:text-white" />
         아이돌과 채팅
       </Button>
     </div>
