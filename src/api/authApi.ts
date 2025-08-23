@@ -1,5 +1,6 @@
 import type { LoginFormValues } from '@/schemas/loginSchema';
 import axiosInstance from './axiosInstance';
+import { useUserStore } from '@/stores/userStore';
 
 // 회원가입 API
 export const signupUser = async (signupData: FormData) => {
@@ -33,4 +34,14 @@ export const loginUser = async (loginData: LoginFormValues) => {
     accessToken,
     refreshToken,
   };
+};
+
+// 로그아웃 API
+export const logoutUser = async () => {
+  const { refreshToken } = useUserStore.getState();
+  if (!refreshToken) return;
+
+  await axiosInstance.post('/users/logout/', {
+    refresh: refreshToken,
+  });
 };
