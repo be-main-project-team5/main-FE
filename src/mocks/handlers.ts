@@ -209,4 +209,38 @@ export const handlers = [
       updated_at: new Date().toISOString(),
     });
   }),
+
+  http.patch('/users/mypage', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const userId = token.replace('mock_access_token_for_', '');
+
+    const userIndex = users.findIndex(u => u.user_id === userId);
+
+    if (userIndex === -1) {
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
+    const { nickname } = (await request.json()) as { nickname: string };
+
+    // Update user's nickname
+    users[userIndex].nickname = nickname;
+
+    const updatedUser = users[userIndex];
+
+    return HttpResponse.json(
+      {
+        message: '프로필이 성공적으로 업데이트되었습니다!',
+        data: {
+          nickname: updatedUser.nickname,
+          profile_image_url: updatedUser.profile_image_url,
+        },
+      },
+      { status: 200 },
+    );
+  }),
 ];
