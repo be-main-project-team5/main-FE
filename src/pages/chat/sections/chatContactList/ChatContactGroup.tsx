@@ -3,29 +3,6 @@ import clsx from 'clsx';
 import type { ChatParticipant, PaginatedResponse } from '../../chat.types';
 import ChatContactItem from './ChatContactItem';
 
-const CHAT_CONTACT_EXAMPLES = [
-  {
-    id: '001',
-    name: '김ㅇㅇ 매니저',
-    profileImage: undefined,
-  },
-  {
-    id: '002',
-    name: '멤버1',
-    profileImage: undefined,
-  },
-  {
-    id: '003',
-    name: '멤버2',
-    profileImage: undefined,
-  },
-  {
-    id: '004',
-    name: '멤버3',
-    profileImage: undefined,
-  },
-];
-
 interface ChatContactGroupProps {
   isVisible: boolean;
   participants?: PaginatedResponse<ChatParticipant>;

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import { CHAT_EXAMPLES } from '@/mocks/data/chats';
 import {
   toFlattenChats,
   toGroupedChatMap,
