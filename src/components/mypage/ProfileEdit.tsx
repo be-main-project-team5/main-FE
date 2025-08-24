@@ -14,9 +14,13 @@ import { toastFormErrors } from '@/utils/toastUtils';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;
+  onSwitchToPasswordEdit: () => void;
 }
 
-export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
+export default function ProfileEdit({
+  onCancelEdit,
+  onSwitchToPasswordEdit,
+}: ProfileEditProps) {
   const { user } = useUserStore();
   const { submit, isLoading } = useProfileEdit({ onCancelEdit });
 
@@ -34,7 +38,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
       <h2 className="mb-6 text-2xl font-semibold">프로필 수정</h2>
       <form
         onSubmit={handleSubmit(submit, toastFormErrors)}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-6"
       >
         <div className="flex flex-col items-center gap-4">
           <UserAvatarImage
@@ -55,18 +59,28 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
         />
         <Input type="text" label="닉네임" {...register('nickname')} />
 
-        <div className="mt-6 flex justify-end gap-3">
-          <Button
+        <div>
+          <button
             type="button"
-            variant="secondary"
-            onClick={onCancelEdit}
-            disabled={isLoading}
+            className="hover:underline"
+            onClick={onSwitchToPasswordEdit}
           >
-            취소
-          </Button>
-          <Button type="submit" disabled={isLoading}>
-            저장
-          </Button>
+            비밀번호 수정
+          </button>
+
+          <div className="mt-6 flex justify-end gap-3">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onCancelEdit}
+              disabled={isLoading}
+            >
+              취소
+            </Button>
+            <Button type="submit" disabled={isLoading}>
+              저장
+            </Button>
+          </div>
         </div>
       </form>
     </div>
