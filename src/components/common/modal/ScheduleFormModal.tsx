@@ -157,9 +157,6 @@ export default function ScheduleFormModal({
 
       <div className="mt-4 flex gap-3">
         <Button onClick={handleSave}>저장하기</Button>
-        <Button variant="secondary" onClick={onClose}>
-          취소
-        </Button>
       </div>
     </Modal>
   );
