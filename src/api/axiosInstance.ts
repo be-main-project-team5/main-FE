@@ -45,7 +45,13 @@ axiosInstance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest.isRetry) {
+    const excludedApis = ['/users/password/verify/'];
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest.isRetry &&
+      !excludedApis.includes(originalRequest.url)
+    ) {
       originalRequest.isRetry = true;
 
       const { refreshToken, login, logout } = useUserStore.getState();
