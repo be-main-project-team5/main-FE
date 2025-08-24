@@ -3,15 +3,8 @@ import {
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
 } from '@heroicons/react/24/outline';
-import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { useEffect } from 'react';
 
-import { getChatRoomParticipantsAPI } from '@/api/chatApi';
-import { useChatStore } from '@/stores/chatRoomIdStore';
-import { showErrorToast } from '@/utils/toastUtils';
-
-import type { ChatParticipant, PaginatedResponse } from '../../chat.types';
 import ChatContactGroup from './ChatContactGroup';
 
 interface ChatContactListProps {
@@ -20,20 +13,6 @@ interface ChatContactListProps {
 }
 
 function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
-  const { roomId } = useChatStore();
-
-  const participantsQuery = useQuery<PaginatedResponse<ChatParticipant>>({
-    queryKey: ['getChatRoomParticipants', roomId],
-    queryFn: () => getChatRoomParticipantsAPI(roomId!),
-    enabled: !!roomId,
-  });
-
-  useEffect(() => {
-    if (participantsQuery.isError) {
-      showErrorToast('채팅방 참여자 명단 조회 에러 발생');
-    }
-  }, [participantsQuery.isError]);
-
   const handleRemoveAllMessages = () => {
     // *memo - 채팅 기록 초기화 로직 추가
   };
@@ -60,10 +39,7 @@ function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
           )}
         </button>
       </div>
-      <ChatContactGroup
-        isVisible={isVisible}
-        participants={participantsQuery.data}
-      />
+      <ChatContactGroup isVisible={isVisible} />
       <div className={clsx('mx-auto p-5', isVisible ? 'block' : 'hidden')}>
         <button
           type="button"
