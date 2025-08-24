@@ -1,22 +1,47 @@
 import { useState } from 'react';
 
 // import FavoriteIdols from '@/components/mypage/FavoriteIdols';
+import PasswordEdit from '@/components/mypage/PasswordEdit';
 import Profile from '@/components/mypage/Profile';
 import ProfileEdit from '@/components/mypage/ProfileEdit';
 
-export default function MyProfile() {
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
+type ProfileViewMode = 'view' | 'edit' | 'password_edit';
 
-  const toggleEditMode = () => {
-    setIsEditingProfile(prev => !prev);
+export default function MyProfile() {
+  const [currentView, setCurrentView] = useState<ProfileViewMode>('view');
+
+  const handleSwitchToEdit = () => {
+    setCurrentView('edit');
   };
 
-  return isEditingProfile ? (
-    <ProfileEdit onCancelEdit={toggleEditMode} />
-  ) : (
-    <>
-      <Profile onEditClick={toggleEditMode} />
-      {/* <FavoriteIdols /> */}
-    </>
-  );
+  const handleSwitchToPasswordEdit = () => {
+    setCurrentView('password_edit');
+  };
+
+  const handleCancelEdit = () => {
+    setCurrentView('view');
+  };
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'view':
+        return (
+          <Profile onEditClick={handleSwitchToEdit} />
+          // <FavoriteIdols />
+        );
+      case 'edit':
+        return (
+          <ProfileEdit
+            onCancelEdit={handleCancelEdit}
+            onSwitchToPasswordEdit={handleSwitchToPasswordEdit}
+          />
+        );
+      case 'password_edit':
+        return <PasswordEdit onCancelEdit={handleCancelEdit} />;
+      default:
+        return null;
+    }
+  };
+
+  return <>{renderView()}</>;
 }

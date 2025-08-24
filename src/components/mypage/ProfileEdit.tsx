@@ -14,9 +14,13 @@ import { toastFormErrors } from '@/utils/toastUtils';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;
+  onSwitchToPasswordEdit: () => void;
 }
 
-export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
+export default function ProfileEdit({
+  onCancelEdit,
+  onSwitchToPasswordEdit,
+}: ProfileEditProps) {
   const { user } = useUserStore();
   const { submit, isLoading } = useProfileEdit({ onCancelEdit });
 
@@ -56,7 +60,11 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
         <Input type="text" label="닉네임" {...register('nickname')} />
 
         <div>
-          <button type="button" className="hover:underline">
+          <button
+            type="button"
+            className="hover:underline"
+            onClick={onSwitchToPasswordEdit}
+          >
             비밀번호 수정
           </button>
 
