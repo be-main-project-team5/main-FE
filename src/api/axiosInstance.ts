@@ -45,7 +45,6 @@ axiosInstance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    // _retry 대신 isRetry를 사용하고, originalRequest에 isRetry 속성을 추가합니다.
     if (error.response?.status === 401 && !originalRequest.isRetry) {
       originalRequest.isRetry = true;
 
