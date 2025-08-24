@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import axios from 'axios';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
-import { verifyCurrentPassword } from '@/api/userApi';
-import { type PasswordChangeFormValues } from '@/schemas/passwordSchema'; // New schema
+import { changePassword, verifyCurrentPassword } from '@/api/userApi';
+import { type PasswordChangeFormValues } from '@/schemas/passwordSchema';
 
 interface UsePasswordEditProps {
   onCancelEdit: () => void;
@@ -17,6 +17,12 @@ export const usePasswordEdit = ({ onCancelEdit }: UsePasswordEditProps) => {
     try {
       const verifyResponse = await verifyCurrentPassword(data.currentPassword);
       showSuccessToast(verifyResponse.message || '현재 비밀번호 확인 성공!');
+
+      const changeResponse = await changePassword(
+        data.newPassword,
+        data.confirmNewPassword,
+      );
+      showSuccessToast(changeResponse.message || '비밀번호 변경 성공!');
 
       onCancelEdit();
     } catch (error) {
