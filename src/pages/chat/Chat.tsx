@@ -2,15 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
-import {
-  createNewChatRoomAPI,
-  getChatMessageAPI,
-  getChatRoomParticipantsAPI,
-  getMyChatRoomListAPI,
-} from '@/api/chatApi';
+import { createNewChatRoomAPI, getMyChatRoomListAPI } from '@/api/chatApi';
+import { useChatStore } from '@/stores/chatRoomIdStore';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
 
-import type { ChatParticipant, PaginatedResponse } from './chat.types';
 import ChatComposer from './sections/chatComposer/ChatComposer';
 import ChatContactList from './sections/chatContactList/ChatContactList';
 import ChatMessageList from './sections/chatMessageList/ChatMessageList';
@@ -18,8 +13,8 @@ import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 const GROUP_NAME_TEST = 'test';
 
 function Chat() {
-  const [roomId, setRoomId] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const { setRoomId } = useChatStore();
   const queryClient = useQueryClient();
 
   const handleToggleConversationList = () => {
@@ -43,18 +38,6 @@ function Chat() {
     },
   });
 
-  const messagesQuery = useQuery({
-    queryKey: ['getChatMessage', roomId],
-    queryFn: () => getChatMessageAPI(roomId!),
-    enabled: !!roomId,
-  });
-
-  const participantsQuery = useQuery<PaginatedResponse<ChatParticipant>>({
-    queryKey: ['getChatRoomParticipants', roomId],
-    queryFn: () => getChatRoomParticipantsAPI(roomId!),
-    enabled: !!roomId,
-  });
-
   useEffect(() => {
     const roomList = roomListQuery.data;
 
@@ -72,19 +55,7 @@ function Chat() {
       setRoomId(currentRoomId);
       showSuccessToast(`현재 입장한 채팅방의 id는 ${currentRoomId}입니다.`);
     }
-  }, [createRoom, roomListQuery.data, roomListQuery.isError]);
-
-  useEffect(() => {
-    if (messagesQuery.isError) {
-      showErrorToast('채팅방 메시지 조회 에러 발생');
-    }
-  }, [messagesQuery.isError]);
-
-  useEffect(() => {
-    if (participantsQuery.isError) {
-      showErrorToast('채팅방 참여자 명단 조회 에러 발생');
-    }
-  }, [participantsQuery.isError]);
+  }, [createRoom, roomListQuery.data, roomListQuery.isError, setRoomId]);
 
   return (
     <div className="relative flex h-[calc(100dvh-64px)]">
@@ -99,12 +70,11 @@ function Chat() {
         <ChatContactList
           isVisible={isVisible}
           onToggleList={handleToggleConversationList}
-          participants={participantsQuery.data}
         />
       </aside>
       <article className="relative flex min-h-0 flex-3 flex-col px-4">
         <section className="min-h-0 flex-1 pt-4">
-          <ChatMessageList messages={messagesQuery.data} />
+          <ChatMessageList />
         </section>
         <section className="shrink-0">
           <ChatComposer onToggleList={handleToggleConversationList} />
