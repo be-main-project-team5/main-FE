@@ -9,7 +9,7 @@ export const getMyChatRoomListAPI = async () => {
 
 export const createNewChatRoomAPI = async (groupName: string) => {
   const res = await axiosInstance.post(`${API_BASE_URL}/chats/rooms/`, {
-    room_name: `${groupName} 채팅방`,
+    room_name: `${groupName}Room`,
   });
   return res.data;
 };
