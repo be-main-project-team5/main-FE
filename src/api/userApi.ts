@@ -18,8 +18,8 @@ export const updateUserProfile = async (formData: FormData) => {
  * @param currentPassword - 사용자가 입력한 현재 비밀번호
  */
 export const verifyCurrentPassword = async (currentPassword: string) => {
-  const response = await axiosInstance.post('/password/verify/', {
-    password: currentPassword,
+  const response = await axiosInstance.post('/users/password/verify/', {
+    current_password: currentPassword,
   });
   return response.data;
 };
