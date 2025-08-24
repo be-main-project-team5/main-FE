@@ -17,23 +17,24 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    const newConfig = { ...config };
     const { accessToken } = useUserStore.getState();
 
     // 로그인, 회원가입 등 토큰이 필요 없는 API
     const publicApis = ['/users/login', '/users/signup/'];
 
-    if (config.url && publicApis.includes(config.url)) {
-      return config;
+    if (newConfig.url && publicApis.includes(newConfig.url)) {
+      return newConfig;
     }
 
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      newConfig.headers.Authorization = `Bearer ${accessToken}`;
     }
 
-    return config;
+    return newConfig;
   },
   error => {
-    return Promise.reject(error);
+    throw error;
   },
 );
 
@@ -44,8 +45,8 @@ axiosInstance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401 && !originalRequest.isRetry) {
+      originalRequest.isRetry = true;
 
       const { refreshToken, login, logout } = useUserStore.getState();
 
@@ -64,7 +65,7 @@ axiosInstance.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           }
 
-          return axiosInstance(originalRequest);
+          return await axiosInstance(originalRequest);
         } catch (refreshError) {
           logout();
           window.location.href = '/auth/login';

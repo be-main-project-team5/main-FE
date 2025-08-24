@@ -1,29 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import { UserAvatarImage } from '@/components/common/UserAvatarImage';
+import { useProfileEdit } from '@/hooks/useProfileEdit';
 import {
   type ProfileEditFormValues,
   ProfileEditSchema,
 } from '@/schemas/profileEditSchema';
 import { useUserStore } from '@/stores/userStore';
-import {
-  showErrorToast,
-  showSuccessToast,
-  toastFormErrors,
-} from '@/utils/toastUtils';
+import { toastFormErrors } from '@/utils/toastUtils';
 
 interface ProfileEditProps {
   onCancelEdit: () => void;
 }
 
 export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
-  const { user, accessToken, updateUser } = useUserStore();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUserStore();
+  const { submit, isLoading } = useProfileEdit({ onCancelEdit });
 
   const form = useForm<ProfileEditFormValues>({
     resolver: zodResolver(ProfileEditSchema),
@@ -34,51 +29,11 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
 
   const { register, handleSubmit } = form;
 
-  const onSubmit = async (data: ProfileEditFormValues) => {
-    setIsLoading(true);
-    try {
-      const token = accessToken || useUserStore.getState().accessToken;
-      if (!token) {
-        showErrorToast('로그인 정보가 없습니다. 다시 로그인해주세요.');
-        setIsLoading(false);
-        return;
-      }
-
-      const requestBody = { nickname: data.nickname };
-
-      const response = await axios.patch('/users/mypage', requestBody, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const updatedUserData = response.data.data;
-
-      updateUser({
-        nickname: updatedUserData.nickname || user?.nickname,
-        profile_image_url:
-          updatedUserData.profile_image_url || user?.profile_image_url,
-      });
-
-      showSuccessToast(
-        response.data.message || '프로필이 성공적으로 업데이트되었습니다!',
-      );
-      onCancelEdit();
-    } catch (error) {
-      // console.error('프로필 업데이트 중 오류 발생:', error);
-      if (axios.isAxiosError(error) && error.response) {
-        showErrorToast(error.response.data.message || '프로필 업데이트 실패');
-      } else {
-        showErrorToast('프로필 업데이트 중 네트워크 오류가 발생했습니다.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="w-full flex-1 rounded-2xl border border-gray-200 bg-white p-6 shadow-md md:p-10">
       <h2 className="mb-6 text-2xl font-semibold">프로필 수정</h2>
       <form
-        onSubmit={handleSubmit(onSubmit, toastFormErrors)}
+        onSubmit={handleSubmit(submit, toastFormErrors)}
         className="flex flex-col gap-4"
       >
         <div className="flex flex-col items-center gap-4">
@@ -94,6 +49,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
           type="email"
           label="이메일"
           value={user?.email || ''}
+          className="text-gray-500"
           readOnly
           disabled
         />
