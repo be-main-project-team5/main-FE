@@ -66,7 +66,7 @@ axiosInstance.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           }
 
-          return axiosInstance(originalRequest);
+          return await axiosInstance(originalRequest);
         } catch (refreshError) {
           logout();
           window.location.href = '/auth/login';
