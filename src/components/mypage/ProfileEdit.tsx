@@ -49,7 +49,7 @@ export default function ProfileEdit({ onCancelEdit }: ProfileEditProps) {
           type="email"
           label="이메일"
           value={user?.email || ''}
-          className="text-gray-700"
+          className="text-gray-500"
           readOnly
           disabled
         />
