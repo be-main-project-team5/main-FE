@@ -23,3 +23,19 @@ export const verifyCurrentPassword = async (currentPassword: string) => {
   });
   return response.data;
 };
+
+/**
+ * 비밀번호 수정 API
+ * @param new_password - 새 비밀번호
+ * @param confirm_new_password - 새 비밀번호 확인
+ */
+export const changePassword = async (
+  newPassword: string,
+  confirmNewPassword: string,
+) => {
+  const response = await axiosInstance.patch('/users/password/change/', {
+    new_password: newPassword,
+    confirm_new_password: confirmNewPassword,
+  });
+  return response.data;
+};
