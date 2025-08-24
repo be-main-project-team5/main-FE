@@ -1,5 +1,5 @@
 import type {
-  ChatTypes,
+  ChatMessage,
   FlattenChatTypes,
   GroupedChatListTypes,
 } from '@/pages/chat/chat.types';
@@ -23,38 +23,35 @@ export const toFiveMinutesKey = (dt: Date) => {
   return `${hour}:${flooredMinute}`;
 };
 
-export const toSortedChats = (rawData: ChatTypes[]) =>
+export const toSortedChats = (rawData: ChatMessage[]) =>
   [...rawData].sort(
-    (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
+    (a, b) => new Date(a.sent_at).getTime() - new Date(b.sent_at).getTime(),
   );
 
-export const toGroupedChatMap = (sortedData: ChatTypes[]) =>
-  sortedData.reduce<GroupedChatListTypes>(
-    (acc: GroupedChatListTypes, cur: ChatTypes): GroupedChatListTypes => {
-      const kst = toKstDate(cur.sendAt);
-      const dKey = toDateKey(kst);
-      const tKey = toFiveMinutesKey(kst);
+export const toGroupedChatMap = (sortedData: ChatMessage[]) =>
+  sortedData.reduce<GroupedChatListTypes>((acc, cur): GroupedChatListTypes => {
+    const kst = toKstDate(cur.sent_at);
+    const dKey = toDateKey(kst);
+    const tKey = toFiveMinutesKey(kst);
 
-      acc[dKey] ??= {};
-      acc[dKey][tKey] ??= [];
-      const bucket = acc[dKey][tKey];
+    acc[dKey] ??= {};
+    acc[dKey][tKey] ??= [];
+    const bucket = acc[dKey][tKey];
 
-      const last = bucket.at?.(-1);
+    const last = bucket.at?.(-1);
 
-      if (last?.sender.id === cur.sender.id) {
-        last.contents.push({ id: cur.id, text: cur.content });
-      } else {
-        bucket.push({
-          id: cur.id,
-          sender: cur.sender,
-          contents: [{ id: cur.id, text: cur.content }],
-        });
-      }
+    if (last?.sender.id === cur.sender.id) {
+      last.contents.push({ id: cur.id, text: cur.content });
+    } else {
+      bucket.push({
+        id: cur.id,
+        sender: cur.sender,
+        contents: [{ id: cur.id, text: cur.content }],
+      });
+    }
 
-      return acc;
-    },
-    {},
-  );
+    return acc;
+  }, {});
 
 export const toFlattenChats = (
   groupedChatMap: GroupedChatListTypes,

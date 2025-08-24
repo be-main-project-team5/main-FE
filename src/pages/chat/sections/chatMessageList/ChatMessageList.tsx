@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import { CHAT_EXAMPLES } from '@/mocks/data/chats';
 import {
   toFlattenChats,
   toGroupedChatMap,
   toSortedChats,
 } from '@/utils/chat.utils';
 
-import type { FlattenChatTypes } from '../../chat.types';
+import type {
+  ChatMessage,
+  FlattenChatTypes,
+  PaginatedResponse,
+} from '../../chat.types';
 import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
 
@@ -18,31 +21,15 @@ const renderDataByTime = (_: number, chatData: FlattenChatTypes) => {
   return <ChatMessageGroup tKey={chatData.tKey} tValue={chatData.tValue} />;
 };
 
-function ChatMessageList() {
+interface ChatMessageListProps {
+  messages?: PaginatedResponse<ChatMessage>;
+}
+
+function ChatMessageList({ messages }: ChatMessageListProps) {
   const [atBottom, setAtBottom] = useState(true);
-  const [chatData] = useState(CHAT_EXAMPLES);
+  // const [chatData] = useState(messages);
 
-  // *memo - msw 로직 주석 처리
-  // useEffect(() => {
-  //   const fetchChatData = async () => {
-  //     try {
-  //       const res = await axios.get(`/chats/rooms/chat-001/messages/`, {
-  //         headers: {
-  //           Authorization: `Bearer qwer-tyui-op`,
-  //         },
-  //       });
-  //       const { data } = res;
-  //       console.log(res);
-  //       setChatData(data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   fetchChatData();
-  // }, []);
-
-  const sortedChatData = toSortedChats(chatData);
+  const sortedChatData = toSortedChats(messages?.results ?? []);
 
   const groupedChatData = toGroupedChatMap(sortedChatData);
 

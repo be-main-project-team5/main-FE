@@ -5,14 +5,20 @@ import {
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
+import type { ChatParticipant, PaginatedResponse } from '../../chat.types';
 import ChatContactGroup from './ChatContactGroup';
 
 interface ChatContactListProps {
   isVisible: boolean;
   onToggleList: () => void;
+  participants?: PaginatedResponse<ChatParticipant>;
 }
 
-function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
+function ChatContactList({
+  isVisible,
+  onToggleList,
+  participants,
+}: ChatContactListProps) {
   const handleRemoveAllMessages = () => {
     // *memo - 채팅 기록 초기화 로직 추가
   };
@@ -39,7 +45,7 @@ function ChatContactList({ isVisible, onToggleList }: ChatContactListProps) {
           )}
         </button>
       </div>
-      <ChatContactGroup isVisible={isVisible} />
+      <ChatContactGroup isVisible={isVisible} participants={participants} />
       <div className={clsx('mx-auto p-5', isVisible ? 'block' : 'hidden')}>
         <button
           type="button"
