@@ -18,9 +18,10 @@ import ChatComposer from './sections/chatComposer/ChatComposer';
 import ChatContactList from './sections/chatContactList/ChatContactList';
 import ChatMessageList from './sections/chatMessageList/ChatMessageList';
 
-const GROUP_NAME_TEST = '테스트';
+const GROUP_NAME_TEST = 'test';
 
 function Chat() {
+  const [roomId, setRoomId] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const queryClient = useQueryClient();
 
@@ -35,29 +36,34 @@ function Chat() {
 
   const { mutate: createRoom } = useMutation({
     mutationFn: () => createNewChatRoomAPI(GROUP_NAME_TEST),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ['getMyChatRoomList'] }),
+    onSuccess: newRoom => {
+      console.log('새 방 생성됨 : ', newRoom);
+      setRoomId(newRoom.id);
+      queryClient.invalidateQueries({ queryKey: ['getMyChatRoomList'] });
+    },
   });
-
-  const roomId = roomList?.results?.[0].id;
 
   const { data: messages } = useQuery<PaginatedResponse<ChatMessage>>({
     queryKey: ['getChatMessage', roomId],
-    queryFn: () => getChatMessageAPI(roomId),
+    queryFn: () => getChatMessageAPI(roomId!),
     enabled: !!roomId,
   });
 
   const { data: participants } = useQuery<PaginatedResponse<ChatParticipant>>({
     queryKey: ['getChatRoomParticipants', roomId],
-    queryFn: () => getChatRoomParticipantsAPI(roomId),
+    queryFn: () => getChatRoomParticipantsAPI(roomId!),
     enabled: !!roomId,
   });
 
   useEffect(() => {
-    if (roomList && roomList.count === 0) {
+    if (!roomList) return;
+
+    if (roomList.count === 0) {
       createRoom();
+    } else {
+      setRoomId(roomList.results[0].id);
     }
-  }, [roomList, createRoom]);
+  }, [createRoom, roomList]);
 
   return (
     <div className="relative flex h-[calc(100dvh-64px)]">
