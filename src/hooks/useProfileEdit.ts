@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useState } from 'react';
 
-import axios from 'axios';
+import { updateUserProfile } from '@/api/userApi';
 import { type ProfileEditFormValues } from '@/schemas/profileEditSchema';
 import { useUserStore } from '@/stores/userStore';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
-import { updateUserProfile } from '@/api/userApi';
 
 interface UseProfileEditProps {
   onCancelEdit: () => void;
