@@ -11,7 +11,7 @@ interface UseProfileEditProps {
 }
 
 export const useProfileEdit = ({ onCancelEdit }: UseProfileEditProps) => {
-  const { user, updateUser } = useUserStore();
+  const { updateUser } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const submit = async (data: ProfileEditFormValues) => {
@@ -22,13 +22,7 @@ export const useProfileEdit = ({ onCancelEdit }: UseProfileEditProps) => {
 
       const responseData = await updateUserProfile(formData);
 
-      const updatedUserData = responseData;
-
-      updateUser({
-        nickname: updatedUserData.nickname || user?.nickname,
-        profile_image_url:
-          updatedUserData.profile_image_url || user?.profile_image_url,
-      });
+      updateUser(responseData.updated_profile);
 
       showSuccessToast(
         responseData.message || '프로필이 성공적으로 업데이트되었습니다!',
