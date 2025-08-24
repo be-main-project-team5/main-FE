@@ -37,7 +37,7 @@ function ChatMessageList() {
     }
   }, [messagesQuery.isError]);
 
-  const sortedChatData = toSortedChats(messagesQuery.data);
+  const sortedChatData = toSortedChats(messagesQuery.data ?? []);
 
   const groupedChatData = toGroupedChatMap(sortedChatData);
 
