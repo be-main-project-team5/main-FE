@@ -3,9 +3,12 @@ export type MainRole = 'fan' | 'idol' | 'manager';
 export type GreetingProps = {
   userRole: MainRole;
   title: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   leftIcon?: React.ReactNode;
   rightAction?: React.ReactNode;
+  titleClassName?: string;
+  subtitleClassName?: string;
+  leftIconClassName?: string;
 };
 
 export type CalendarScheduleLayoutProps = {

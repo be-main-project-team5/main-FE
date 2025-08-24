@@ -63,6 +63,7 @@ export default function FanMainPage() {
         userRole="fan"
         title={`${currentIdol.name}의 일정을\n확인해보세요`}
         leftIcon={leftIcon}
+        leftIconClassName="self-start mt-1"
         rightAction={rightAction}
       />
       <CalendarScheduleLayout

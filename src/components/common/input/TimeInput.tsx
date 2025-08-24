@@ -1,5 +1,5 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useClickOutside } from '@/hooks/useClickOutside';
 
@@ -7,23 +7,52 @@ import DefaultInput from './DefaultInput';
 import { iconStyle, timeStyle } from './input.styles';
 import type { InputProps } from './input.types';
 
+// 'HH:mm' → {h, m}
+function splitHm(v?: string | number | readonly string[]) {
+  if (!v || typeof v !== 'string')
+    return { h: null as string | null, m: null as string | null };
+  const [h, m] = v.split(':');
+  return { h: h ?? null, m: m ?? null };
+}
+
 function TimeInput({ label, className, ...rest }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const [selectedHour, setSelectedHour] = useState<string | null>(null);
-  const [selectedMinute, setSelectedMinute] = useState<string | null>(null);
+  const { h: initH, m: initM } = splitHm(rest.value as string);
+
+  const [selectedHour, setSelectedHour] = useState<string | null>(initH);
+  const [selectedMinute, setSelectedMinute] = useState<string | null>(initM);
   const ref = useRef<HTMLDivElement>(null);
 
   useClickOutside(ref, setIsFocus);
+
+  useEffect(() => {
+    const { h, m } = splitHm(rest.value as string);
+    setSelectedHour(h);
+    setSelectedMinute(m);
+  }, [rest.value]);
+
+  // 부모로 'HH:mm' 전달
+  function emitChange(nextH: string | null, nextM: string | null) {
+    if (nextH == null || nextM == null) return;
+    const hh = nextH.padStart(2, '0');
+    const mm = nextM.padStart(2, '0');
+    const val = `${hh}:${mm}`;
+    rest.onChange?.({
+      target: { value: val },
+      currentTarget: { value: val },
+    } as unknown as React.ChangeEvent<HTMLInputElement>);
+  }
+
+  const display =
+    selectedHour || selectedMinute
+      ? `${selectedHour ? selectedHour.padStart(2, '0') : '__'} : ${selectedMinute ? selectedMinute.padStart(2, '0') : '__'}`
+      : '';
 
   return (
     <div ref={ref} className="relative">
       <DefaultInput
         onClick={() => setIsFocus(true)}
-        value={
-          selectedHour || selectedMinute
-            ? `${selectedHour ? selectedHour.padStart(2, '0') : '__'} : ${selectedMinute ? selectedMinute.padStart(2, '0') : '__'}`
-            : ''
-        }
+        value={display}
         readOnly
         type="text"
         label={label}
@@ -41,8 +70,12 @@ function TimeInput({ label, className, ...rest }: InputProps) {
                 min={0}
                 max={23}
                 className={timeStyle}
-                value={selectedHour || ':'}
-                onChange={e => setSelectedHour(e.target.value)}
+                value={selectedHour ?? ''}
+                onChange={e => {
+                  const next = e.target.value;
+                  setSelectedHour(next);
+                  emitChange(next, selectedMinute);
+                }}
               />
             </div>
             <div className="flex flex-col gap-[4px]">
@@ -53,8 +86,12 @@ function TimeInput({ label, className, ...rest }: InputProps) {
                 type="number"
                 min={0}
                 max={59}
-                value={selectedMinute || ':'}
-                onChange={e => setSelectedMinute(e.target.value)}
+                value={selectedMinute ?? ''}
+                onChange={e => {
+                  const next = e.target.value;
+                  setSelectedMinute(next);
+                  emitChange(selectedHour, next);
+                }}
                 className={timeStyle}
               />
             </div>
