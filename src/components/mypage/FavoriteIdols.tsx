@@ -19,21 +19,14 @@ export default function FavoriteIdols() {
     return <div>찜한 아이돌을 불러오는 중...</div>;
   }
 
-  if (favoriteGroups.length === 0 && favoriteIdols.length === 0) {
-    return (
-      <div className="text-center text-gray-500">
-        찜한 아이돌/그룹이 없습니다.
-      </div>
-    );
-  }
-
   return (
     <section className="flex w-full flex-col gap-8">
-      {favoriteGroups.length > 0 && (
-        <div>
-          <h3 className="pt-2 pb-4 text-center text-lg font-medium md:pt-0 md:text-start">
-            찜한 그룹
-          </h3>
+      <div>
+        <h3 className="pt-2 pb-4 text-center text-lg font-medium md:pt-0 md:text-start">
+          찜한 그룹
+        </h3>
+
+        {favoriteGroups.length > 0 ? (
           <div
             className="flex w-full flex-col flex-wrap items-center gap-4 md:flex-row md:flex-nowrap md:overflow-x-scroll"
             ref={groupsContainerRef}
@@ -49,14 +42,17 @@ export default function FavoriteIdols() {
               />
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-center text-gray-500">찜한 그룹이 없습니다.</div>
+        )}
+      </div>
 
-      {favoriteIdols.length > 0 && (
-        <div>
-          <h3 className="pt-2 pb-4 text-center text-lg font-medium md:pt-0 md:text-start">
-            찜한 아이돌
-          </h3>
+      <div>
+        <h3 className="pt-2 pb-4 text-center text-lg font-medium md:pt-0 md:text-start">
+          찜한 아이돌
+        </h3>
+
+        {favoriteIdols.length > 0 ? (
           <div
             className="flex w-full flex-col flex-wrap items-center gap-4 md:flex-row md:flex-nowrap md:overflow-x-scroll"
             ref={idolsContainerRef}
@@ -72,8 +68,12 @@ export default function FavoriteIdols() {
               />
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-center text-gray-500">
+            찜한 아이돌이 없습니다.
+          </div>
+        )}
+      </div>
     </section>
   );
 }
