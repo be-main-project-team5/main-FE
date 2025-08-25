@@ -2,7 +2,7 @@
 // 타입
 // ==============================
 export type Idol = {
-  id: string;
+  id: number;
   name: string;
   groupName: string;
   avatarUrl: string;
@@ -25,7 +25,7 @@ const sleep = (ms: number) => {
   });
 };
 
-function loadServerFavorites(): string[] {
+function loadServerFavorites(): number[] {
   try {
     const raw = localStorage.getItem(SERVER_FAVORITES_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -34,7 +34,7 @@ function loadServerFavorites(): string[] {
   }
 }
 
-function saveServerFavorites(ids: string[]) {
+function saveServerFavorites(ids: number[]) {
   try {
     localStorage.setItem(SERVER_FAVORITES_KEY, JSON.stringify(ids));
   } catch {
@@ -205,7 +205,7 @@ function buildMockIdols(): Idol[] {
     members.forEach((name, index) => {
       nextId += 1;
       idols.push({
-        id: String(nextId), // 문자열 ID (zustand와 호환)
+        id: nextId,
         name,
         groupName: group,
         avatarUrl: avatar(`${group}-${name}`), // 시드 고정 → 이미지 안정
@@ -266,8 +266,8 @@ export async function searchIdols(
  * - 실제 API 연결 시 add/remove 엔드포인트로 대체
  */
 export async function toggleFavorite(
-  id: string,
-): Promise<{ id: string; isFavorited: boolean }> {
+  id: number,
+): Promise<{ id: number; isFavorited: boolean }> {
   await sleep(150);
 
   const current = new Set(loadServerFavorites());
