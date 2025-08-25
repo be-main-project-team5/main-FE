@@ -1,17 +1,17 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
+import { getChatMessageAPI } from '@/api/chatApi';
+import { useChatStore } from '@/stores/chatRoomIdStore';
 import {
   toFlattenChats,
   toGroupedChatMap,
   toSortedChats,
 } from '@/utils/chat.utils';
+import { showErrorToast } from '@/utils/toastUtils';
 
-import type {
-  ChatMessage,
-  FlattenChatTypes,
-  PaginatedResponse,
-} from '../../chat.types';
+import type { FlattenChatTypes } from '../../chat.types';
 import ChatMessageGroup from './ChatMessageGroup';
 import DateDivider from './DateDivider';
 
@@ -21,15 +21,23 @@ const renderDataByTime = (_: number, chatData: FlattenChatTypes) => {
   return <ChatMessageGroup tKey={chatData.tKey} tValue={chatData.tValue} />;
 };
 
-interface ChatMessageListProps {
-  messages?: PaginatedResponse<ChatMessage>;
-}
-
-function ChatMessageList({ messages }: ChatMessageListProps) {
+function ChatMessageList() {
   const [atBottom, setAtBottom] = useState(true);
-  // const [chatData] = useState(messages);
+  const { roomId } = useChatStore();
 
-  const sortedChatData = toSortedChats(messages?.results ?? []);
+  const messagesQuery = useQuery({
+    queryKey: ['getChatMessage', roomId],
+    queryFn: () => getChatMessageAPI(roomId!),
+    enabled: !!roomId,
+  });
+
+  useEffect(() => {
+    if (messagesQuery.isError) {
+      showErrorToast('채팅방 메시지 조회 에러 발생');
+    }
+  }, [messagesQuery.isError]);
+
+  const sortedChatData = toSortedChats(messagesQuery.data ?? []);
 
   const groupedChatData = toGroupedChatMap(sortedChatData);
 
