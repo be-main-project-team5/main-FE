@@ -13,5 +13,5 @@ export interface IdolCardProps extends BaseCardProps {
   title: string;
   imageSrc?: string;
   detail: { idolGroup: string; position: string };
-  idolId?: string;
+  idolId?: number;
 }
