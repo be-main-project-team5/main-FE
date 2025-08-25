@@ -1,22 +1,50 @@
 import { create } from 'zustand';
 
+import { getBookmarkGroups, getBookmarkIdols } from '@/api/bookmarkApi';
+import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
+
 interface FavoritesState {
   favorites: string[];
+  favoriteGroups: BookmarkGroup[];
+  favoriteIdols: BookmarkIdol[];
+  isLoading: boolean;
   toggleFavorite: (idolId: string) => void;
   isFavorited: (idolId: string) => boolean;
   setFavorites: (ids: string[]) => void;
+  fetchFavorites: () => Promise<void>;
   clear: () => void;
 }
 
 export const useFavoritesStore = create<FavoritesState>()((set, get) => ({
   favorites: [],
+  favoriteGroups: [],
+  favoriteIdols: [],
+  isLoading: false,
+
   toggleFavorite: idolId =>
     set(s => ({
       favorites: s.favorites.includes(idolId)
         ? s.favorites.filter(id => id !== idolId)
         : [...s.favorites, idolId],
     })),
+
   isFavorited: idolId => get().favorites.includes(idolId),
+
   setFavorites: ids => set({ favorites: Array.from(new Set(ids)) }),
-  clear: () => set({ favorites: [] }),
+
+  fetchFavorites: async () => {
+    set({ isLoading: true });
+    try {
+      const [groups, idols] = await Promise.all([
+        getBookmarkGroups(),
+        getBookmarkIdols(),
+      ]);
+      set({ favoriteGroups: groups, favoriteIdols: idols, isLoading: false });
+    } catch (error) {
+      console.error('Failed to fetch favorites:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  clear: () => set({ favorites: [], favoriteGroups: [], favoriteIdols: [] }),
 }));
