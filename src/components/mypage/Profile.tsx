@@ -18,7 +18,7 @@ export default function Profile({ onEditClick }: ProfileProp) {
   const buttonSize = isMobile ? 'sm' : 'md';
 
   return (
-    <section className="my-6 flex items-center justify-between gap-6 rounded-3xl border-2 border-gray-200 p-6 md:my-25 md:flex-col md:border-none">
+    <section className="my-6 flex items-center justify-between gap-6 rounded-3xl border-2 border-gray-200 p-6 md:my-10 md:flex-col md:border-none">
       <div className="flex items-center gap-6 md:flex-col">
         <UserAvatarImage avatarSize={avatarSize} />
 
