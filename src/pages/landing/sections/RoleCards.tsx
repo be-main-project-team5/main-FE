@@ -1,3 +1,5 @@
+import { motion, useAnimation } from 'framer-motion';
+
 import Card from '@/components/common/card';
 
 const ROLE_CARDS = [
@@ -19,19 +21,34 @@ const ROLE_CARDS = [
 ];
 
 function RoleCards() {
+  const controls = useAnimation();
+
   return (
-    <div className="m-auto flex max-w-screen-xl flex-col items-center gap-18 px-4 py-24">
-      <h4 className="text-center text-2xl font-bold">
+    <div className="m-auto flex max-w-screen-xl flex-col items-center gap-18 px-4 py-50">
+      <motion.h4
+        animate={controls}
+        initial={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.8 }}
+        className="text-center text-2xl font-bold"
+      >
         팬·매니저·아이돌, 딩딩이 하나로 연결해 드려요
-      </h4>
+      </motion.h4>
       <div className="flex scale-100 flex-col gap-8 sm:scale-65 sm:flex-row md:scale-78 lg:scale-100">
-        {ROLE_CARDS.map(({ id, title, description }) => (
-          <Card
-            key={id}
-            type="animation"
-            title={title}
-            description={description}
-          />
+        {ROLE_CARDS.map(({ id, title, description }, idx) => (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 * (idx + 1) }}
+            viewport={{ once: true, amount: 1 }}
+            onViewportEnter={() => controls.start({ opacity: 1, y: 0 })}
+          >
+            <Card
+              key={id}
+              type="animation"
+              title={title}
+              description={description}
+            />
+          </motion.div>
         ))}
       </div>
     </div>
