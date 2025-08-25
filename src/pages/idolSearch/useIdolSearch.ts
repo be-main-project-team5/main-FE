@@ -6,13 +6,14 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import { searchIdolsApi } from '@/api/idolApi';
+import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import {
   fetchFavoriteIdols,
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+
 export function useIdolSearch(debouncedSearchQuery: string) {
   const queryClient = useQueryClient();
   const { favorites, toggleFavorite } = useFavoritesStore();
