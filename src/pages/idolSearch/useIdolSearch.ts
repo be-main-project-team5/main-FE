@@ -8,10 +8,8 @@ import { useMemo } from 'react';
 
 import { searchIdolsApi } from '@/api/idolApi';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
-import {
-  fetchFavoriteIdols,
-  toggleFavorite as mockToggleFavorite,
-} from '@/mocks/data/idols';
+import { toggleFavorite as mockToggleFavorite } from '@/mocks/data/idols';
+import { fetchBookmarkedIdols } from '@/api/bookmarkApi';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 
 export function useIdolSearch(debouncedSearchQuery: string) {
@@ -20,7 +18,7 @@ export function useIdolSearch(debouncedSearchQuery: string) {
 
   const { data: favoriteIdols, isLoading: isFavoritesLoading } = useQuery({
     queryKey: ['idols', 'favorites'],
-    queryFn: fetchFavoriteIdols,
+    queryFn: fetchBookmarkedIdols,
   });
 
   const {
@@ -33,7 +31,7 @@ export function useIdolSearch(debouncedSearchQuery: string) {
   } = useInfiniteQuery({
     queryKey: ['idols', 'search', debouncedSearchQuery],
     enabled: debouncedSearchQuery.trim().length > 0,
-    initialPageParam: 1, // DRF page=1부터 시작
+    initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       return searchIdolsApi(debouncedSearchQuery, pageParam);
     },
