@@ -76,6 +76,6 @@ export function useBookmarkSync() {
     favoriteIdols,
     favoriteGroups,
     isFavoritesLoading,
-    toggleFavorite: toggleFavorite,
+    toggleFavorite,
   };
 }
