@@ -6,7 +6,11 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { getBookmarkIdols } from '@/api/bookmarkApi';
+import {
+  addBookmarkIdol,
+  getBookmarkIdols,
+  removeBookmarkIdol,
+} from '@/api/bookmarkApi';
 import { searchIdolsApi } from '@/api/idolApi';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import { useFavoritesStore } from '@/stores/favoritesStore';
@@ -48,20 +52,37 @@ export function useIdolSearch(debouncedSearchQuery: string) {
   });
 
   const { mutate: syncFavoritesWithServer } = useMutation({
-    // TODO: 토글 API 교체 자리
-    mutationFn: async () => {},
+    mutationFn: async ({
+      added,
+      removed,
+    }: {
+      added: number[];
+      removed: number[];
+    }) => {
+      const promises = [
+        ...added.map(id => addBookmarkIdol(id)),
+        ...removed.map(id => {
+          const bookmark = bookmarkedRaw?.find(fav => fav.idol === id);
+          if (bookmark) {
+            return removeBookmarkIdol(bookmark.id);
+          }
+          return Promise.resolve();
+        }),
+      ];
+      await Promise.all(promises);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['idols', 'favorites'] });
+      useFavoritesStore.getState().fetchFavorites();
     },
   });
 
-  useSyncArrayData<string>({
-    serverData: favoriteIdols?.map(i => i.id),
+  useSyncArrayData<number>({
+    serverData: bookmarkedRaw?.map(b => b.idol),
     clientData: favorites,
     applyFn: toggleFavorite,
-    onSync: () => {
-      // TODO: 토글 API 붙으면 여기서 add/remove 호출
-      syncFavoritesWithServer({} as any);
+    onSync: (added, removed) => {
+      syncFavoritesWithServer({ added, removed });
     },
   });
 
