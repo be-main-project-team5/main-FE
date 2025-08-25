@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-// import FavoriteIdols from '@/components/mypage/FavoriteIdols';
+import FavoriteIdols from '@/components/mypage/FavoriteIdols';
 import PasswordEdit from '@/components/mypage/PasswordEdit';
 import Profile from '@/components/mypage/Profile';
 import ProfileEdit from '@/components/mypage/ProfileEdit';
@@ -26,8 +26,10 @@ export default function MyProfile() {
     switch (currentView) {
       case 'view':
         return (
-          <Profile onEditClick={handleSwitchToEdit} />
-          // <FavoriteIdols />
+          <>
+            <Profile onEditClick={handleSwitchToEdit} />
+            <FavoriteIdols />
+          </>
         );
       case 'edit':
         return (

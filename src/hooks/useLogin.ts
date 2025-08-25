@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { loginUser } from '@/api/authApi';
 import type { LoginFormValues } from '@/schemas/loginSchema';
+import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useUserStore } from '@/stores/userStore';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
 
@@ -11,6 +12,7 @@ import { usePageNav } from './usePageNav';
 export const useLogin = () => {
   const { navigateToSearch } = usePageNav();
   const { login } = useUserStore();
+  const { fetchFavorites } = useFavoritesStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const submit = async (data: LoginFormValues) => {
@@ -29,6 +31,7 @@ export const useLogin = () => {
         accessToken,
         refreshToken,
       );
+      fetchFavorites();
 
       showSuccessToast('로그인 성공!');
       navigateToSearch();
