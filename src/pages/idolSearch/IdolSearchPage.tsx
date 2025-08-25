@@ -65,7 +65,7 @@ export default function IdolSearchPage() {
         {isError && <ErrorMessage />}
 
         {!isLoading && !isError && shouldShowEmptyFavorites && (
-          <div className="mt-auto mb-16 md:mb-10">
+          <div className="mt-12 mb-14 md:mt-10 md:mb-20">
             <FavoriteEmptyState />
           </div>
         )}
