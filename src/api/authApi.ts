@@ -3,7 +3,10 @@ import { useUserStore } from '@/stores/userStore';
 
 import axiosInstance from './axiosInstance';
 
-// 회원가입 API
+/**
+ * 회원가입 API
+ * @param signupData - 회원가입에 필요한 데이터를 담은 FormData 객체
+ */
 export const signupUser = async (signupData: FormData) => {
   const response = await axiosInstance.post('/users/signup/', signupData, {
     headers: {
@@ -13,7 +16,10 @@ export const signupUser = async (signupData: FormData) => {
   return response.data;
 };
 
-// 로그인 및 프로필 조회 API
+/**
+ * 로그인 및 프로필 조회 API
+ * @param loginData - 사용자 이메일, 비밀번호
+ */
 export const loginUser = async (loginData: LoginFormValues) => {
   const loginResponse = await axiosInstance.post('/users/login/', loginData);
 
@@ -37,7 +43,9 @@ export const loginUser = async (loginData: LoginFormValues) => {
   };
 };
 
-// 로그아웃 API
+/**
+ * 로그아웃 API
+ */
 export const logoutUser = async () => {
   const { refreshToken } = useUserStore.getState();
   if (!refreshToken) return;
