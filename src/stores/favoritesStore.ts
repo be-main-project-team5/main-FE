@@ -42,14 +42,19 @@ export const useFavoritesStore = create<FavoritesState>()(
             getBookmarkGroups(),
             getBookmarkIdols(),
           ]);
-          set({ favoriteGroups: groups, favoriteIdols: idols, isLoading: false });
+          set({
+            favoriteGroups: groups,
+            favoriteIdols: idols,
+            isLoading: false,
+          });
         } catch (error) {
           console.error('Failed to fetch favorites:', error);
           set({ isLoading: false });
         }
       },
 
-      clear: () => set({ favorites: [], favoriteGroups: [], favoriteIdols: [] }),
+      clear: () =>
+        set({ favorites: [], favoriteGroups: [], favoriteIdols: [] }),
     }),
     {
       name: 'favorites-storage',

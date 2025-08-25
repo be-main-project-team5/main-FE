@@ -16,6 +16,7 @@ export const getBookmarkGroups = async () => {
   let url: string | null = '/bookmarks/groups/';
 
   while (url) {
+    // eslint-disable-next-line no-await-in-loop
     const response: AxiosResponse = await axiosInstance.get<
       PaginatedResponse<BookmarkGroup>
     >(url!);
@@ -34,6 +35,7 @@ export const getBookmarkIdols = async () => {
   let url: string | null = '/bookmarks/idols/';
 
   while (url) {
+    // eslint-disable-next-line no-await-in-loop
     const response: AxiosResponse = await axiosInstance.get<
       PaginatedResponse<BookmarkIdol>
     >(url!);
