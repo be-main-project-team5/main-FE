@@ -28,13 +28,14 @@ export default function IdolSearchPage() {
     hasNextPage,
     isFetchingNextPage,
     isSearching,
+    toggleFavorite,
   } = useIdolSearch(debouncedSearchQuery);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleCardClick = (id: string) => {
+  const handleCardClick = (id: number) => {
     navigate(`/idols/${id}`);
   };
 
@@ -80,6 +81,7 @@ export default function IdolSearchPage() {
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}
             onCardClick={handleCardClick}
+            toggleFavorite={toggleFavorite}
           />
         )}
       </div>

@@ -113,5 +113,6 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     isSearching,
     hasFavorites,
     shouldShowEmptyFavorites,
+    toggleFavorite,
   };
 }
