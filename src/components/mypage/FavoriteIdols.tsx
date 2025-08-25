@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import Card from '@/components/common/card';
 import { useDraggable } from '@/hooks/useDraggable';
-import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useBookmarkSync } from '@/hooks/useBookmarkSync';
 import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
 import { avatarOf } from '@/utils/avatar';
 
@@ -15,15 +15,16 @@ export default function FavoriteIdols() {
   const groupsEvents = useDraggable(groupsContainerRef);
   const idolsEvents = useDraggable(idolsContainerRef);
 
-  const { favoriteGroups, favoriteIdols, isLoading } = useFavoritesStore();
+  const { favoriteGroups, favoriteIdols, isFavoritesLoading, toggleFavorite } =
+    useBookmarkSync();
 
-  if (isLoading) {
+  if (isFavoritesLoading) {
     return <div>찜한 아이돌을 불러오는 중...</div>;
   }
 
   if (favoriteGroups.length === 0 && favoriteIdols.length === 0) {
     return (
-      <div className="text-center text-gray-500">
+      <div className="my-10 text-center text-gray-500">
         찜한 아이돌/그룹이 없습니다.
       </div>
     );
@@ -37,6 +38,7 @@ export default function FavoriteIdols() {
       className="flex-shrink-0"
       detail={{ idolGroup: '', position: '' }}
       imageSrc={avatarOf(group.group_name)}
+      toggleFavorite={toggleFavorite}
     />
   );
 
@@ -49,6 +51,7 @@ export default function FavoriteIdols() {
       detail={{ idolGroup: '', position: '' }}
       idolId={idol.idol}
       imageSrc={avatarOf(idol.idol_name)}
+      toggleFavorite={toggleFavorite}
     />
   );
 
@@ -61,6 +64,7 @@ export default function FavoriteIdols() {
         containerRef={groupsContainerRef}
         events={groupsEvents}
         renderItem={renderGroupCard}
+        toggleFavorite={toggleFavorite}
       />
 
       <FavoriteSection<BookmarkIdol>
@@ -70,6 +74,7 @@ export default function FavoriteIdols() {
         containerRef={idolsContainerRef}
         events={idolsEvents}
         renderItem={renderIdolCard}
+        toggleFavorite={toggleFavorite}
       />
     </section>
   );
