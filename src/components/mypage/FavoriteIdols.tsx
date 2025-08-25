@@ -4,6 +4,7 @@ import Card from '@/components/common/card';
 import { useDraggable } from '@/hooks/useDraggable';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
+import { avatarOf } from '@/utils/avatar';
 
 import FavoriteSection from './FavoriteSection';
 
@@ -35,6 +36,7 @@ export default function FavoriteIdols() {
       title={group.group_name}
       className="flex-shrink-0"
       detail={{ idolGroup: '', position: '' }}
+      imageSrc={avatarOf(group.group_name)}
     />
   );
 
@@ -46,6 +48,7 @@ export default function FavoriteIdols() {
       className="flex-shrink-0"
       detail={{ idolGroup: '', position: '' }}
       idolId={idol.idol}
+      imageSrc={avatarOf(idol.idol_name)}
     />
   );
 
