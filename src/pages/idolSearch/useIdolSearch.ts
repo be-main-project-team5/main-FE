@@ -8,18 +8,29 @@ import { useMemo } from 'react';
 
 import { searchIdolsApi } from '@/api/idolApi';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
-import { toggleFavorite as mockToggleFavorite } from '@/mocks/data/idols';
-import { fetchBookmarkedIdols } from '@/api/bookmarkApi';
+import { getBookmarkIdols } from '@/api/bookmarkApi';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+
+import { avatarOf } from '@/utils/avatar';
 
 export function useIdolSearch(debouncedSearchQuery: string) {
   const queryClient = useQueryClient();
   const { favorites, toggleFavorite } = useFavoritesStore();
 
-  const { data: favoriteIdols, isLoading: isFavoritesLoading } = useQuery({
+  const { data: bookmarkedRaw, isLoading: isFavoritesLoading } = useQuery({
     queryKey: ['idols', 'favorites'],
-    queryFn: fetchBookmarkedIdols,
+    queryFn: getBookmarkIdols,
   });
+
+  const favoriteIdols = useMemo(
+    () =>
+      (bookmarkedRaw ?? []).map(b => ({
+        id: String(b.idol),
+        name: b.idol_name,
+        avatarUrl: avatarOf(b.idol_name),
+      })),
+    [bookmarkedRaw],
+  );
 
   const {
     data: searchData,
@@ -32,26 +43,14 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     queryKey: ['idols', 'search', debouncedSearchQuery],
     enabled: debouncedSearchQuery.trim().length > 0,
     initialPageParam: 1,
-    queryFn: async ({ pageParam = 1 }) => {
-      return searchIdolsApi(debouncedSearchQuery, pageParam);
-    },
+    queryFn: async ({ pageParam = 1 }) =>
+      searchIdolsApi(debouncedSearchQuery, pageParam),
     getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
   });
 
   const { mutate: syncFavoritesWithServer } = useMutation({
-    mutationFn: async ({
-      added,
-      removed,
-    }: {
-      added: string[];
-      removed: string[];
-    }) => {
-      const promises = [
-        ...added.map(id => mockToggleFavorite(id)),
-        ...removed.map(id => mockToggleFavorite(id)),
-      ];
-      await Promise.all(promises);
-    },
+    // TODO: 토글 API 교체 자리
+    mutationFn: async () => {},
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['idols', 'favorites'] });
     },
@@ -61,8 +60,9 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     serverData: favoriteIdols?.map(i => i.id),
     clientData: favorites,
     applyFn: toggleFavorite,
-    onSync: (added, removed) => {
-      syncFavoritesWithServer({ added, removed });
+    onSync: (_added, _removed) => {
+      // TODO: 토글 API 붙으면 여기서 add/remove 호출
+      syncFavoritesWithServer({} as any);
     },
   });
 
@@ -72,7 +72,7 @@ export function useIdolSearch(debouncedSearchQuery: string) {
   );
 
   const isSearching = debouncedSearchQuery.trim().length > 0;
-  const idolsToDisplay = isSearching ? flatSearchIdols : (favoriteIdols ?? []);
+  const idolsToDisplay = isSearching ? flatSearchIdols : favoriteIdols;
 
   const hasFavorites = (favoriteIdols?.length ?? 0) > 0;
   const shouldShowEmptyFavorites =
