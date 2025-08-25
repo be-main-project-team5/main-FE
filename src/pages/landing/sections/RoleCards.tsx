@@ -24,7 +24,7 @@ function RoleCards() {
   const controls = useAnimation();
 
   return (
-    <div className="m-auto flex max-w-screen-xl flex-col items-center gap-18 px-4 py-50">
+    <div className="m-auto flex max-w-screen-xl flex-col items-center gap-24 px-4 py-60">
       <motion.h4
         animate={controls}
         initial={{ opacity: 0, y: -50 }}
@@ -36,18 +36,14 @@ function RoleCards() {
       <div className="flex scale-100 flex-col gap-8 sm:scale-65 sm:flex-row md:scale-78 lg:scale-100">
         {ROLE_CARDS.map(({ id, title, description }, idx) => (
           <motion.div
+            key={id}
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 * (idx + 1) }}
             viewport={{ once: true, amount: 1 }}
             onViewportEnter={() => controls.start({ opacity: 1, y: 0 })}
           >
-            <Card
-              key={id}
-              type="animation"
-              title={title}
-              description={description}
-            />
+            <Card type="animation" title={title} description={description} />
           </motion.div>
         ))}
       </div>
