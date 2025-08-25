@@ -10,7 +10,7 @@ import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
 import { usePageNav } from './usePageNav';
 
 export const useLogin = () => {
-  const { navigateToSearch } = usePageNav();
+  const { navigateToRoleBasedPage } = usePageNav();
   const { login } = useUserStore();
   const { fetchFavorites } = useFavoritesStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,7 @@ export const useLogin = () => {
       fetchFavorites();
 
       showSuccessToast('로그인 성공!');
-      navigateToSearch();
+      navigateToRoleBasedPage(user.role);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         showErrorToast(
