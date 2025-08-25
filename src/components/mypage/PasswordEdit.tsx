@@ -8,6 +8,7 @@ import {
   PasswordChangeSchema,
   type PasswordChangeFormValues,
 } from '@/schemas/passwordSchema';
+import { handleEnterKey } from '@/utils/handleEnterKey';
 import { toastFormErrors } from '@/utils/toastUtils';
 
 interface PasswordEditProps {
@@ -54,12 +55,7 @@ export default function PasswordEdit({ onCancelEdit }: PasswordEditProps) {
           label="현재 비밀번호"
           {...register('currentPassword')}
           readOnly={isVerified}
-          onKeyDown={(e: any) => {
-            if (e.key === 'Enter' && !isVerified) {
-              e.preventDefault();
-              onVerifyClick();
-            }
-          }}
+          onKeyDown={handleEnterKey(onVerifyClick, !isVerified)}
         />
 
         {isVerified && (
