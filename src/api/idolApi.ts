@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/axiosInstance';
-import { toAbsolute } from '@/utils/toAbsolute';
+import { avatarFromServerOrDicebear } from '@/utils/avatar';
 
 type DRFPage<T> = {
   count: number;
@@ -36,21 +36,13 @@ export async function searchIdolsApi(
 
   const { results, next } = res.data;
 
-  const items: Idol[] = results.map(it => {
-    const raw = typeof it.avatar_url === 'string' ? it.avatar_url.trim() : '';
-    const serverUrl = raw ? toAbsolute(raw) : undefined;
-    const fallback = `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${encodeURIComponent(
-      it.name,
-    )}`;
-
-    return {
-      id: String(it.id),
-      name: it.name,
-      avatarUrl: serverUrl ?? fallback,
-      groupName: (it as any).group_name ?? '', // 아직 없어서 빈값
-      position: (it as any).position ?? '', // 나중에 서버가 주면 자동 반영
-    };
-  });
+  const items: Idol[] = results.map(it => ({
+    id: String(it.id),
+    name: it.name,
+    avatarUrl: avatarFromServerOrDicebear(it.avatar_url, it.name),
+    groupName: (it as any).group_name ?? '', // 아직 없으면 빈값
+    position: (it as any).position ?? '', // 나중에 서버가 주면 자동 반영
+  }));
 
   return {
     items,

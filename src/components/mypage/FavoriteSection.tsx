@@ -1,7 +1,7 @@
+import Card from '@/components/common/card';
 import { mediaQuery } from '@/constants/breakpoints';
 import type { useDraggable } from '@/hooks/useDraggable';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import Card from '@/components/common/card';
 
 interface FavoriteSectionProps {
   title: string;
