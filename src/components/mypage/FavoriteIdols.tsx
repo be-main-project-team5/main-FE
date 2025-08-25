@@ -2,6 +2,7 @@ import { useRef } from 'react';
 
 import { useDraggable } from '@/hooks/useDraggable';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+
 import FavoriteSection from './FavoriteSection';
 
 export default function FavoriteIdols() {

@@ -1,9 +1,10 @@
+import { type AxiosResponse } from 'axios';
+
 import type {
   BookmarkGroup,
   BookmarkIdol,
   PaginatedResponse,
 } from '@/types/bookmark';
-import { type AxiosResponse } from 'axios';
 
 import axiosInstance from './axiosInstance';
 
@@ -15,6 +16,7 @@ export const getBookmarkGroups = async () => {
   let url: string | null = '/bookmarks/groups/';
 
   while (url) {
+    // eslint-disable-next-line no-await-in-loop
     const response: AxiosResponse = await axiosInstance.get<
       PaginatedResponse<BookmarkGroup>
     >(url!);
@@ -33,6 +35,7 @@ export const getBookmarkIdols = async () => {
   let url: string | null = '/bookmarks/idols/';
 
   while (url) {
+    // eslint-disable-next-line no-await-in-loop
     const response: AxiosResponse = await axiosInstance.get<
       PaginatedResponse<BookmarkIdol>
     >(url!);

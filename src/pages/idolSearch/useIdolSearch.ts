@@ -6,11 +6,10 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { getBookmarkIdols } from '@/api/bookmarkApi';
 import { searchIdolsApi } from '@/api/idolApi';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
-import { getBookmarkIdols } from '@/api/bookmarkApi';
 import { useFavoritesStore } from '@/stores/favoritesStore';
-
 import { avatarOf } from '@/utils/avatar';
 
 export function useIdolSearch(debouncedSearchQuery: string) {
@@ -60,7 +59,7 @@ export function useIdolSearch(debouncedSearchQuery: string) {
     serverData: favoriteIdols?.map(i => i.id),
     clientData: favorites,
     applyFn: toggleFavorite,
-    onSync: (_added, _removed) => {
+    onSync: () => {
       // TODO: 토글 API 붙으면 여기서 add/remove 호출
       syncFavoritesWithServer({} as any);
     },
