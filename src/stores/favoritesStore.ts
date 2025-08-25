@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 import { getBookmarkGroups, getBookmarkIdols } from '@/api/bookmarkApi';
 import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
@@ -16,48 +15,37 @@ interface FavoritesState {
   clear: () => void;
 }
 
-export const useFavoritesStore = create<FavoritesState>()(
-  persist(
-    (set, get) => ({
-      favorites: [],
-      favoriteGroups: [],
-      favoriteIdols: [],
-      isLoading: false,
+export const useFavoritesStore = create<FavoritesState>()((set, get) => ({
+  favorites: [],
+  favoriteGroups: [],
+  favoriteIdols: [],
+  isLoading: false,
 
-      toggleFavorite: idolId =>
-        set(s => ({
-          favorites: s.favorites.includes(idolId)
-            ? s.favorites.filter(id => id !== idolId)
-            : [...s.favorites, idolId],
-        })),
+  toggleFavorite: idolId =>
+    set(s => ({
+      favorites: s.favorites.includes(idolId)
+        ? s.favorites.filter(id => id !== idolId)
+        : [...s.favorites, idolId],
+    })),
 
-      isFavorited: idolId => get().favorites.includes(idolId),
+  isFavorited: idolId => get().favorites.includes(idolId),
 
-      setFavorites: ids => set({ favorites: Array.from(new Set(ids)) }),
+  setFavorites: ids => set({ favorites: Array.from(new Set(ids)) }),
 
-      fetchFavorites: async () => {
-        set({ isLoading: true });
-        try {
-          const [groups, idols] = await Promise.all([
-            getBookmarkGroups(),
-            getBookmarkIdols(),
-          ]);
-          set({
-            favoriteGroups: groups,
-            favoriteIdols: idols,
-            isLoading: false,
-          });
-        } catch (error) {
-          console.error('Failed to fetch favorites:', error);
-          set({ isLoading: false });
-        }
-      },
+  fetchFavorites: async () => {
+    set({ isLoading: true });
+    try {
+      const [groups, idols] = await Promise.all([
+        getBookmarkGroups(),
+        getBookmarkIdols(),
+      ]);
+      set({ favoriteGroups: groups, favoriteIdols: idols, isLoading: false });
+      set({ favorites: idols.map(idol => idol.idol) });
+    } catch (error) {
+      console.error('Failed to fetch favorites:', error);
+      set({ isLoading: false });
+    }
+  },
 
-      clear: () =>
-        set({ favorites: [], favoriteGroups: [], favoriteIdols: [] }),
-    }),
-    {
-      name: 'favorites-storage',
-    },
-  ),
-);
+  clear: () => set({ favorites: [], favoriteGroups: [], favoriteIdols: [] }),
+}));
