@@ -10,6 +10,7 @@ interface FavoriteSectionProps<T> {
   containerRef: React.RefObject<HTMLDivElement | null>;
   events: ReturnType<typeof useDraggable>;
   renderItem: (item: T) => React.ReactNode;
+  toggleFavorite: (id: number) => void;
 }
 
 export default function FavoriteSection<T>({
@@ -34,7 +35,7 @@ export default function FavoriteSection<T>({
           ref={containerRef}
           {...(isDesktop ? events : {})}
         >
-          {items.map(renderItem)}
+          {items.map(item => renderItem(item))}
         </div>
       ) : (
         <div className="text-center text-gray-500">{emptyMessage}</div>
