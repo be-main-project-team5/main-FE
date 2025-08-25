@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { useState } from 'react';
 
-import axios from 'axios';
-import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
 import { changePassword, verifyCurrentPassword } from '@/api/userApi';
 import { type NewPasswordFormValues } from '@/schemas/passwordSchema';
+import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
 
 interface UsePasswordEditProps {
   onCancelEdit: () => void;

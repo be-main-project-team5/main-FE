@@ -1,9 +1,9 @@
 import { VirtuosoGrid } from 'react-virtuoso';
 
+import type { Idol } from '@/api/idolApi';
 import Card from '@/components/common/card';
 
 import GridFooter from './components/GridFooter';
-import type { Idol } from './useIdolSearch';
 
 type Props = {
   idols: Idol[];
@@ -29,7 +29,10 @@ export default function IdolSearchList({
         idolId={idol.id}
         title={idol.name}
         imageSrc={idol.avatarUrl || ''}
-        detail={{ idolGroup: idol.groupName, position: idol.position }}
+        detail={{
+          idolGroup: idol.groupName ?? '',
+          position: idol.position ?? '',
+        }}
         onClick={() => onCardClick(idol.id)}
       />
     </div>

@@ -5,8 +5,8 @@ import { Button } from '@/components/common/Button';
 import Input from '@/components/common/input';
 import { usePasswordEdit } from '@/hooks/usePasswordEdit';
 import {
-  PasswordChangeSchema,
   type PasswordChangeFormValues,
+  PasswordChangeSchema,
 } from '@/schemas/passwordSchema';
 import { handleEnterKey } from '@/utils/handleEnterKey';
 import { toastFormErrors } from '@/utils/toastUtils';

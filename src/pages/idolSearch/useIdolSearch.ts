@@ -6,23 +6,13 @@ import {
 } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
+import { searchIdolsApi } from '@/api/idolApi';
 import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import {
   fetchFavoriteIdols,
-  searchIdols,
   toggleFavorite as mockToggleFavorite,
 } from '@/mocks/data/idols';
 import { useFavoritesStore } from '@/stores/favoritesStore';
-
-export type Idol = {
-  id: string;
-  name: string;
-  groupName: string;
-  avatarUrl: string;
-  position: '보컬' | '댄서' | '랩';
-};
-
-const PAGE_SIZE = 6;
 
 export function useIdolSearch(debouncedSearchQuery: string) {
   const queryClient = useQueryClient();
@@ -43,12 +33,9 @@ export function useIdolSearch(debouncedSearchQuery: string) {
   } = useInfiniteQuery({
     queryKey: ['idols', 'search', debouncedSearchQuery],
     enabled: debouncedSearchQuery.trim().length > 0,
-    initialPageParam: 0,
-    queryFn: async ({ pageParam = 0 }) => {
-      await new Promise<void>(resolve => {
-        setTimeout(resolve, 300);
-      });
-      return searchIdols(debouncedSearchQuery, pageParam, PAGE_SIZE);
+    initialPageParam: 1, // DRF page=1부터 시작
+    queryFn: async ({ pageParam = 1 }) => {
+      return searchIdolsApi(debouncedSearchQuery, pageParam);
     },
     getNextPageParam: lastPage => lastPage.nextPage ?? undefined,
   });
