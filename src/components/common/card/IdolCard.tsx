@@ -12,18 +12,19 @@ function IdolCard({
   detail,
   idolId,
   className,
+  toggleFavorite,
   ...rest
-}: IdolCardProps) {
+}: IdolCardProps & { toggleFavorite: (id: number) => void }) {
   const { idolGroup, position } = detail;
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  const { toggleFavorite, isFavorited } = useFavoritesStore();
+  const { isFavorited } = useFavoritesStore();
   const useGlobal = Boolean(idolId);
   const liked = useGlobal ? isFavorited(idolId!) : isLiked;
 
   const handleClickLike = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (useGlobal && idolId) toggleFavorite(idolId);
+    if (useGlobal && idolId !== undefined) toggleFavorite(idolId);
     else setIsLiked(prev => !prev);
   };
 

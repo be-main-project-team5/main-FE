@@ -2,65 +2,33 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useSyncArrayData } from '@/hooks/useSyncArrayData';
 import { ALL_SCHEDULES } from '@/mocks/data';
-import {
-  fetchFavoriteIdols,
-  MOCK_IDOLS,
-  toggleFavorite as serverToggleFavorite,
-} from '@/mocks/data/idols';
-import { useFavoritesStore } from '@/stores/favoritesStore';
+import { MOCK_IDOLS } from '@/mocks/data/idols';
 import type { Schedule } from '@/types/schedule';
 import { isGroupSchedule, isIdolSchedule } from '@/types/schedule';
+import { useBookmarkSync } from '@/hooks/useBookmarkSync';
 
 export function useFanMainData() {
   const { idolId = '' } = useParams<{ idolId: string }>();
+  const parsedIdolId = useMemo(() => Number(idolId), [idolId]);
 
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
   const [filteredSchedules, setFilteredSchedules] = useState<Schedule[]>([]);
-  const [serverFavoriteIds, setServerFavoriteIds] = useState<string[]>([]);
 
-  const favoriteIds = useFavoritesStore(state => state.favorites);
-  const toggleFavoriteLocal = useFavoritesStore(state => state.toggleFavorite);
+  const { favoriteIdols, toggleFavorite } = useBookmarkSync();
 
   const currentIdol = useMemo(
-    () => MOCK_IDOLS.find(idol => idol.id === idolId) ?? null,
-    [idolId],
+    () => MOCK_IDOLS.find(idol => idol.id === parsedIdolId) ?? null,
+    [parsedIdolId],
   );
 
   const isFavorite = useMemo(
-    () => (idolId ? favoriteIds.includes(idolId) : false),
-    [idolId, favoriteIds],
+    () =>
+      parsedIdolId
+        ? favoriteIdols.some(fav => fav.idol === parsedIdolId)
+        : false,
+    [parsedIdolId, favoriteIdols],
   );
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const idols = await fetchFavoriteIdols();
-        setServerFavoriteIds(idols.map(idol => idol.id));
-      } catch (error) {
-        /* 에러 무시 */
-      }
-    })();
-  }, []);
-
-  useSyncArrayData<string>({
-    serverData: serverFavoriteIds,
-    clientData: favoriteIds,
-    applyFn: toggleFavoriteLocal,
-    onSync: async (addedIds, removedIds) => {
-      try {
-        await Promise.all([
-          ...addedIds.map(serverToggleFavorite),
-          ...removedIds.map(serverToggleFavorite),
-        ]);
-        const idols = await fetchFavoriteIdols();
-        setServerFavoriteIds(idols.map(idol => idol.id));
-      } catch (error) {
-        /* 에러 무시 */
-      }
-    },
-  });
 
   useEffect(() => {
     if (!currentIdol) {
@@ -85,11 +53,11 @@ export function useFanMainData() {
   }, [currentIdol]);
 
   const handleFavoriteToggle = useCallback(() => {
-    if (idolId) toggleFavoriteLocal(idolId);
-  }, [idolId, toggleFavoriteLocal]);
+    if (parsedIdolId) toggleFavorite(parsedIdolId);
+  }, [parsedIdolId, toggleFavorite]);
 
   return {
-    idolId,
+    idolId: parsedIdolId,
     selectedDate,
     setSelectedDate,
     filteredSchedules,

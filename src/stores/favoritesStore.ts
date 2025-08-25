@@ -4,13 +4,13 @@ import { getBookmarkGroups, getBookmarkIdols } from '@/api/bookmarkApi';
 import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
 
 interface FavoritesState {
-  favorites: string[];
+  favorites: number[];
   favoriteGroups: BookmarkGroup[];
   favoriteIdols: BookmarkIdol[];
   isLoading: boolean;
-  toggleFavorite: (idolId: string) => void;
-  isFavorited: (idolId: string) => boolean;
-  setFavorites: (ids: string[]) => void;
+  toggleFavorite: (idolId: number) => void;
+  isFavorited: (idolId: number) => boolean;
+  setFavorites: (ids: number[]) => void;
   fetchFavorites: () => Promise<void>;
   clear: () => void;
 }
@@ -40,6 +40,7 @@ export const useFavoritesStore = create<FavoritesState>()((set, get) => ({
         getBookmarkIdols(),
       ]);
       set({ favoriteGroups: groups, favoriteIdols: idols, isLoading: false });
+      set({ favorites: idols.map(idol => idol.idol) });
     } catch (error) {
       console.error('Failed to fetch favorites:', error);
       set({ isLoading: false });

@@ -11,7 +11,8 @@ type Props = {
   hasNextPage?: boolean;
   fetchNextPage: () => void;
   isFetchingNextPage: boolean;
-  onCardClick: (id: string) => void;
+  onCardClick: (id: number) => void;
+  toggleFavorite: (id: number) => void;
 };
 
 export default function IdolSearchList({
@@ -21,19 +22,21 @@ export default function IdolSearchList({
   fetchNextPage,
   isFetchingNextPage,
   onCardClick,
+  toggleFavorite,
 }: Props) {
   const renderItem = (_: number, idol: Idol) => (
     <div className="flex items-center justify-center p-2">
       <Card
         type="idol"
-        idolId={idol.id}
+        idolId={Number(idol.id)}
         title={idol.name}
         imageSrc={idol.avatarUrl || ''}
         detail={{
           idolGroup: idol.groupName ?? '',
           position: idol.position ?? '',
         }}
-        onClick={() => onCardClick(idol.id)}
+        onClick={() => onCardClick(Number(idol.id))}
+        toggleFavorite={toggleFavorite}
       />
     </div>
   );

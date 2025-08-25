@@ -45,3 +45,35 @@ export const getBookmarkIdols = async () => {
 
   return allIdols;
 };
+
+/**
+ * 그룹 북마크 추가
+ * @param groupId - 추가할 그룹의 ID
+ */
+export const addBookmarkGroup = async (groupId: number) => {
+  await axiosInstance.post('/bookmarks/groups/', { group: groupId });
+};
+
+/**
+ * 그룹 북마크 제거
+ * @param bookmarkId - 제거할 북마크의 ID
+ */
+export const removeBookmarkGroup = async (bookmarkId: number) => {
+  await axiosInstance.delete(`/bookmarks/groups/${bookmarkId}/`);
+};
+
+/**
+ * 아이돌 북마크 추가
+ * @param idolId - 추가할 아이돌의 ID
+ */
+export const addBookmarkIdol = async (idolId: number) => {
+  await axiosInstance.post('/bookmarks/idols/', { idol: idolId });
+};
+
+/**
+ * 아이돌 북마크 제거
+ * @param bookmarkId - 제거할 북마크의 ID
+ */
+export const removeBookmarkIdol = async (bookmarkId: number) => {
+  await axiosInstance.delete(`/bookmarks/idols/${bookmarkId}/`);
+};
