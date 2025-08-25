@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface User {
-  user_id: string;
+  user_id: number;
   email: string;
   nickname: string;
   profile_image_url?: string;
