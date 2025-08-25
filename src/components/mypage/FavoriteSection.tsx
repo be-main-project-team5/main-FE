@@ -1,7 +1,8 @@
+import React from 'react';
+
 import { mediaQuery } from '@/constants/breakpoints';
 import type { useDraggable } from '@/hooks/useDraggable';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import React from 'react';
 
 interface FavoriteSectionProps<T> {
   title: string;

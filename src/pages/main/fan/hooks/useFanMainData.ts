@@ -2,11 +2,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useBookmarkSync } from '@/hooks/useBookmarkSync';
 import { ALL_SCHEDULES } from '@/mocks/data';
 import { MOCK_IDOLS } from '@/mocks/data/idols';
 import type { Schedule } from '@/types/schedule';
 import { isGroupSchedule, isIdolSchedule } from '@/types/schedule';
-import { useBookmarkSync } from '@/hooks/useBookmarkSync';
 
 export function useFanMainData() {
   const { idolId = '' } = useParams<{ idolId: string }>();

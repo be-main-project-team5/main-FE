@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 import Card from '@/components/common/card';
-import { useDraggable } from '@/hooks/useDraggable';
 import { useBookmarkSync } from '@/hooks/useBookmarkSync';
+import { useDraggable } from '@/hooks/useDraggable';
 import type { BookmarkGroup, BookmarkIdol } from '@/types/bookmark';
 import { avatarOf } from '@/utils/avatar';
 
